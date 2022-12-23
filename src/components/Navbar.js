@@ -18,6 +18,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
 
 const drawerWidth = 240;
 
@@ -77,6 +79,9 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  function Logout() {
+    return localStorage.clear();
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -113,6 +118,7 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
+          {" "}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -122,19 +128,32 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts","logout"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
         <Divider />
+        <List justifyContent="center">
+          <ListItem disablePadding>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+                flexDirection: "column",
+                p: 1,
+                m: 1,
+                bgcolor: "background.paper",
+                borderRadius: 1,
+              }}
+            >
+              <Avatar
+                alt="Remy Sharp"
+                src={localStorage.getItem("profilePic")}
+              />
+              <ListItemText>
+                <label>{localStorage.getItem("name")}</label>
+                <br />
+                <label>{localStorage.getItem("email")}</label>
+              </ListItemText>
+            </Box>
+          </ListItem>
+        </List>
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding>
@@ -146,6 +165,18 @@ export default function PersistentDrawerLeft() {
               </ListItemButton>
             </ListItem>
           ))}
+        </List>
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText>
+                {" "}
+                <Link to="/" onClick={Logout}>
+                  <label className="primary-button">Log out</label>
+                </Link>{" "}
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       <Main open={open}>
