@@ -58,7 +58,7 @@ const theme_favorite = createTheme({
   },
 });
 
-export default function Album() {
+export default function List_Course() {
   const [dialog_loading,set_dialog] = React.useState(false)
   let [api_course_data, set_api_course_data] = React.useState()
   useEffect(() => {
