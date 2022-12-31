@@ -21,6 +21,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CircularProgress from '@mui/material/CircularProgress';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CommentIcon from '@mui/icons-material/Comment';
 import Rating from '@mui/material/Rating';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -59,11 +60,11 @@ const theme_favorite = createTheme({
 });
 
 export default function List_Course() {
-  const [dialog_loading,set_dialog] = React.useState(false)
+  const [dialog_loading, set_dialog] = React.useState(false)
   let [api_course_data, set_api_course_data] = React.useState()
   useEffect(() => {
     const api = async () => {
-      const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjcyMzA1Njc4LCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzIzMDU2NzgsImV4cCI6MTY3MjMwOTI3OCwiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.kTU7OdWvhoXO0K02Djdjt32STPc4yLW_AsRcAfbB3ve_vMINlkvUAFw3amAZztHVs0BlwTzGv1V1AgXCVmKpsFsYunZkRUczDZWtCFafmwoRhLImsKGFwiXTYN76ukyVVAxIPYhkuRQ8MHL9i3TJ63_LoeyPw_lSrQsVVlXMCD7BTb6cA993JXqd3snq7scNGn1JKljC-LBJ034a05Mf68I7InYTaQbt9BOvK0mlFPYBb23p7ufKYZEdRZ0T3Y_1maebb0-zL6ATgjtjEYdSdPkcPNL2pEW6yNMpxXpAyUH_stwqQzTRHGOVnSypTaetwuB7TBKN5xeDUalbeOBbqg"
+      const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjcyNDk1MjgzLCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzI0OTUyODMsImV4cCI6MTY3MjQ5ODg4MywiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.DTKndX62JheLtDJ49sF1I47V3ejMPojImNTJq0S1ft6a50g3dfbXuaM8PzBRIvrot-h8HHVeIJTNAxXHz4KoDYaksYMUE-QpBUHLy-d6ilQ3xkdij7oPFdiLaLolC_hOw8qc9WpsoJq5PVGXmUTaIMugSZIJBOMtOFagKA0IS9FcUmqIIcO5rHj2JjDDxTSFcMmReIhaz9-jYqP7M5pYvxCzHv2qSr_YjzSyMHUjjqt4jGhiLCTuHSmROxyzWA3cRdWiOh5l6ffnwl7l4K4rBwgLGxP2fQN1zvMuwn5AFO-IF6tg_x9EoVkvDIvKLIb4gXUt3mpAhajGSwwc4B9kig"
       const API = await fetch(`${config.domain}/course-list`, {
         method: "GET",
         headers: {
@@ -86,11 +87,12 @@ export default function List_Course() {
   }, []);
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handle_bt_favorite = (id) => {
-    // console.log(id);
+  function handle_bt_favorite(event, someParameter) {
+    //do with event
+    // console.log(event);
     set_dialog(true)
-    // alert('Loading...')
-  };
+    console.log(someParameter);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -143,7 +145,7 @@ export default function List_Course() {
       {/* ---------------------------------------------------------------------------------- CONTAINER 
         เหลือเชื่อมลิ้งเข้าหน้าอื่นๆ */}
 
-      <Container sx={{ py: 8, shadows: 1 }} maxWidth="md" >
+      <Container sx={{ py: 8, border: 0, borderRadius: 3, boxShadow: 10, marginBottom: 10 }} maxWidth="md" >
         {/* End hero unit */}
         {api_course_data ? <Grid container spacing={4}>
           {api_course_data.map((data) => (
@@ -165,14 +167,16 @@ export default function List_Course() {
                     {/* <Button>font-size: 1rem</Button> */}
                     <Button sx={{
                       flexDirection: 'column', ":hover": { backgroundColor: '#FFC0CB', color: '#fffff', }
-                    }} onClick={handle_bt_favorite}>
+                    }} onClick={(e) => {
+                      handle_bt_favorite(e, data.course_id)
+                    }}>
                       {false ? <FavoriteIcon sx={{ color: '#FFC0CB' }} /> : <FavoriteBorderIcon color='action' />}
                     </Button>
                   </ThemeProvider>
                 </CardActions>
                 <CardActions sx={{ justifyContent: 'center' }}>
-                  <Button size="small"><Rating name="half-rating-read" size="small" defaultValue={data.score} precision={0.5} readOnly /></Button>
-                  <Button size="small">Comment ({data.comment})</Button>
+                  <Button size="small"  ><Rating name="half-rating-read" size="small" defaultValue={data.score} precision={0.5} readOnly sx={{ paddingBottom: 0.5 }} /></Button>
+                  <Button size="small" sx={{ alignContent: 'center' }}><CommentIcon fontSize='small' /> &nbsp;  ({data.comment})</Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -182,25 +186,25 @@ export default function List_Course() {
       </Container>
       {/* ---------------------------------------------------------------------------------- CONTAINER */}
       {/* </main> */}
-                    {/* Dialog */}
-                    <Dialog
-          fullScreen={fullScreen}
-          open={dialog_loading}
-          // onClose={dialog_loading}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <DialogTitle id="responsive-dialog-title">
-            {"Please wait ..."}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-            <Box sx={{ display: 'flex' , alignItems: 'center' , justifyContent: 'center' , padding: 5}}>
-      <CircularProgress size={100}/>
-    </Box>
-            </DialogContentText>
-          </DialogContent>
-        </Dialog>
-                    {/* Dialog */}
+      {/* Dialog */}
+      <Dialog
+        fullScreen={fullScreen}
+        open={dialog_loading}
+        // onClose={dialog_loading}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Please wait ..."}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 5 }}>
+              <CircularProgress size={100} />
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+      {/* Dialog */}
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
