@@ -21,8 +21,8 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function Comment_page() {
     let [comment_api, set_comment_api] = React.useState()
     let [call_api, set_call_api] = React.useState(false)
-    let [fristtime, set_frist_time] = React.useState(true)
-    const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjcyNTg2NzM1LCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzI1ODY3MzUsImV4cCI6MTY3MjU5MDMzNSwiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.UY7zTTT5Qr5GQ8K0IAhQ6XQFi9PwfAGSm49NqnWOHrPeIn_41k5_aC1q4lvukJ2n-JhCn7i2Ea6M6dEIm3eHnsj8EQDudO_H4nSL7pPovLscNZD_HpAHJSKjsCirJ9cUzDD1GEIYcQ--BkNClUO5RN0YUnq9uzzEWaH7TmWNypgGBm8xM_LiSkp7aPxXXjtsMZDrkvhyFky0oR31nRowmB9k0_IxWBLT36pkLdmy8uQZK0onKe8BBYllAbtLGtFFDF-BGYAeOF7prX79GXpd2t6UOM6gHj3RR9o_HQsjlFANEmt5J0gEHBFv5fkiuHq_2Z5-ypTruSPil-vhEa2Ylw"
+    let [frist_time, set_first_time] = React.useState(true)
+    const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3NTNiYmFiM2U4YzBmZjdjN2ZiNzg0ZWM5MmY5ODk3YjVjZDkwN2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjcyNjY4MDYyLCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzI2NjgwNjIsImV4cCI6MTY3MjY3MTY2MiwiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.g0RZ_HdeGjPKTUJEQ8IKmHrvMTtUmkYccmaVFftQYzxxXNggwFPHS8e-eJ_v8nQFnDWSoDy_ZM3uXQW-fuQ83WoM81ITTcalIrOXJWQjfhQSbOfAMS4FWDGgmHSV4QtEw-IdrpLzzitj62VWp55FReNtbIkjC8ASS2jB3BHAMksueIDMm90z3bQen0-WzdSnYJ2obgzQy5y2m6RpHOgXwsb9c4VTLX8ualJc23ve95blJbSXfHmqnQqDLazGJYNXKGVO0XsyoCArW4djZwzTYgvEuJTkuLqfrOnMHzQEitjxiN6pD66A0crmWYX9o0vEGRK0KodpLMHlf4FtzliXOA"
     useEffect(() => {
         const path = window.location.pathname.split("/")
         const api = async () => {
@@ -41,9 +41,9 @@ export default function Comment_page() {
             });
             const data = await API.json()
             if (API.status === 200) {
-                if (fristtime) {
+                if (frist_time) {
                     window.setTimeout(() => {
-                        set_frist_time(false)
+                        set_first_time(false)
                         set_comment_api(data)
                     }, 1000);
                 } else set_comment_api(data)

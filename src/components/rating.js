@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -13,10 +12,6 @@ import Link from '@mui/material/Link';
 import config from "../config.json";
 import CircularProgress from '@mui/material/CircularProgress';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import AddTaskIcon from '@mui/icons-material/AddTask';
-import EditIcon from '@mui/icons-material/Edit';
 import StarsIcon from '@mui/icons-material/Stars';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
@@ -52,6 +47,7 @@ export default function Rating_page() {
     const [hover3, setHover3] = React.useState(-1);
     const [hover4, setHover4] = React.useState(-1);
     const [hover5, setHover5] = React.useState(-1);
+
     const location_url = window.location.pathname.split("/")
     const course_id = location_url[2]
     async function handle_bt_save() {

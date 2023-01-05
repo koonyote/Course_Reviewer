@@ -8,6 +8,9 @@ import Home from "./components/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Profile from "./components/profile";
+import List_Course from "./components/lsit_course";
+import Comment_page from "./components/comment";
+import Rating_page from "./components/rating";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +21,9 @@ root.render(
       <Route path="home" element={<Home />} />
       <Route path="register" element={<Register />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="card" element={<List_Course />} />
+      <Route path="comment/*" element={<Comment_page/>} />
+      <Route path="rating/*" element={<Rating_page/>} />
     </Routes>
   </BrowserRouter>
   /*<React.StrictMode>
