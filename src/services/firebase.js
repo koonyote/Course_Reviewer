@@ -19,12 +19,13 @@ export const signInWithGoogle = () => {
     const API = await fetch(`${config.domain}/login`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "ngrok-skip-browser-warning": "*",
         "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST",
-      },
+    },
       // body : {}
     });
     const jsonData = await API.json();
