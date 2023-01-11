@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import App from "../App";
@@ -7,17 +7,43 @@ import Register from "./Register";
 import Admin_List from "../admin/Admin_List";
 import Admin_Add from "../admin/Admin_Add";
 import Lecturer_List from "../lecturer/Lecturer_List";
+import comment from "./comment.js";
+import List_Course from "./list_course";
 import Student_List from "../student/Student_List";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import config from "../config.json";
+import axios from "axios";
+const token = localStorage.getItem("token");
+
+const fetchData = () => {
+  return fetch(`${config.domain}/register`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "*",
+      "User-Agent": "Custom",
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+};
 
 export default function HomePage() {
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar> </Navbar>
       <div>
-          <Lecturer_List />
+        
+        <List_Course /> 
       </div>
     </div>
   );

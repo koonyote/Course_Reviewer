@@ -111,7 +111,17 @@ export default function PersistentDrawerLeft() {
         </Drawer.Header>
         <Drawer.Body>
           <List>
-            <ListItem disablePadding>
+            <ListItem>
+              <ListItemButton>
+                <ListItemText>
+                  {" "}
+                  <Link to="/home">
+                    <label className="primary-button">home</label>
+                  </Link>{" "}
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
               <ListItemButton>
                 <ListItemText>
                   {" "}
