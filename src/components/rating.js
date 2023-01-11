@@ -21,15 +21,14 @@ import Navbar from "../components/Navbar";
 
 export default function Rating_page() {
   const labels = {
-    
     1: "Useless+",
-   
+
     2: "Poor+",
-   
+
     3: "Ok+",
-    
+
     4: "Good+",
-    
+
     5: "Excellent+",
   };
 
@@ -37,11 +36,11 @@ export default function Rating_page() {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
 
-  const [knowledge, setKnowledge] = React.useState(2.5);
-  const [benefit, setBenefit] = React.useState(2.5);
-  const [teaching, setTeaching] = React.useState(2.5);
-  const [teacher, setTeacher] = React.useState(2.5);
-  const [satisfaction, setSatisfaction] = React.useState(2.5);
+  const [knowledge, setKnowledge] = React.useState(0);
+  const [benefit, setBenefit] = React.useState(0);
+  const [teaching, setTeaching] = React.useState(0);
+  const [teacher, setTeacher] = React.useState(0);
+  const [satisfaction, setSatisfaction] = React.useState(0);
 
   const [hover1, setHover1] = React.useState(-1);
   const [hover2, setHover2] = React.useState(-1);
@@ -53,22 +52,22 @@ export default function Rating_page() {
   const course_id = location_url[2];
   async function handle_bt_save() {
     if (
-      knowledge < 0 ||
+      knowledge <= 0 ||
       knowledge == null ||
-      benefit < 0 ||
+      benefit <= 0 ||
       benefit == null ||
-      teaching < 0 ||
+      teaching <= 0 ||
       teaching == null ||
-      teacher < 0 ||
+      teacher <= 0 ||
       teacher == null ||
-      satisfaction < 0 ||
+      satisfaction <= 0 ||
       satisfaction == null
     ) {
       alert("กรุณากรอกข้อมูลให้ครบ");
     } else if (!course_id) return;
     else {
-      const token = "";
-      await fetch(`${config.domain}/add-score`, {
+      const token = localStorage.getItem("token");
+      const API = await fetch(`${config.domain}/add-score`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -87,6 +86,13 @@ export default function Rating_page() {
           satisfaction: satisfaction,
         }),
       });
+      const data = await API.json();
+      if (API.status === 200) {
+        window.location.replace(`/home`);
+        alert("ให้คะแนนสำเร็จ");
+      }else{
+        alert("ให้คะแนนไม่สำเร็จ")
+      }
     }
   }
   return (
@@ -175,7 +181,6 @@ export default function Rating_page() {
               <Rating
                 name="hover-feedback"
                 value={knowledge}
-                
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setKnowledge(newValue);
@@ -250,7 +255,6 @@ export default function Rating_page() {
               <Rating
                 name="hover-feedback"
                 value={benefit}
-                
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setBenefit(newValue);
@@ -325,7 +329,6 @@ export default function Rating_page() {
               <Rating
                 name="hover-feedback"
                 value={teaching}
-               
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setTeaching(newValue);
@@ -400,7 +403,6 @@ export default function Rating_page() {
               <Rating
                 name="hover-feedback"
                 value={teacher}
-                
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setTeacher(newValue);
@@ -475,7 +477,6 @@ export default function Rating_page() {
               <Rating
                 name="hover-feedback"
                 value={satisfaction}
-                
                 getLabelText={getLabelText}
                 onChange={(event, newValue) => {
                   setSatisfaction(newValue);
