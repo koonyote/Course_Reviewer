@@ -119,8 +119,10 @@ export default function List_Course() {
           >
             รายวิชา
           </Typography>
-          <TextField id="outlined-search" label="Search" type="search" />
-          <ManageSearchIcon sx={{ fontSize: "50px" }} color="action" />
+          <center>
+            <TextField id="outlined-search" label="Search" type="search" />
+            <ManageSearchIcon sx={{ fontSize: "50px" }} color="action" />
+          </center>
           <Stack
             sx={{ pt: 4 }}
             direction="row"
@@ -135,7 +137,7 @@ export default function List_Course() {
 
       <Container
         sx={{
-          mt: -5,
+          mt: -3,
           py: 8,
           border: 0,
           borderRadius: 3,

@@ -18,7 +18,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Navbar from "../components/Navbar";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
@@ -30,6 +30,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import { Edit } from "@mui/icons-material";
 
 export default function Comment_page() {
   let [comment_api, set_comment_api] = React.useState();
@@ -43,16 +44,22 @@ export default function Comment_page() {
     console.log(event.target.value);
   };
 
+  const [Edit_comment, set_Edit_Comment] = React.useState();
+  const handleChange_edit_comment = (event) => {
+    set_Edit_Comment(event.target.value);
+    console.log(Edit_comment);
+  };
+
   useEffect(() => {
     const api = async () => {
       const API = await fetch(`${config.domain}/list-comment/${path[2]}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -106,10 +113,8 @@ export default function Comment_page() {
       set_call_api(true);
     }
   }
-
   async function API_Add_Comment(event) {
     // หาก True ให้ไป Like | หาก false ให้ไป Delete
-
     await fetch(`${config.domain}/add-comment`, {
       method: "POST",
       headers: {
@@ -126,6 +131,53 @@ export default function Comment_page() {
         identify: true,
       }),
     });
+    set_call_api(true);
+  }
+
+  async function API_Delect_Comment(param_comment_id) {
+    await fetch(`${config.domain}/delete-comment`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        course_id: path[2],
+        comment_id: param_comment_id,
+      }),
+    });
+    set_call_api(true);
+  }
+
+  async function API_Update_Comment(param_comment_id) {
+    // หาก True ให้ไป Like | หาก false ให้ไป Delete
+    const API = await fetch(`${config.domain}/update-comment`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        message: Edit_comment,
+        course_id: path[2],
+        comment_id: param_comment_id,
+      }),
+    });
+    
+    if (API.status === 200) {
+      window.location.replace(`/comment/${path[2]}`);
+      alert("อัพเดทสำเร็จ");
+    }else{
+      alert("อัพเดทไม่สำเร็จ")
+    }
     set_call_api(true);
   }
 
@@ -168,11 +220,12 @@ export default function Comment_page() {
           }}
           style={{ color: "white" }}
         >
-          Comment Student
+          Comment Student <br />
+          {path[2]}
         </Typography>
         <Grid>
           {" "}
-          <FormLabel>Your comment</FormLabel>
+         
           <FormControl
             sx={{
               backgroundColor: "white",
@@ -248,23 +301,6 @@ export default function Comment_page() {
                         style={{ color: "grey" }}
                       >
                         {data.message}{" "}
-                        {data.owner_comment ? (
-                          <Button
-                            size="small"
-                            color={"info"}
-                            onClick={(e) => {
-                              alert("ยังไม่มีฟังก์ชั่นเปลี่ยน และ API จ้า");
-                            }}
-                          >
-                            
-                            <EditIcon fontSize="small" sx={{ mb: 0.65 }} />
-                           
-                          </Button>
-                          
-                        ) : (
-                          ""
-                        )}
-                         
                       </Typography>
                     </Card>
                   </CardContent>
@@ -304,8 +340,63 @@ export default function Comment_page() {
 
                       {/* เหลือส่วนบอกแก้ไข ตอนนี้ข้อมูลที่ออกมามีแต่ที่แก้ไขแล้ว */}
                     </Typography>
+
+                    {data.owner_comment ? (
+                      <DeleteOutlineIcon
+                        fontSize="small"
+                        onClick={(e) => {
+                          API_Delect_Comment(data.comment_id);
+                        }}
+                        sx={{ mb: 0.65 }}
+                      />
+                    ) : (
+                      ""
+                    )}
+
+                    {data.owner_comment ? (
+                      <Button
+                        size="small"
+                        color={"info"}
+                        onClick={handleClickOpen}
+                      >
+                        <EditIcon fontSize="small" sx={{ mb: 0.65 }} />
+                      </Button>
+                    ) : (
+                      ""
+                    )}
                   </CardActions>
                 </Card>
+                <div>
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>แก้ไขคอมเมนท์</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText></DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id={data.message}
+                        placeholder={data.message}
+                        type="email"
+                        onChange={handleChange_edit_comment}
+                        fullWidth
+                        variant="standard"
+                      >
+                        {data.message}
+                      </TextField>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button
+                        onClick={(e) => {
+                          API_Update_Comment(data.comment_id);
+                        }}
+                        disabled = {Edit_comment ? false : true}
+                      >
+                        Update
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
               </Grid>
             ))
           ) : (
