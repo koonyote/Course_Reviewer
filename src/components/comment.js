@@ -225,7 +225,7 @@ export default function Comment_page() {
         </Typography>
         <Grid>
           {" "}
-          <FormLabel>Your comment</FormLabel>
+         
           <FormControl
             sx={{
               backgroundColor: "white",
