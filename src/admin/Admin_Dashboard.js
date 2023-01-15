@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
 import Chart from './dashbard_coponents/Chart';
+import FunnelChart_Component from './dashbard_coponents/FunnelChart';
 
 function Title(props) {
     return (
@@ -79,6 +80,20 @@ function Admin_Dashboard() {
                         >
                             { data_api.comment_to_statistic ?  
                             <Chart data={data_api.comment_to_statistic} /> :  
+                            <CircularProgress size={100} />}
+                        </Paper>
+                </Grid>
+                <Grid item xs={12} md={12} lg={12}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                            { data_api.course_to_statistic ?  
+                            <FunnelChart_Component data={data_api.course_to_statistic} /> :  
                             <CircularProgress size={100} />}
                         </Paper>
                 </Grid>
