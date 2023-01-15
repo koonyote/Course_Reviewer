@@ -16,6 +16,7 @@ import Rating_page from "./components/rating";
 import Add_com from "./components/Add_com";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
+import Admin_Dashboard from "./admin/Admin_Dashboard";
 
 
 
@@ -33,6 +34,9 @@ root.render(
       <Route path="profile" element={<Profile />} />
       <Route path="list" element={<List_Course />} />
       <Route path="add_com" element={<Add_com />} />
+      
+
+      <Route path="Admin" element={<Admin_Dashboard />} />
     </Routes>
   </BrowserRouter>
   /*<React.StrictMode>
