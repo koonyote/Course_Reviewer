@@ -7,7 +7,7 @@ import { CircularProgress } from '@mui/material';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-
+import domain_server from "../config.json";
 import Chart from './dashbard_coponents/Chart';
 import FunnelChart_Component from './dashbard_coponents/FunnelChart';
 
@@ -36,7 +36,7 @@ function Admin_Dashboard() {
     React.useEffect(() => {
         const api = async () => {
           const token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWU0ZDkxOGE0ODY0YWQxMzUxMDViYmRjMDEwYWY5Njc5YzM0MTMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjczNzYwODc2LCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzM3NjA4NzYsImV4cCI6MTY3Mzc2NDQ3NiwiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.dSFdSVDzEQgkcfYZkpGdAtQSCoDYUp-uNTm_KwWQDBf23fTTjkCssrV74Nb1n_jHS46rs7h0amOv5QDbcCygQGkcqhvQ2PDV8wft1nU-RWYYHFH2tDp62WNKHIm3WKVN0ukdDSEyuQX9MZ2rUJGHYlQeFxBWCWytU9maJ1FYCueVL3s9SqHZAN4vBv3TEtibvYQLZSV1Gc7_Xwkb0Cop-TkLrtUTuuLf2LwtXNGzJvZRzRh8oKo_n1wHdG9Mtu7n91wx_qrfyy9wBM8zV2f69a4x8uM__8x_e8P69ard6lfvsYM9FTVdW6KWbB9laxLSZIGoqnOIiIWPI9hbnERk2w'
-          const API = await fetch(`http://localhost:9999/dashboard-info`, {
+          const API = await fetch(`${domain_server.domain}/dashboard-info`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,

@@ -67,7 +67,7 @@ export default function List_Course() {
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
-      const API = await fetch(`${config.domain}/course-list`, {
+      const API = await fetch(`${config.domain}/list-course`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
