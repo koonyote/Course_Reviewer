@@ -35,9 +35,9 @@ const fetchData = () => {
 };
 
 export default function HomePage() {
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+    // fetchData();
+  // }, []);
   return (
     <div>
       <Navbar> </Navbar>

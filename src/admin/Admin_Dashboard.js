@@ -61,13 +61,13 @@ function Admin_Dashboard() {
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} sx={{}}>
                 <Grid item xs={3}  >
-                    {people_count(300)}
+                    {people_count(data_api.member_total)}
                 </Grid>
                 <Grid item xs={3}>
-                    {subject_count(1024)}
+                    {subject_count(data_api.course_total)}
                 </Grid>
                 <Grid item xs={6}>
-                    {comment_count(10241024)}
+                    {comment_count(data_api.comment_total)}
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
                         <Paper
