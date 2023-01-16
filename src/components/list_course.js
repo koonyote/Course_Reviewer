@@ -67,14 +67,14 @@ export default function List_Course() {
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
-      const API = await fetch(`${config.domain}/course-list`, {
+      const API = await fetch(`${config.domain}/list-course`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -221,6 +221,7 @@ export default function List_Course() {
                         sx={{ paddingBottom: 0.5 }}
                       />
                     </Button>
+                      {`(${data.score_total})`}
                     <Button
                       size="small"
                       sx={{ alignContent: "center" }}

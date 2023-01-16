@@ -38,7 +38,9 @@ export default function Comment_page() {
   let [frist_time, set_first_time] = React.useState(true);
   const token = localStorage.getItem("token");
   const path = window.location.pathname.split("/");
+ 
   const [add_comment, set_add_Comment] = React.useState();
+ 
   const handleChange_add_comment = (event) => {
     set_add_Comment(event.target.value);
     console.log(event.target.value);
@@ -55,11 +57,11 @@ export default function Comment_page() {
       const API = await fetch(`${config.domain}/list-comment/${path[2]}`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -171,15 +173,45 @@ export default function Comment_page() {
         comment_id: param_comment_id,
       }),
     });
-    
+
     if (API.status === 200) {
       window.location.replace(`/comment/${path[2]}`);
       alert("อัพเดทสำเร็จ");
-    }else{
-      alert("อัพเดทไม่สำเร็จ")
+    } else {
+      alert("อัพเดทไม่สำเร็จ");
     }
     set_call_api(true);
   }
+
+
+  useEffect(() => {
+    const api = async () => {
+      const token = localStorage.getItem("token");
+      const API = await fetch(`${config.domain}/course-detail/${path[2]}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST",
+        },
+      });
+      const set_detail = await API.json();
+      
+      console.log(set_detail.NAME_TH);
+     
+    };
+    // api()
+    window.setTimeout(() => {
+      api();
+    }, 1000);
+  }, []);
+
+
+
 
   const [open, setOpen] = React.useState(false);
 
@@ -222,10 +254,10 @@ export default function Comment_page() {
         >
           Comment Student <br />
           {path[2]}
+       
         </Typography>
         <Grid>
           {" "}
-         
           <FormControl
             sx={{
               backgroundColor: "white",
@@ -390,7 +422,7 @@ export default function Comment_page() {
                         onClick={(e) => {
                           API_Update_Comment(data.comment_id);
                         }}
-                        disabled = {Edit_comment ? false : true}
+                        disabled={Edit_comment ? false : true}
                       >
                         Update
                       </Button>
