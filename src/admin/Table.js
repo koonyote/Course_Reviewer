@@ -33,6 +33,10 @@ import Navbar from "../components/Navbar";
 import TextField from "@mui/material/TextField";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import Admin_Dashboard from "./dashbard_coponents/Dashboard_Component";
+// Table Import
+import TableCourse from "./table_components/table_course";
+import TableMember from "./table_components/table_user";
+
 function Copyright(props) {
     return (
         <Typography
@@ -52,8 +56,13 @@ function Copyright(props) {
 }
 const theme = createTheme();
 
-export default function Admin_Home() {
-    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+export default function Admin_Table( ) {
+    // const path = window.location.pathname.split("/");
+    function get_path_from_url() {
+        let path = window.location.pathname.split("/");
+        return path[4]
+    }
+    const path_url = get_path_from_url()
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -72,8 +81,11 @@ export default function Admin_Home() {
                         align="center"
                         color="text.primary"
                         gutterBottom
+                        sx={{ fontWeight: 'medium'  }}
                     >
-                        Administrator
+                                            { path_url == 'course' ? 'Course Table' : 
+                        path_url == 'member' ? 'Member Table' : 
+                        'Error' }
                     </Typography>
                     <Stack
                         sx={{ pt: 4 }}
@@ -97,7 +109,9 @@ export default function Admin_Home() {
                 maxWidth="md"
                 style={{ backgroundColor: "#F1F1F1" }}
             >
-                <Admin_Dashboard />
+                    { path_url == 'course' ? <TableCourse/> : 
+                        path_url == 'member' ? <TableMember/> : 
+                        'Error' }
             </Container>
             {/* Footer */}
             <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">

@@ -19,6 +19,7 @@ import reportWebVitals from "./reportWebVitals";
 import Admin_Dashboard from "./admin/dashbard_coponents/Dashboard_Component";
 import TableListCourse from "./admin/AdminListCourse";
 import Admin_Home from "./admin/Dashbaoad";
+import Admin_Table from "./admin/Table";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -37,7 +38,7 @@ root.render(
       
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
-      <Route path="admin/dashboard/course" element={<TableListCourse />} />
+      <Route path="admin/dashboard/table/*" element={<Admin_Table />} />
     </Routes>
   </BrowserRouter>
   /*<React.StrictMode>
