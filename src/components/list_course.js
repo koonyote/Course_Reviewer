@@ -32,6 +32,25 @@ import useMediaQuery from "@mui/material/useMediaQuery"; // ตัวจัด F
 import Navbar from "../components/Navbar";
 import TextField from "@mui/material/TextField";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
+import Paper from '@mui/material/Paper';
+// Dialog
+import PropTypes from 'prop-types';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import PersonIcon from '@mui/icons-material/Person';
+import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { blue, grey } from '@mui/material/colors';
 
 function Copyright(props) {
   return (
@@ -52,6 +71,7 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
+
 const theme_favorite = createTheme({
   typography: {
     button: {
@@ -59,6 +79,48 @@ const theme_favorite = createTheme({
     },
   },
 });
+
+const options = ['รหัสวิชา', 'ชื่อวิชาภาษาไทย', 'ชื่อวิชาภาษาอังกฤษ'];
+function SimpleDialog(props) {
+  const { onClose, selectedValue, open } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleListItemClick = (value) => {
+    onClose(value);
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Select Options</DialogTitle>
+      <List sx={{ pt: 0 }}>
+        {options.map((email) => (
+          <ListItem disableGutters>
+            <ListItemButton onClick={() => handleListItemClick(email)} key={email}>
+              <ListItemAvatar>
+                {/* Example Icon Style */}
+                {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                  <PersonIcon />
+                </Avatar> */}
+                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                  <SettingsIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={email} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
+  );
+}
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  selectedValue: PropTypes.string.isRequired,
+};
 
 export default function List_Course() {
   const [dialog_loading, set_dialog] = React.useState(false);
@@ -81,7 +143,10 @@ export default function List_Course() {
       });
       const data = await API.json();
       console.log(data);
-      if (API.status === 200) set_api_course_data(data);
+      if (API.status === 200) {
+        set_api_course_data(data);
+        setRows(data)
+      }
     };
     // api()
     window.setTimeout(() => {
@@ -96,6 +161,34 @@ export default function List_Course() {
     set_dialog(true);
     console.log(someParameter);
   }
+
+  //  ---------------------------------------------- Search Section 
+  const [rows, setRows] = React.useState();
+  const [searched, setSearched] = React.useState("");
+
+  const requestSearch = (event) => {
+    //  น่าจะใส่ Option Search ตรงนี้ได้ 
+    let searchedVal = event.target.value
+    console.log(searchedVal)
+    setSearched(searchedVal)
+    const filter = api_course_data.filter((row) => {
+      if (selectedValue === options[0] ) return row.course_id.toLowerCase().includes(searchedVal.toLowerCase());
+      else if (selectedValue === options[1] ) return row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase());
+      else if (selectedValue === options[2] ) return row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase());
+    });;
+    setRows(filter)
+  }
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(options[0]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -119,10 +212,6 @@ export default function List_Course() {
           >
             รายวิชา
           </Typography>
-          <center>
-            <TextField id="outlined-search" label="Search" type="search" />
-            <ManageSearchIcon sx={{ fontSize: "50px" }} color="action" />
-          </center>
           <Stack
             sx={{ pt: 4 }}
             direction="row"
@@ -138,7 +227,7 @@ export default function List_Course() {
       <Container
         sx={{
           mt: -3,
-          py: 8,
+          py: 2,
           border: 0,
           borderRadius: 3,
           boxShadow: 10,
@@ -147,10 +236,36 @@ export default function List_Course() {
         maxWidth="md"
         style={{ backgroundColor: "#F1F1F1" }}
       >
+        <Paper
+          component="form"
+          sx={{ p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
+        >
+          <IconButton sx={{ p: '10px' }} aria-label="menu">
+            <MenuIcon onClick={handleClickOpen} />
+            <SimpleDialog
+              selectedValue={selectedValue}
+              open={open}
+              onClose={handleClose}
+            />
+          </IconButton>
+          <InputBase
+            value={searched}
+            onChange={requestSearch}
+            // onChange={ (e) => {
+            //     e.target.value ? requestSearch(e.target.value) : cancelSearch()
+            // }}
+            sx={{ ml: 1, flex: 1 }}
+            placeholder={`ค้นหาด้วย ${selectedValue}`}
+          // inputProps={{ 'aria-label': 'search google maps' }}
+          />
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
         {/* End hero unit */}
         {api_course_data ? (
           <Grid container spacing={4}>
-            {api_course_data.map((data) => (
+            {rows.map((data) => (
               <Grid item key={data} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
