@@ -17,32 +17,11 @@ import config from "../config.json";
 import axios from "axios";
 const token = localStorage.getItem("token");
 
-const fetchData = () => {
-  return fetch(`${config.domain}/register`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "ngrok-skip-browser-warning": "*",
-      "User-Agent": "Custom",
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
-};
-
 export default function HomePage() {
-  // useEffect(() => {
-    // fetchData();
-  // }, []);
   return (
     <div>
       <Navbar> </Navbar>
       <div>
-        
         <List_Course /> 
       </div>
     </div>

@@ -12,7 +12,10 @@ function loop_object(params) {
     // console.log(params)
     let loop_array = []
     const color_string = [
-        "#83a6ed", "#8dd1e1", "#82ca9d", "#a4de6c", "#567189" , "#7B8FA1" , "#CFB997", "#FFEA20" , "#FF8B13", "#E3F6FF"
+        "#83a6ed", "#8dd1e1", "#82ca9d", "#a4de6c", "#567189" , "#7B8FA1" , "#CFB997", "#FFEA20" , "#FF8B13", "#E3F6FF", 
+        "#83a6ed", "#8dd1e1", "#82ca9d", "#a4de6c", "#567189" , "#7B8FA1" , "#CFB997", "#FFEA20" , "#FF8B13", "#E3F6FF", 
+        "#83a6ed", "#8dd1e1", "#82ca9d", "#a4de6c", "#567189" , "#7B8FA1" , "#CFB997", "#FFEA20" , "#FF8B13", "#E3F6FF", 
+        "#83a6ed", "#8dd1e1", "#82ca9d", "#a4de6c", "#567189" , "#7B8FA1" , "#CFB997", "#FFEA20" , "#FF8B13", "#E3F6FF", 
     ]
     for (const property in params) {
         let randomNummer = Math.floor(Math.random() * color_string.length)

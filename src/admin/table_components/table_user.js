@@ -11,6 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import domain_server from "../../config.json";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 const columns = [
     { id: 'email', label: 'Email', minWidth: 60, align: 'justify' },
@@ -36,7 +42,10 @@ export default function TableMember() {
                 },
             });
             const data = await API.json();
-            if (API.status === 200) set_data_api(data);
+            if (API.status === 200) {
+                set_data_api(data);
+                setRows(data)
+            }
         };
         // api()
         window.setTimeout(() => {
@@ -54,10 +63,50 @@ export default function TableMember() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+    //  ---------------------------------------------- Search Section 
+    const [rows, setRows] = React.useState();
+    const [searched, setSearched] = React.useState("");
 
+    const requestSearch = (event) => {
+        //  น่าจะใส่ Option Search ตรงนี้ได้ 
+        let searchedVal = event.target.value
+        console.log(searchedVal)
+        setSearched(searchedVal)
+        const filter = data_api.filter((row) => {
+            return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+        });;
+        setRows(filter)
+    }
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            {/* จัดให้ไปอยู่ทางขวา */}
+            {/* <Box margin={2} border={2} >  */}
+            <Paper
+                component="form"
+                sx={{ p: '2px 4px', width: 'auto' , border: 0 , display: 'flex', alignItems: 'center', justifyContent: 'right' , marginBottom: 1}}
+            >
+                <IconButton sx={{ p: '10px' }} aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
+                <InputBase
+                    value={searched}
+                    onChange={requestSearch}
+                    // onChange={ (e) => {
+                    //     e.target.value ? requestSearch(e.target.value) : cancelSearch()
+                    // }}
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="Search Username"
+                    // inputProps={{ 'aria-label': 'search google maps' }}
+                />
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                    <SearchIcon />
+                </IconButton>
+            </Paper>
+            {/* </Box> */}
+            
+
             <TableContainer sx={{ maxHeight: 650 }}>
+
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -73,7 +122,7 @@ export default function TableMember() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data_api ? data_api
+                        {rows ? rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
@@ -105,16 +154,17 @@ export default function TableMember() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            { typeof data_api!=='undefined'&&( 
-                 <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={data_api.length} 
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage} /> 
-                ) }
+            {typeof data_api !== 'undefined' && (
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={data_api.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage} />
+            )}
         </Paper>
     );
 }
+
