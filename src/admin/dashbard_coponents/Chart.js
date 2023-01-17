@@ -22,7 +22,7 @@ export default function Chart( props ) {
   return (
     <React.Fragment>
       {/* { props ? props : 'NO '} */}
-      <Title>100 Comment</Title>
+      <Title>Chart 100 Comment</Title>
       <ResponsiveContainer>
         <LineChart
           data={table_data}

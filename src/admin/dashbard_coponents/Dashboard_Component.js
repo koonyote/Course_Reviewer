@@ -7,9 +7,10 @@ import { CircularProgress } from '@mui/material';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-
-import Chart from './dashbard_coponents/Chart';
-import FunnelChart_Component from './dashbard_coponents/FunnelChart';
+import domain_server from "../../config.json";
+import Chart from './Chart';
+import FunnelChart_Component from './FunnelChart';
+import Stack from '@mui/material/Stack';
 
 function Title(props) {
     return (
@@ -31,32 +32,35 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
+const cfg_link = { 
+    course : 'admin/dashboard/table/course', 
+    people : 'admin/dashboard/table/member',
+    comment: 'admin/dashboard/table/comment'
+}
+
 function Admin_Dashboard() {
     const [data_api, set_data_api] = React.useState('')
     React.useEffect(() => {
         const api = async () => {
-          const token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1NWU0ZDkxOGE0ODY0YWQxMzUxMDViYmRjMDEwYWY5Njc5YzM0MTMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXVkIjoiY291cnNlLXJldmlld2VyLTUzYjE4IiwiYXV0aF90aW1lIjoxNjczNzYwODc2LCJ1c2VyX2lkIjoicTZyYnhtaUd5cmNnNkVPcWdzWFVLZ3lpZGNCMiIsInN1YiI6InE2cmJ4bWlHeXJjZzZFT3Fnc1hVS2d5aWRjQjIiLCJpYXQiOjE2NzM3NjA4NzYsImV4cCI6MTY3Mzc2NDQ3NiwiZW1haWwiOiJ0ZXN0MDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdDAxQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.dSFdSVDzEQgkcfYZkpGdAtQSCoDYUp-uNTm_KwWQDBf23fTTjkCssrV74Nb1n_jHS46rs7h0amOv5QDbcCygQGkcqhvQ2PDV8wft1nU-RWYYHFH2tDp62WNKHIm3WKVN0ukdDSEyuQX9MZ2rUJGHYlQeFxBWCWytU9maJ1FYCueVL3s9SqHZAN4vBv3TEtibvYQLZSV1Gc7_Xwkb0Cop-TkLrtUTuuLf2LwtXNGzJvZRzRh8oKo_n1wHdG9Mtu7n91wx_qrfyy9wBM8zV2f69a4x8uM__8x_e8P69ard6lfvsYM9FTVdW6KWbB9laxLSZIGoqnOIiIWPI9hbnERk2w'
-          const API = await fetch(`http://localhost:9999/dashboard-info`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "*",
-              "User-Agent": "Custom",
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-            },
-          });
-          const data = await API.json();
-        //   console.log(data.comment_to_statistic);
-          if (API.status === 200) set_data_api(data);
-          else alert('Get API Error')
+            const token = localStorage.getItem("token");
+            const API = await fetch(`${domain_server.domain}/dashboard-info`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "ngrok-skip-browser-warning": "*",
+                    "User-Agent": "Custom",
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+            });
+            const data = await API.json();
+            if (API.status === 200) set_data_api(data);
         };
-        // api()
         window.setTimeout(() => {
-          api();
+            api();
         }, 1000);
-      }, []);
-      
+    }, []);
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} sx={{}}>
@@ -70,32 +74,37 @@ function Admin_Dashboard() {
                     {comment_count(data_api.comment_total)}
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
-                        <Paper
-                            sx={{
-                                p: 2,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: 240,
-                            }}
-                        >
-                            { data_api.comment_to_statistic ?  
-                            <Chart data={data_api.comment_to_statistic} /> :  
+                    <Paper
+                        sx={{
+                            p: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: 240,
+                        }}
+                    >
+                        {data_api.comment_to_statistic ?
+                            <Chart data={data_api.comment_to_statistic} /> :
                             <CircularProgress size={100} />}
-                        </Paper>
+                    </Paper>
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}>
-                        <Paper
-                            sx={{
-                                p: 2,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: 240,
-                            }}
-                        >
-                            { data_api.course_to_statistic ?  
-                            <FunnelChart_Component data={data_api.course_to_statistic} /> :  
-                            <CircularProgress size={100} />}
-                        </Paper>
+                    <Paper
+                        sx={{
+                            p: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: 240,
+                        }}
+                    >
+                        {data_api.course_to_statistic ?
+                            <FunnelChart_Component data={data_api.course_to_statistic} /> :
+                                <CircularProgress size={100} />
+                        }
+                    </Paper>
                 </Grid>
 
 
@@ -122,7 +131,7 @@ function people_count(member) {
                     {member}
                 </Typography>
                 <div>
-                    <Link color="text.secondary" href="#" >
+                    <Link color="text.secondary" href={cfg_link.people} >
                         รายละเอียด
                     </Link>
                 </div>
@@ -146,7 +155,7 @@ function subject_count(subject) {
                     {subject}
                 </Typography>
                 <div>
-                    <Link color="text.secondary" href="#" >
+                    <Link color="text.secondary" href={cfg_link.course} >
                         รายละเอียด
                     </Link>
                 </div>
@@ -170,9 +179,9 @@ function comment_count(comment) {
                     {comment}
                 </Typography>
                 <div>
-                    <Link color="text.secondary" href="#" >
-                        รายละเอียด
-                    </Link>
+                    {/* <Link color="text.secondary" href={cfg_link.comment} > */}
+                    &nbsp;
+                    {/* </Link> */}
                 </div>
             </React.Fragment>
         </Item>

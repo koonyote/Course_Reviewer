@@ -16,9 +16,10 @@ import Rating_page from "./components/rating";
 import Add_com from "./components/Add_com";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import Admin_Dashboard from "./admin/Admin_Dashboard";
-
-
+import Admin_Dashboard from "./admin/dashbard_coponents/Dashboard_Component";
+import TableListCourse from "./admin/AdminListCourse";
+import Admin_Home from "./admin/Dashbaoad";
+import Admin_Table from "./admin/Table";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,8 +36,9 @@ root.render(
       <Route path="list" element={<List_Course />} />
       <Route path="add_com" element={<Add_com />} />
       
-
-      <Route path="Admin" element={<Admin_Dashboard />} />
+      {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
+      <Route path="admin" element={<Admin_Home />} />
+      <Route path="admin/dashboard/table/*" element={<Admin_Table />} />
     </Routes>
   </BrowserRouter>
   /*<React.StrictMode>
