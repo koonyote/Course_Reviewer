@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
@@ -19,6 +18,9 @@ import { InputAdornment } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Navbar from "../components/Navbar";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import config from "../config.json";
+import CircularProgress from "@mui/material/CircularProgress";
+
 function Copyright(props) {
   return (
     <Typography
@@ -36,23 +38,41 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Profile() {
-  const datafromapi = {
-    username: "anan",
-    firstname: "Ananda",
-    lastname: "Prabdee",
-    gender: "male",
-    date_of_brith: "12/02/2544",
-  };
-  const [username_pull, setUsername_pull] = useState(true);
-  // UseEffect ทำทุกครั้งที่กดจ้า
-  useEffect(() => {
-    // ดึงจาก object มาใส่ลงใน text input ก่อน
-    if (datafromapi.username && username_pull) {
-      setUsername(datafromapi.username);
-      setUsername_pull(false);
-    }
-  });
+  const token = localStorage.getItem("token");
+  const [dataApi, setDataApi] = useState()
   const [username, setUsername] = useState();
+  const [effect, setEffect] = useState(0)
+  useEffect(() => {
+    const api = async () => {
+      const API = await fetch(`${config.domain}/my-profile`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST",
+        },
+      });
+      const data = await API.json();
+      if (API.status === 200) {
+        setDataApi({
+          username: data.username,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          gender: data.user_sex,
+          date_of_brith: data.birth_date,
+        })
+        setUsername(data.username)
+      }
+    };
+    window.setTimeout(() => {
+      api();
+    }, 1000);
+  }, [effect]);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,16 +89,28 @@ export default function Profile() {
     setOpen(false);
   };
   // Confirm สุดท้ายถึงจะทำ
-  const handleClose_Confirm = () => {
+  const handleClose_Confirm = async () => {
     setOpen(false);
-    console.log("Comfirm Success!");
-    console.log("Confirm Change Username: %s", username);
-  };
+      await fetch(`${config.domain}/my-profile`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      });
+      setEffect( effect+1 )
+    }
 
   const handleChange_username = (event) => {
     setUsername(event.target.value);
   };
-
   return (
     <>
       <Navbar />
@@ -112,176 +144,165 @@ export default function Profile() {
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
-              <Grid container spacing={2}>
-                {/* ส่่วนของ Username */}
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <TextField
-                    required
-                    // fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <ManageAccountsIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    variant="standard"
-                    color="secondary" // success warning secondary
-                    label="username"
-                    name="username"
-                    autoComplete="username"
-                    value={username}
-                    onChange={handleChange_username}
-                  />
-                </Grid>
-                {/* <Grid item xs={12} sm={6} >
-                                <Box maxHeight  sx={{ color: 'text.secondary',border: 0, p: 1 , minHeight: 1, textAlign: 'left' , paddingTop: 1.6 ,paddingLeft: 3}}  >User Name</Box>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    // id="username"
-                                    label="username"
-                                    name="username"
-                                    autoComplete="username"
-                                    value={username}
-                                    onChange={handleChange_username}
-                                />
-                            </Grid> */}
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "text.secondary",
-                      textAlign: "left",
-                      border: 0,
-                      p: 1,
-                      paddingLeft: 3,
-                    }}
-                  >
-                    First Name
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "",
-                      textAlign: "center",
-                      border: 0,
-                      borderRadius: 1,
-                      bgcolor: "#E0BBE4",
-                      p: 1,
-                    }}
-                  >
-                    {" "}
-                    {datafromapi.firstname}{" "}
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "text.secondary",
-                      textAlign: "left",
-                      border: 0,
-                      p: 1,
-                      paddingLeft: 3,
-                    }}
-                  >
-                    Last Name
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "",
-                      textAlign: "center",
-                      border: 0,
-                      borderRadius: 1,
-                      bgcolor: "#E0BBE4",
-                      p: 1,
-                    }}
-                  >
-                    {datafromapi.lastname}
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "text.secondary",
-                      textAlign: "left",
-                      border: 0,
-                      p: 1,
-                      paddingLeft: 3,
-                    }}
-                  >
-                    Gender
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "",
-                      textAlign: "center",
-                      border: 0,
-                      borderRadius: 1,
-                      bgcolor: "#E0BBE4",
-                      p: 1,
-                    }}
-                  >
-                    {datafromapi.gender}
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "text.secondary",
-                      textAlign: "left",
-                      border: 0,
-                      p: 1,
-                      paddingLeft: 3,
-                    }}
-                  >
-                    date of birth
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    maxHeight
-                    sx={{
-                      color: "",
-                      textAlign: "center",
-                      border: 0,
-                      borderRadius: 1,
-                      bgcolor: "#E0BBE4",
-                      p: 1,
-                    }}
-                  >
-                    {datafromapi.date_of_brith}
-                  </Box>
-                </Grid>
-              </Grid>
+              {dataApi ? (
+                <React.Fragment>
+                  <Grid container spacing={2}>
+                    {/* ส่่วนของ Username */}
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <TextField
+                        required
+                        // fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <ManageAccountsIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        variant="standard"
+                        color="secondary" // success warning secondary
+                        label="username"
+                        name="username"
+                        autoComplete="username"
+                        value={username}
+                        onChange={handleChange_username}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "text.secondary",
+                          textAlign: "left",
+                          border: 0,
+                          p: 1,
+                          paddingLeft: 3,
+                        }}
+                      >
+                        First Name
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "",
+                          textAlign: "center",
+                          border: 0,
+                          borderRadius: 1,
+                          bgcolor: "#E0BBE4",
+                          p: 1,
+                        }}
+                      >
+                        {" "}
+                        {dataApi.firstname}{" "}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "text.secondary",
+                          textAlign: "left",
+                          border: 0,
+                          p: 1,
+                          paddingLeft: 3,
+                        }}
+                      >
+                        Last Name
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "",
+                          textAlign: "center",
+                          border: 0,
+                          borderRadius: 1,
+                          bgcolor: "#E0BBE4",
+                          p: 1,
+                        }}
+                      >
+                        {dataApi.lastname}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "text.secondary",
+                          textAlign: "left",
+                          border: 0,
+                          p: 1,
+                          paddingLeft: 3,
+                        }}
+                      >
+                        Gender
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "",
+                          textAlign: "center",
+                          border: 0,
+                          borderRadius: 1,
+                          bgcolor: "#E0BBE4",
+                          p: 1,
+                        }}
+                      >
+                        {dataApi.gender}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "text.secondary",
+                          textAlign: "left",
+                          border: 0,
+                          p: 1,
+                          paddingLeft: 3,
+                        }}
+                      >
+                        Date of birth
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Box
+                        maxHeight
+                        sx={{
+                          color: "",
+                          textAlign: "center",
+                          border: 0,
+                          borderRadius: 1,
+                          bgcolor: "#E0BBE4",
+                          p: 1,
+                        }}
+                      >
+                        {dataApi.date_of_brith}
+                      </Box>
+                    </Grid>
+                  </Grid>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                // disabled={!checked}
-              >
-                Comfirm
-              </Button>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Comfirm
+                  </Button>
+                </React.Fragment>
+              ) : <CircularProgress size={100} />
+              }
               <Grid container justifyContent="flex-end"></Grid>
             </Box>
           </Box>
