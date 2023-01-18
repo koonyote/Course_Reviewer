@@ -20,6 +20,7 @@ import Admin_Dashboard from "./admin/dashbard_coponents/Dashboard_Component";
 import TableListCourse from "./admin/AdminListCourse";
 import Admin_Home from "./admin/Dashbaoad";
 import Admin_Table from "./admin/Table";
+import Favorite_page from "./components/Favorite";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ root.render(
       <Route path="list" element={<List_Course />} />
       <Route path="add_com" element={<Add_com />} />
       
+      <Route path="favorite" element={<Favorite_page />} />
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
       <Route path="admin/dashboard/table/*" element={<Admin_Table />} />
