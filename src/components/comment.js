@@ -32,9 +32,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import { Edit } from "@mui/icons-material";
 
+
 export default function Comment_page() {
   let [comment_api, set_comment_api] = React.useState();
-  let [call_api, set_call_api] = React.useState(false);
+  let [effect, set_effect] = React.useState(0);
   let [frist_time, set_first_time] = React.useState(true);
   const token = localStorage.getItem("token");
   const path = window.location.pathname.split("/");
@@ -75,42 +76,41 @@ export default function Comment_page() {
       }
     };
     api();
-    set_call_api(false);
-  }, [call_api]); // call api | useEffect will trigger whenever variable is different.
-  async function API_Add_Like(event, param_comment_id, available) {
+  }, [effect]); // call api | useEffect will trigger whenever variable is different.
+  async function Onclick_Like(event, param_comment_id, available) {
     // หาก True ให้ไป Like | หาก false ให้ไป Delete
     if (available) {
       await fetch(`${config.domain}/add-like`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
           comment_id: param_comment_id,
         }),
       });
-      set_call_api(true);
+      set_effect(effect + 1);
     } else {
       await fetch(`${config.domain}/delete-like`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
           comment_id: param_comment_id,
         }),
       });
-      set_call_api(true);
+      set_effect(effect + 1);
     }
   }
   async function API_Add_Comment(event) {
@@ -118,11 +118,11 @@ export default function Comment_page() {
     await fetch(`${config.domain}/add-comment`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "ngrok-skip-browser-warning": "*",
         "User-Agent": "Custom",
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
@@ -131,18 +131,18 @@ export default function Comment_page() {
         identify: true,
       }),
     });
-    set_call_api(true);
+    set_effect(effect + 1);
   }
 
   async function API_Delect_Comment(param_comment_id) {
     await fetch(`${config.domain}/delete-comment`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "ngrok-skip-browser-warning": "*",
         "User-Agent": "Custom",
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
@@ -150,7 +150,7 @@ export default function Comment_page() {
         comment_id: param_comment_id,
       }),
     });
-    set_call_api(true);
+    set_effect(effect + 1);
   }
 
   async function API_Update_Comment(param_comment_id) {
@@ -171,14 +171,51 @@ export default function Comment_page() {
         comment_id: param_comment_id,
       }),
     });
-    
+
     if (API.status === 200) {
       window.location.replace(`/comment/${path[2]}`);
       alert("อัพเดทสำเร็จ");
-    }else{
+    } else {
       alert("อัพเดทไม่สำเร็จ")
     }
-    set_call_api(true);
+    set_effect(effect + 1);
+  }
+
+  async function Onclick_Aprove(code, option , permission) {
+    if ( permission ) {
+      if ( option == true ) {
+        await fetch(`${config.domain}/add-approve`, {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "*",
+                "User-Agent": "Custom",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+              body: JSON.stringify({
+                comment_id: code,
+              }),
+            });
+      } else if ( option == false ) {
+        await fetch(`${config.domain}/delete-approve`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "*",
+            "User-Agent": "Custom",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            comment_id: code,
+          }),
+        });
+      }
+      set_effect(effect + 1);
+    }
   }
 
   const [open, setOpen] = React.useState(false);
@@ -194,6 +231,8 @@ export default function Comment_page() {
   return (
     <>
       <Navbar></Navbar>
+
+      
       <Container
         sx={{
           py: 8,
@@ -225,7 +264,7 @@ export default function Comment_page() {
         </Typography>
         <Grid>
           {" "}
-         
+
           <FormControl
             sx={{
               backgroundColor: "white",
@@ -233,7 +272,7 @@ export default function Comment_page() {
             }}
           >
             <Textarea
-              placeholder="คอมเมนท์เกี่ยวกับวิชานี้"
+              placeholder="เพิ่มความคิดเห็น"
               value={add_comment}
               onChange={handleChange_add_comment}
               minRows={3}
@@ -308,14 +347,14 @@ export default function Comment_page() {
                     <Button
                       size="small"
                       onClick={(e) => {
-                        API_Add_Like(e, data.comment_id, data.available);
+                        Onclick_Like(e, data.comment_id, data.can_like);
                       }}
                     >
                       {" "}
-                      {!data.available ? (
-                        <ThumbUpAltIcon sx={{ mb: 0.65 }} />
+                      {data.can_like ? (
+                        <ThumbUpOffAltIcon sx={{ mb: 0.65 }} />
                       ) : (
-                        <ThumbUpOffAltIcon />
+                        <ThumbUpAltIcon sx={{ mb: 0.65 }} />
                       )}{" "}
                       &nbsp;({data.like})
                     </Button>
@@ -323,9 +362,13 @@ export default function Comment_page() {
                       size="small"
                       sx={{ alignContent: "center" }}
                       color={"success"}
+                      onClick={(e) => {
+                        if ( data.permission_approve ) Onclick_Aprove(data.comment_id, data.can_approve, data.permission_approve)
+                      }}
+                      disabled = { ( data.approve == 0 &&  data.permission_approve == false ) ? true : false }
                     >
                       <AddTaskIcon fontSize="small" sx={{ mb: 0.65 }} /> &nbsp;
-                      (0)
+                      ({data.approve})
                     </Button>
                     <Typography
                       sx={{ pl: 2, textAlign: "right", pr: 2 }}
@@ -333,9 +376,9 @@ export default function Comment_page() {
                     >
                       {!data.update_time
                         ? `แสดงความคิดเห็น : ${data.create_time.substring(
-                            0,
-                            10
-                          )}`
+                          0,
+                          10
+                        )}`
                         : `แก้ไขเมื่อ : ${data.create_time.substring(0, 10)}`}
 
                       {/* เหลือส่วนบอกแก้ไข ตอนนี้ข้อมูลที่ออกมามีแต่ที่แก้ไขแล้ว */}
@@ -390,7 +433,7 @@ export default function Comment_page() {
                         onClick={(e) => {
                           API_Update_Comment(data.comment_id);
                         }}
-                        disabled = {Edit_comment ? false : true}
+                        disabled={Edit_comment ? false : true}
                       >
                         Update
                       </Button>
