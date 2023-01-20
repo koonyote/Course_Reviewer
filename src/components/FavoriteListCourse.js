@@ -55,7 +55,7 @@ export default function FavoriteList() {
             api();
         }, 1000);
     }, [effect]);
-
+    console.log(apiData)
     async function API_Delete_Favorite(code) {
         const send = await fetch(`${config.domain}/delete-favorite`, {
             method: "DELETE",
@@ -83,7 +83,9 @@ export default function FavoriteList() {
     return (
         apiData ?
             <Grid container spacing={4}>
-                {apiData.map((data) => (
+                {/* { (apiData == []) :'asds' }  */}
+                {
+                (apiData !== []) ? ( apiData.map((data) => (
                     <Grid item key={data} xs={12} sm={6} md={4}>
                         <Card
                             sx={{
@@ -158,7 +160,9 @@ export default function FavoriteList() {
                             </CardActions>
                         </Card>
                     </Grid>
-                ))}
+                ))) : ( <Grid item  xs={12} sm={12} md={12} sx={{textAlign: 'center'}}> รายการโปรดของคุณว่างอยู่ </Grid> )
+                } 
+                
             </Grid>
             : <LinearProgress />
     );

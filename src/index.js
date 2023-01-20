@@ -24,11 +24,11 @@ import Favorite_page from "./components/Favorite";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
+  <BrowserRouter >
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="login" element={<Login />} />
-      <Route path="home" element={<Home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="register" element={<Register />} />
       <Route path="admin_list" element={<Admin_List />} />
       <Route path="comment/*" element={<Comment_page />} />
