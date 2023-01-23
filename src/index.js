@@ -21,6 +21,7 @@ import TableListCourse from "./admin/AdminListCourse";
 import Admin_Home from "./admin/Dashbaoad";
 import Admin_Table from "./admin/Table";
 import Favorite_page from "./components/Favorite";
+import Histrory_Page from "./components/History";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,7 +37,8 @@ root.render(
       <Route path="profile" element={<Profile />} />
       <Route path="list" element={<List_Course />} />
       <Route path="add_com" element={<Add_com />} />
-      
+
+      <Route path="history" element={<Histrory_Page />} />
       <Route path="favorite" element={<Favorite_page />} />
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
