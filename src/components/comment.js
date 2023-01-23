@@ -352,16 +352,9 @@ export default function Comment_page() {
                     borderRadius: 3,
                     marginTop: 0,
                   }}
-                  style={{ backgroundColor: "#F1F1F1" }}
                 >
                   <CardContent>
-                    <Card
-                      sx={{
-                        borderRadius: 3,
-                      }}
-                      style={{ backgroundColor: "white" }}
-                    >
-                      <Typography
+                  <Typography
                         gutterBottom
                         variant="h5"
                         component="h2"
@@ -369,18 +362,26 @@ export default function Comment_page() {
                         href="#"
                         sx={{ position: 'relative' , display: 'flex', alignItems: 'center', pl: 2 , pt: 0.2  }}
                       >
-                        <AccountCircleIcon  />
-                        <Link href={`#`} underline="hover" sx={{ pl: 1.2 }}> {data.username} </Link>
+                        <AccountCircleIcon sx={{ color: () => { if (data.officer_comment) return 'gold'; return 'silver' }   }} />
+                        <Link href={`#`} underline="hover" sx={{ pl: 1.2, color: () => { if (data.officer_comment) return 'gold'; return '' } }}> {data.username} </Link>
                       </Typography>
+                    <Card
+                      sx={{
+                        borderRadius: 3,
+                        marginLeft: 2,
+                      }}
+                      style={{ backgroundColor: "white" }}
+                    >
+
                       <Typography
-                        sx={{ pl: 2, pt: 0.2, pb: 1, ml: 4, mt: -2 }}
+                        sx={{ pl: 1, pt: 0.2, pb: 1, ml: 1, mt: 1 }}
                         style={{ color: "grey" }}
                       >
                         {data.message}{" "}
                       </Typography>
                     </Card>
                   </CardContent>
-                  <CardActions sx={{ justifyContent: "left", pl: 3 }}>
+                  <CardActions sx={{ justifyContent: "left", pl: 3, my: -1.5 }}>
                     <Button
                       size="small"
                       onClick={(e) => {
