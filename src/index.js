@@ -12,7 +12,7 @@ import Home from "./components/Home";
 import Profile from "./components/profile";
 import List_Course from "./components/list_course";
 import Comment_page from "./components/comment";
-import Rating_page from "./components/rating";
+import Rating_page from "./components/Rating";
 import Add_com from "./components/Add_com";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
