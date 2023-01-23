@@ -132,11 +132,11 @@ export default function List_Course() {
       const API = await fetch(`${config.domain}/list-course`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -227,7 +227,7 @@ export default function List_Course() {
             color="text.primary"
             gutterBottom
           >
-            รายวิชา
+            Course
           </Typography>
           <Stack
             sx={{ pt: 4 }}

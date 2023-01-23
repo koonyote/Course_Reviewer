@@ -81,7 +81,7 @@ export default function Admin_Table( ) {
                         align="center"
                         color="text.primary"
                         gutterBottom
-                        sx={{ fontWeight: 'medium'  }}
+                        // sx={{ fontWeight: 'medium'  }}
                     >
                                             { path_url == 'course' ? 'Course Table' : 
                         path_url == 'member' ? 'Member Table' : 

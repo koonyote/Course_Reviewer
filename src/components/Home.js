@@ -15,7 +15,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import config from "../config.json";
 import axios from "axios";
-const token = localStorage.getItem("token");
+
 
 export default function HomePage() {
   return (

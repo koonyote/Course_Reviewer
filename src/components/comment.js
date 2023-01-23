@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import config from "../config.json";
 import CircularProgress from "@mui/material/CircularProgress";
+import LinearProgress from '@mui/material/LinearProgress';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -31,7 +32,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import { Edit } from "@mui/icons-material";
-
+import Stack from "@mui/material/Stack";
+import CssBaseline from "@mui/material/CssBaseline";
+import { IconButton } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function Comment_page() {
   let [comment_api, set_comment_api] = React.useState();
@@ -40,6 +47,13 @@ export default function Comment_page() {
   const token = localStorage.getItem("token");
   const path = window.location.pathname.split("/");
   const [add_comment, set_add_Comment] = React.useState();
+  const [checkDisplayName, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    console.log(event.target.checked)
+  };
+
   const handleChange_add_comment = (event) => {
     set_add_Comment(event.target.value);
     console.log(event.target.value);
@@ -77,6 +91,7 @@ export default function Comment_page() {
     };
     api();
   }, [effect]); // call api | useEffect will trigger whenever variable is different.
+
   async function Onclick_Like(event, param_comment_id, available) {
     // หาก True ให้ไป Like | หาก false ให้ไป Delete
     if (available) {
@@ -113,6 +128,7 @@ export default function Comment_page() {
       set_effect(effect + 1);
     }
   }
+
   async function API_Add_Comment(event) {
     // หาก True ให้ไป Like | หาก false ให้ไป Delete
     await fetch(`${config.domain}/add-comment`, {
@@ -128,7 +144,7 @@ export default function Comment_page() {
       body: JSON.stringify({
         course_id: path[2],
         message: add_comment,
-        identify: true,
+        identify: checkDisplayName,
       }),
     });
     set_effect(effect + 1);
@@ -181,24 +197,24 @@ export default function Comment_page() {
     set_effect(effect + 1);
   }
 
-  async function Onclick_Aprove(code, option , permission) {
-    if ( permission ) {
-      if ( option == true ) {
+  async function Onclick_Aprove(code, option, permission) {
+    if (permission) {
+      if (option == true) {
         await fetch(`${config.domain}/add-approve`, {
-              method: "POST",
-              headers: {
-                "Authorization": `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "*",
-                "User-Agent": "Custom",
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Access-Control-Allow-Origin": "*",
-              },
-              body: JSON.stringify({
-                comment_id: code,
-              }),
-            });
-      } else if ( option == false ) {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "*",
+            "User-Agent": "Custom",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            comment_id: code,
+          }),
+        });
+      } else if (option == false) {
         await fetch(`${config.domain}/delete-approve`, {
           method: "DELETE",
           headers: {
@@ -219,7 +235,6 @@ export default function Comment_page() {
   }
 
   const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -229,77 +244,101 @@ export default function Comment_page() {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Navbar></Navbar>
-
-      
+      <CssBaseline />
+      {/* Hero unit ส่วนหัวด้านบน */}
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          pt: 1,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="text.primary"
+            gutterBottom
+          >
+            CODE : {path[2]}
+          </Typography>
+        </Container>
+      </Box>
       <Container
         sx={{
-          py: 8,
-          border: 0,
+          py: 5,
           borderRadius: 3,
           boxShadow: 10,
-          marginBottom: 10,
+          marginBottom: 5,
           marginTop: 2,
-          borderRadius: 3,
         }}
-        style={{ backgroundColor: "#ADD3F3" }}
+        style={{ backgroundColor: "rgb(241, 241, 241)" }}
         maxWidth="md"
       >
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          textAlign={"center"}
-          href="#"
-          color={"black"}
-          sx={{
-            fontWeight: "bold",
-            mt: -4,
-          }}
-          style={{ color: "white" }}
-        >
-          Comment Student <br />
-          {path[2]}
-        </Typography>
-        <Grid>
-          {" "}
 
-          <FormControl
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "20px",
-            }}
-          >
-            <Textarea
-              placeholder="เพิ่มความคิดเห็น"
-              value={add_comment}
-              onChange={handleChange_add_comment}
-              minRows={3}
-              sx={{
-                border: "0px ",
-              }}
-              endDecorator={
-                <Box
+
+        <Grid container spacing={4}>
+          {comment_api ?
+            <Grid item xs={12} sm={12} md={12} >
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  shadows: 0,
+                  border: 0,
+                  borderRadius: 3,
+                }}
+              >
+                <FormControl
                   sx={{
-                    display: "flex",
-                    gap: "var(--Textarea-paddingBlock)",
-                    pt: "var(--Textarea-paddingBlock)",
-                    borderTop: "0px solid",
-
-                    borderColor: "divider",
-                    flex: "auto",
+                    backgroundColor: "white",
+                    borderRadius: 3,
                   }}
                 >
-                  <Button sx={{ ml: "auto" }} onClick={API_Add_Comment}>
-                    Send
-                  </Button>
-                </Box>
-              }
-            />
-          </FormControl>
-        </Grid>
-        <Grid container spacing={4}>
+                  <Textarea
+                    // 💭 🗨 👁️‍🗨️ 
+                    placeholder="💭 :  เพิ่มความคิดเห็น"
+                    value={add_comment}
+                    onChange={handleChange_add_comment}
+                    minRows={1}
+                    sx={{
+                      border: "0px ",
+                      borderRadius: 15,
+                    }}
+                    color="primary" //success primary
+                    size="sm"
+                    endDecorator={
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "var(--Textarea-paddingBlock)",
+                          pt: "var(--Textarea-paddingBlock)",
+                          borderTop: "0px solid",
+                          // border: 2,
+                          borderColor: "divider",
+                          flex: "auto",
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', gap: 0.5, border: 0, ml: 3 }}>
+                          <FormGroup>
+                            <FormControlLabel control={<Checkbox checked={checkDisplayName}
+                              onChange={handleChange} size="small" />}
+                              label="แสดงชื่อผู้ใช้" sx={{ color: 'text.secondary' }} />
+                          </FormGroup>
+                        </Box>
+                        <Button sx={{ ml: "auto", border: 0 }} size="sm" onClick={API_Add_Comment} endIcon={<SendIcon fontSize="" />} >
+                          Send
+                        </Button>
+                      </Box>
+                    }
+                  />
+                </FormControl>
+              </Card>
+            </Grid> : ''
+          }
           {comment_api ? (
             comment_api.map((data) => (
               <Grid item key={data} xs={12} sm={12} md={12}>
@@ -311,39 +350,38 @@ export default function Comment_page() {
                     shadows: 0,
                     border: 0,
                     borderRadius: 3,
-                    marginTop: 2,
+                    marginTop: 0,
                   }}
-                  style={{ backgroundColor: "#F1F1F1" }}
                 >
                   <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      textAlign={"start"}
+                      href="#"
+                      sx={{ position: 'relative', display: 'flex', alignItems: 'center', pl: 2, pt: 0.2 }}
+                    >
+                      <AccountCircleIcon sx={{ color: () => { if (data.officer_comment) return 'gold'; return 'silver' } }} />
+                      <Link href={`#`} underline="hover" sx={{ pl: 1.2, color: () => { if (data.officer_comment) return 'gold'; return '' } }}> {data.username} </Link>
+                    </Typography>
                     <Card
                       sx={{
                         borderRadius: 3,
+                        marginLeft: 2,
                       }}
                       style={{ backgroundColor: "white" }}
                     >
+
                       <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        textAlign={"left"}
-                        href="#"
-                      >
-                        <AccountCircleIcon sx={{ mt: 1, ml: 1 }} />{" "}
-                        {/* เอาลงมาไม่ได้จ้า */}
-                        <Link href={`#`} underline="hover" sx={{ pl: 1.2 }}>
-                          {data.username}
-                        </Link>
-                      </Typography>
-                      <Typography
-                        sx={{ pl: 2, pt: 1, pb: 1, ml: 4, mt: -2 }}
+                        sx={{ pl: 1, pt: 0.2, pb: 1, ml: 1, mt: 1 }}
                         style={{ color: "grey" }}
                       >
                         {data.message}{" "}
                       </Typography>
                     </Card>
                   </CardContent>
-                  <CardActions sx={{ justifyContent: "left", pl: 3 }}>
+                  <CardActions sx={{ justifyContent: "left", pl: 3, my: -1.5 }}>
                     <Button
                       size="small"
                       onClick={(e) => {
@@ -363,9 +401,9 @@ export default function Comment_page() {
                       sx={{ alignContent: "center" }}
                       color={"success"}
                       onClick={(e) => {
-                        if ( data.permission_approve ) Onclick_Aprove(data.comment_id, data.can_approve, data.permission_approve)
+                        if (data.permission_approve) Onclick_Aprove(data.comment_id, data.can_approve, data.permission_approve)
                       }}
-                      disabled = { ( data.approve == 0 &&  data.permission_approve == false ) ? true : false }
+                      disabled={(data.approve == 0 && data.permission_approve == false) ? true : false}
                     >
                       <AddTaskIcon fontSize="small" sx={{ mb: 0.65 }} /> &nbsp;
                       ({data.approve})
@@ -385,13 +423,16 @@ export default function Comment_page() {
                     </Typography>
 
                     {data.owner_comment ? (
-                      <DeleteOutlineIcon
-                        fontSize="small"
+                      <Button
+                        size="small"
+                        color={"error"}
                         onClick={(e) => {
                           API_Delect_Comment(data.comment_id);
                         }}
-                        sx={{ mb: 0.65 }}
-                      />
+                      >
+                        <DeleteOutlineIcon fontSize="small" sx={{ mb: 0.65 }} />
+                      </Button>
+
                     ) : (
                       ""
                     )}
@@ -452,29 +493,44 @@ export default function Comment_page() {
                   shadows: 0,
                   border: 0,
                   borderRadius: 3,
-                  justifyItems: "center",
-                  alignContent: "center",
-                  alignItems: "center",
+                  marginTop: 2,
                 }}
+                style={{ backgroundColor: "#F1F1F1" }}
               >
                 <CardContent>
-                  <Card>
+                  <Card
+                    sx={{
+                      borderRadius: 3,
+                    }}
+                    style={{ backgroundColor: "white" }}
+                  >
                     <Typography
                       gutterBottom
                       variant="h5"
                       component="h2"
+                      textAlign={"left"}
                       href="#"
+                      style={{ color: "grey" }}
                     >
-                      <AccountCircleIcon size="large" />
+                      <AccountCircleIcon sx={{ mt: 1, ml: 1 }} />
+                      {" Profile "}
+                      <LinearProgress />
+
+                    </Typography>
+                    <Typography
+                      sx={{ pl: 2, pt: 1, pb: 1, ml: 4, mt: -1 }}
+                      style={{ color: "grey" }}
+                    >
+                      {" loading... "}
                     </Typography>
                   </Card>
                 </CardContent>
-                <CircularProgress size={100} sx={{ margin: 2 }} />
+                {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
               </Card>
             </Grid>
           )}
         </Grid>
       </Container>
-    </>
+    </React.Fragment>
   );
 }
