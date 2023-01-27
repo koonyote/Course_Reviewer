@@ -17,9 +17,42 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import SaveIcon from "@mui/icons-material/Save";
-import Navbar from "../components/Navbar";
+import LinearProgress from '@mui/material/LinearProgress';
+import Navbar from "./Navbar";
+import domain_server from "../config.json";
 
 export default function Rating_page() {
+  const [canAddScore, setCan ] = React.useState();
+  useEffect(() => {
+    const api = async () => {
+      const token = localStorage.getItem("token");
+      const pathUrlCourseId = window.location.pathname.split("/");
+      const API = await fetch(`${domain_server.domain}/rating/${pathUrlCourseId[2]}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      });
+      const data = await API.json();
+      if (API.status === 200) {
+        const my = data[0]
+        setBenefit(my.benefit);
+        setKnowledge(my.knowledge);
+        setSatisfaction(my.satisfaction);
+        setTeacher(my.teacher);
+        setTeaching(my.teaching);
+        setCan(false)
+      } else setCan(true)
+    };
+    window.setTimeout(() => {
+      api();
+    }, 1000);
+  }, []);
+
   const labels = {
     1: "Useless+",
 
@@ -51,6 +84,7 @@ export default function Rating_page() {
   const location_url = window.location.pathname.split("/");
   const course_id = location_url[2];
   async function handle_bt_save() {
+    console.log('funtion')
     if (
       knowledge <= 0 ||
       knowledge == null ||
@@ -65,6 +99,7 @@ export default function Rating_page() {
     ) {
       alert("กรุณากรอกข้อมูลให้ครบ");
     } else if (!course_id) return;
+    else if (!canAddScore) return; 
     else {
       const token = localStorage.getItem("token");
       const API = await fetch(`${config.domain}/add-score`, {
@@ -86,11 +121,10 @@ export default function Rating_page() {
           satisfaction: satisfaction,
         }),
       });
-      const data = await API.json();
       if (API.status === 200) {
         window.location.replace(`/home`);
         alert("ให้คะแนนสำเร็จ");
-      }else{
+      } else {
         alert("ให้คะแนนไม่สำเร็จ")
       }
     }
@@ -125,15 +159,17 @@ export default function Rating_page() {
             <Card_teaching />
             <Card_teacher />
             <Card_satisfaction />{" "}
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
               <Button
                 variant="contained"
                 endIcon={<SaveIcon />}
                 onClick={handle_bt_save}
+                disabled={!canAddScore}
+                sx={{ width: '100%' }}
               >
                 Save
               </Button>
-            </div>
+              {/* </div> */}
           </Grid>
         </Grid>
       </Container>
