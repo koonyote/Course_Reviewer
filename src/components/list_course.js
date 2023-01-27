@@ -34,11 +34,13 @@ import TextField from "@mui/material/TextField";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import Paper from '@mui/material/Paper';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 // Dialog
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
@@ -51,6 +53,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { blue, grey } from '@mui/material/colors';
+
 
 function Copyright(props) {
   return (
@@ -91,6 +94,8 @@ function SimpleDialog(props) {
   const handleListItemClick = (value) => {
     onClose(value);
   };
+
+  
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -142,7 +147,7 @@ export default function List_Course() {
         },
       });
       const data = await API.json();
-      console.log(data);
+      //console.log(data);
       if (API.status === 200) {
         set_api_course_data(data);
         setRows(data)
@@ -189,9 +194,12 @@ export default function List_Course() {
     console.log(searchedVal)
     setSearched(searchedVal)
     const filter = api_course_data.filter((row) => {
-      if (selectedValue === options[0]) return row.course_id.toLowerCase().includes(searchedVal.toLowerCase());
-      else if (selectedValue === options[1]) return row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase());
-      else if (selectedValue === options[2]) return row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase());
+      return(
+        row.course_id.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase())
+      );
+      // if (selectedValue === options[0]) return row.course_id.toLowerCase().includes(searchedVal.toLowerCase());
+      // else if (selectedValue === options[1]) return row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase());
+      // else if (selectedValue === options[2]) return row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase());
     });;
     setRows(filter)
   }
@@ -206,6 +214,7 @@ export default function List_Course() {
     setOpen(false);
     setSelectedValue(value);
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -229,6 +238,7 @@ export default function List_Course() {
           >
             Course
           </Typography>
+          
           <Stack
             sx={{ pt: 4 }}
             direction="row"
@@ -257,14 +267,7 @@ export default function List_Course() {
           component="form"
           sx={{ p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
         >
-          <IconButton sx={{ p: '10px' }} aria-label="menu">
-            <MenuIcon onClick={handleClickOpen} />
-            <SimpleDialog
-              selectedValue={selectedValue}
-              open={open}
-              onClose={handleClose}
-            />
-          </IconButton>
+         
           <InputBase
             value={searched}
             onChange={requestSearch}
@@ -272,7 +275,7 @@ export default function List_Course() {
             //     e.target.value ? requestSearch(e.target.value) : cancelSearch()
             // }}
             sx={{ ml: 1, flex: 1 }}
-            placeholder={`ค้นหาด้วย ${selectedValue}`}
+            placeholder={`ค้นหาด้วย รหัสวิชาหรือชื่อวิชา`}
           />
           <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -336,14 +339,15 @@ export default function List_Course() {
                       size="small"
                       onClick={() => window.open(`/rating/${data.course_id}`)}
                     >
-                      <Rating
+                     <Rating
                         name="half-rating-read"
                         size="small"
                         defaultValue={data.score}
                         precision={0.5}
                         readOnly
-                        sx={{ paddingBottom: 0.5 }}
+                        sx={{ paddingBottom: 0.5, mr: 0.5 }}
                       />
+                      ({data.score_total})
                     </Button>
                     <Button
                       size="small"
@@ -389,6 +393,7 @@ export default function List_Course() {
           </DialogContentText>
         </DialogContent>
       </Dialog>
+      
       {/* Dialog */}
       {/* Footer */}
       <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
