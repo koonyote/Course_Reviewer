@@ -125,6 +125,26 @@ export default function PersistentDrawerLeft() {
               <ListItemButton>
                 <ListItemText>
                   {" "}
+                  <Link to="/favorite">
+                    <label className="primary-button">favorite</label>
+                  </Link>{" "}
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton>
+                <ListItemText>
+                  {" "}
+                  <Link to="/l_list">
+                    <label className="primary-button">Lecturer</label>
+                  </Link>{" "}
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton>
+                <ListItemText>
+                  {" "}
                   <Link to="/" onClick={Logout}>
                     <label className="primary-button">Log out</label>
                   </Link>{" "}

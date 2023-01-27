@@ -257,12 +257,12 @@ export default function Comment_page() {
         <Container maxWidth="sm">
           <Typography
             component="h1"
-            variant="h2"
+            variant="h3"
             align="center"
             color="text.primary"
             gutterBottom
           >
-            CODE : {path[2]}
+            รหัสวิชา : {path[2]}
           </Typography>
         </Container>
       </Box>
@@ -330,7 +330,7 @@ export default function Comment_page() {
                           </FormGroup>
                         </Box>
                         <Button sx={{ ml: "auto", border: 0 }} size="sm" onClick={API_Add_Comment} endIcon={<SendIcon fontSize="" />} >
-                          Send
+                          Comment
                         </Button>
                       </Box>
                     }
