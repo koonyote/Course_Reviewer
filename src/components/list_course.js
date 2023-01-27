@@ -342,8 +342,9 @@ export default function List_Course() {
                         defaultValue={data.score}
                         precision={0.5}
                         readOnly
-                        sx={{ paddingBottom: 0.5 }}
+                        sx={{ paddingBottom: 0.5, mr: 0.5 }}
                       />
+                      ({data.score_total})
                     </Button>
                     <Button
                       size="small"

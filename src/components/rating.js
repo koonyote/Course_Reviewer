@@ -84,6 +84,7 @@ export default function Rating_page() {
   const location_url = window.location.pathname.split("/");
   const course_id = location_url[2];
   async function handle_bt_save() {
+    console.log('funtion')
     if (
       knowledge <= 0 ||
       knowledge == null ||
@@ -98,7 +99,7 @@ export default function Rating_page() {
     ) {
       alert("กรุณากรอกข้อมูลให้ครบ");
     } else if (!course_id) return;
-    else if (canAddScore) return; 
+    else if (!canAddScore) return; 
     else {
       const token = localStorage.getItem("token");
       const API = await fetch(`${config.domain}/add-score`, {
@@ -120,7 +121,6 @@ export default function Rating_page() {
           satisfaction: satisfaction,
         }),
       });
-      const data = await API.json();
       if (API.status === 200) {
         window.location.replace(`/home`);
         alert("ให้คะแนนสำเร็จ");
@@ -159,18 +159,17 @@ export default function Rating_page() {
             <Card_teaching />
             <Card_teacher />
             <Card_satisfaction />{" "}
-            {
-              (canAddScore) ? <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
               <Button
                 variant="contained"
                 endIcon={<SaveIcon />}
                 onClick={handle_bt_save}
                 disabled={!canAddScore}
+                sx={{ width: '100%' }}
               >
                 Save
               </Button>
-            </div> : <LinearProgress />
-            }
+              {/* </div> */}
           </Grid>
         </Grid>
       </Container>
