@@ -26,6 +26,7 @@ import Lecturer_Add from "./lecturer/Lecturer_Add";
 import Lecturer_List from "./lecturer/Lecturer_List";
 
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter >
@@ -46,7 +47,7 @@ root.render(
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
 
-      
+    
       <Route path="l_list" element={<Lecturer_List />} />
       <Route path="add-course" element={<Lecturer_Add />} />
       <Route path="admin/dashboard/table/*" element={<Admin_Table />} />
