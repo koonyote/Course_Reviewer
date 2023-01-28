@@ -90,7 +90,7 @@ export default function PersistentDrawerLeft() {
       </Box>
       <Drawer open={openWithHeader} onClose={() => setOpenWithHeader(false)}>
         <Drawer.Header>
-          <Drawer.Title></Drawer.Title>
+          <Drawer.Title>Menu</Drawer.Title>
           <Drawer.Actions>
             <List style={{ marginTop: "20%" }}>
               <ListItem disablePadding>

@@ -11,6 +11,7 @@ import domain_server from "../../config.json";
 import Chart from './Chart';
 import FunnelChart_Component from './FunnelChart';
 import Stack from '@mui/material/Stack';
+import BarchartCourseComment from './BarchartCourseComment';
 
 function Title(props) {
     return (
@@ -101,7 +102,8 @@ function Admin_Dashboard() {
                         }}
                     >
                         {data_api.course_to_statistic ?
-                            <FunnelChart_Component data={data_api.course_to_statistic} /> :
+                            // <FunnelChart_Component data={data_api.course_to_statistic} /> :
+                            <BarchartCourseComment data={data_api.course_to_statistic}/> : 
                                 <CircularProgress size={100} />
                         }
                     </Paper>
