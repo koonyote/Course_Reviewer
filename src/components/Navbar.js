@@ -20,34 +20,93 @@ import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import "rsuite/dist/rsuite.css";
-import { Drawer, ButtonToolbar, Button, Placeholder } from "rsuite";
+import Drawer from "@mui/material/Drawer";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useEffect } from "react";
 
+import config from "../config.json";
 export default function PersistentDrawerLeft() {
-  const [openWithHeader, setOpenWithHeader] = React.useState(false);
+  const [data_api, set_data_api] = React.useState();
+  
   function Logout() {
     return localStorage.clear();
   }
-  const drawerWidth = 240;
 
-  const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-    ({ theme, open }) => ({
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: `-${drawerWidth}px`,
-      ...(open && {
-        transition: theme.transitions.create("margin", {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      }),
-    })
+  
+
+  const [state, setState] = React.useState({
+    left: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  useEffect(() => {
+    const api = async () => {
+      const token = localStorage.getItem("token");
+      const API = await fetch(`${config.domain}/login`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST",
+        },
+      });
+      const data = await API.json();
+
+      if (data !== "") {
+        if (data.permission == "officer") {
+          set_data_api(data.permission);
+        } else {
+          set_data_api("");
+        }
+      }
+
+      //set_data_api(data.permission);
+
+      //console.log(data);
+    };
+
+    window.setTimeout(() => {
+      api();
+    }, 1000);
+  }, []);
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List style={{ marginTop: "10%" }}>
+        <ListItem disablePadding>
+          <Grid container justifyContent="center">
+            <Avatar alt="Remy Sharp" src={localStorage.getItem("profilePic")} />
+          </Grid>
+        </ListItem>
+        <ListItemText>
+          <label>{localStorage.getItem("name")}</label>
+          <br />
+          <label>{localStorage.getItem("email")}</label>
+        </ListItemText>
+      </List>
+
+      <Divider />
+    </Box>
   );
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -65,95 +124,87 @@ export default function PersistentDrawerLeft() {
       }),
     }),
   }));
+  const drawerWidth = 300;
+
+  
+  
   return (
-    <>
+    <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+          {["lefdf"].map((anchor) => (
+          <React.Fragment key={anchor}>
+            <MenuIcon onClick={toggleDrawer(anchor, true)} />
+
+            <Drawer
+           
+              anchor={anchor}
+              open={state[anchor]}
+              onClose={toggleDrawer(anchor, false)}
             >
-               <MenuIcon onClick={() => setOpenWithHeader(true)} />
-            </IconButton>
+              {list(anchor)}
+              <List>
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemText>
+                      {" "}
+                      <Link to="/home">
+                        <label className="primary-button">home</label>
+                      </Link>{" "}
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemText>
+                      {" "}
+                      <Link to="/favorite">
+                        <label className="primary-button">favorite</label>
+                      </Link>{" "}
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+
+                {data_api ? (
+                  <ListItem>
+                    <ListItemButton>
+                      <ListItemText>
+                        {" "}
+                        <Link to="/l_list">
+                          <label className="primary-button">Lecturer</label>
+                        </Link>
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemText>
+                      {" "}
+                      <Link to="/" onClick={Logout}>
+                        <label className="primary-button">Log out</label>
+                      </Link>{" "}
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Drawer>
+          </React.Fragment>
+        ))}
+
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1 }}
             ></Typography>
-           
           </Toolbar>
         </AppBar>
+       
       </Box>
-      <Drawer open={openWithHeader} onClose={() => setOpenWithHeader(false)}>
-        <Drawer.Header>
-          <Drawer.Title>Menu</Drawer.Title>
-          <Drawer.Actions>
-            <List style={{ marginTop: "20%" }}>
-              <ListItem disablePadding>
-                <Grid container justifyContent="center">
-                  <Avatar
-                    alt="Remy Sharp"
-                    src={localStorage.getItem("profilePic")}
-                  />
-                </Grid>
-              </ListItem>
-              <ListItemText>
-                <label>{localStorage.getItem("name")}</label>
-                <br />
-                <label>{localStorage.getItem("email")}</label>
-              </ListItemText>
-            </List>
-          </Drawer.Actions>
-        </Drawer.Header>
-        <Drawer.Body>
-          <List>
-            <ListItem>
-              <ListItemButton>
-                <ListItemText>
-                  {" "}
-                  <Link to="/home">
-                    <label className="primary-button">home</label>
-                  </Link>{" "}
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>
-                <ListItemText>
-                  {" "}
-                  <Link to="/favorite">
-                    <label className="primary-button">favorite</label>
-                  </Link>{" "}
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>
-                <ListItemText>
-                  {" "}
-                  <Link to="/l_list">
-                    <label className="primary-button">Lecturer</label>
-                  </Link>{" "}
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>
-                <ListItemText>
-                  {" "}
-                  <Link to="/" onClick={Logout}>
-                    <label className="primary-button">Log out</label>
-                  </Link>{" "}
-                </ListItemText>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Drawer.Body>
-      </Drawer>
-    </>
+    </div>
   );
 }

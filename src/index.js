@@ -12,7 +12,7 @@ import Profile from "./components/profile";
 import List_Course from "./components/list_course";
 import Course_Detail from "./components/Course_Detail";
 import Comment_page from "./components/comment";
-import Rating_page from "./components/Rating";
+import Rating_page from "./components/rating";
 import Add_com from "./components/Add_com";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
@@ -24,6 +24,7 @@ import Favorite_page from "./components/Favorite";
 import Histrory_Page from "./components/History";
 import Lecturer_Add from "./lecturer/Lecturer_Add";
 import Lecturer_List from "./lecturer/Lecturer_List";
+import Demo from "./components/demo";
 
 
 
@@ -46,7 +47,7 @@ root.render(
       <Route path="favorite" element={<Favorite_page />} />
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
-
+      <Route path="demo" element={<Demo />} />
     
       <Route path="l_list" element={<Lecturer_List />} />
       <Route path="add-course" element={<Lecturer_Add />} />
