@@ -14,57 +14,76 @@ import Box from "@mui/material/Box";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
+import domain_server from "../config.json";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import config from "../config.json";
+import Textarea from "@mui/joy/Textarea";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
-const columns = [
-  { id: "name", label: "รหัสวิชา", minWidth: 170 },
-  { id: "code", label: "Th", minWidth: 100 },
-  {
-    id: "population",
-    label: "En",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "รายละเอียด",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function add_course() {
+  window.location.replace(`/add-course`);
 }
 
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+const columns = [
+  { id: "course_id", label: "Course\u00a0Code", minWidth: 60, align: "center" },
+  { id: "name_th", label: "Name\u00a0TH", minWidth: 100, align: "left" },
+  { id: "name_en", label: "Name\u00a0EN", minWidth: 100, align: "left" },
+  { id: "description", label: "Discription", minWidth: 150, align: "center" },
+  { id: "edit", label: "", minWidth: 30, align: "center" },
 ];
 
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+  >
+    •
+  </Box>
+);
+
 export default function LT_List_Page() {
+  const [data_api, set_data_api] = React.useState();
+  useEffect(() => {
+    const api = async () => {
+      const token = localStorage.getItem("token");
+      const API = await fetch(`${domain_server.domain}/admin-list-course`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "*",
+          "User-Agent": "Custom",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      const data = await API.json();
+      console.log(data);
+      if (API.status === 200) {
+        set_data_api(data);
+        setRows(data);
+      }
+    };
+    // api()
+    window.setTimeout(() => {
+      api();
+    }, 1000);
+  }, []);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -76,91 +95,585 @@ export default function LT_List_Page() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  //  ---------------------------------------------- Search Section
+  const [rows, setRows] = React.useState();
+  const [searched, setSearched] = React.useState("");
 
+  const requestSearch = (event) => {
+    //  น่าจะใส่ Option Search ตรงนี้ได้
+    let searchedVal = event.target.value;
+    console.log(searchedVal);
+
+    setSearched(searchedVal);
+    const filter = data_api.filter((row) => {
+      return (
+        row.name_en.toLowerCase().includes(searchedVal.toLowerCase()) ||
+        row.name_th.includes(searchedVal) ||
+        row.course_id.includes(searchedVal)
+      );
+    });
+    setRows(filter);
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const [openDis, setOpenDis] = React.useState(false);
+  const [courseIdFromTable, setCourseIdFromTable] = React.useState();
+  const handleClickOpenDis = (params) => {
+    setCourseIdFromTable(params);
+    setOpenDis(true);
+  };
+
+  const handleCloseDis = () => {
+    setOpenDis(false);
+  };
+  //
+  const [courseDesFromTable, setCourseDesFromTable] = React.useState();
+  const [openUpdateDescription, setOpenUpdateDescription] =
+    React.useState(false);
+  const handleClickOpenUpdateDescription = (code, desc) => {
+    setCourseIdFromTable(code);
+    setCourseDesFromTable(desc);
+
+    setOpenUpdateDescription(true);
+  };
+
+  const handleCloseUpdateDescription = () => {
+    setOpenUpdateDescription(false);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // add course
+  async function call_api() {
+    const token = localStorage.getItem("token");
+    let param = {
+      id: c_id,
+      name_th: c_name_th,
+      name_en: c_name_en,
+      discription: c_des,
+    };
+
+    const body1 = JSON.stringify(param);
+    console.log(body1);
+    const API = await fetch(`${config.domain}/add-course`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: body1,
+    });
+
+    if (API.status == 200) {
+      alert("สำเร็จ");
+    } else {
+      alert("ไม่สำเร็จ");
+      console.log(body1);
+    }
+
+    console.log(API.status, body1);
+    const jsonData = await API.json();
+  }
+
+  //add description
+  async function call_api_add() {
+    const token = localStorage.getItem("token");
+    let param2 = {
+      course_id: courseIdFromTable,
+      discription: add_c_des,
+    };
+
+    const body2 = JSON.stringify(param2);
+    console.log(body2);
+    const API = await fetch(`${config.domain}/add-course-discription`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: body2,
+    });
+
+    if (API.status == 200) {
+      alert("เพิ่มรายระเอียดวิชาสำเร็จ");
+    } else {
+      alert("เพิ่มรายละเอียดวิชาไม่สำเร็จ");
+      console.log(body2);
+    }
+
+    console.log(API.status, body2);
+    const jsonData = await API.json();
+  }
+
+  //update description
+  async function call_api_update_des() {
+    const token = localStorage.getItem("token");
+    let param3 = {
+      course_id: courseIdFromTable,
+      discription: up_c_des,
+    };
+
+    const body3 = JSON.stringify(param3);
+    console.log(body3);
+    const API = await fetch(`${config.domain}/add-course-discription`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: body3,
+    });
+
+    if (API.status == 200) {
+      alert("อัพเดทรายระเอียดวิชาสำเร็จ");
+    } else {
+      alert("อัพเดทละเอียดวิชาไม่สำเร็จ");
+      console.log(body3);
+    }
+
+    console.log(API.status, body3);
+    const jsonData = await API.json();
+  }
+
+
+
+
+
+
+  const [c_id, setCID] = useState();
+  const handleChange_c_id = (event) => {
+    setCID(event.target.value);
+    //console.log(event.target.value);
+  };
+
+  const [c_name_th, setCTH] = useState();
+  const handleChange_c_name_th = (event) => {
+    setCTH(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const [c_name_en, setCEN] = useState();
+  const handleChange_c_name_en = (event) => {
+    setCEN(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const [c_des, set_c_des] = React.useState();
+  const handleChange_c_des = (event) => {
+    set_c_des(event.target.value);
+    console.log(event.target.value);
+  };
+  //console.log("sadsa", data_api);
+
+  //add dis
+  const [add_c_id, setCID_ADD] = useState();
+  const handleChange_add_c_id = (event) => {
+    setCID_ADD(event.target.value);
+    console.log(event.target.value);
+  };
+  const [add_c_des, set_c_des_add] = React.useState();
+  const handleChange_add_c_des = (event) => {
+    set_c_des_add(event.target.value);
+    console.log(event.target.value);
+  };
+
+  //
+  const [up_c_des, set_up_c_des] = React.useState();
+  const handleChange_up_c_des = (event) => {
+    set_up_c_des(event.target.value);
+    console.log(event.target.value);
+  };
+
+ 
   return (
     <>
-      <Card
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "2%",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ width: "90%" }} noValidate autoComplete="off">
-          <TextField id="outlined-search" label="Search" type="search" />
-          <ManageSearchIcon sx={{ fontSize: "50px" }} color="action" />
-          <Typography>
-            <Paper sx={{ width: "100%", overflow: "hidden", m: 2 }}>
-              <TableContainer sx={{ maxHeight: 600 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{
-                            minWidth: column.minWidth,
-                            backgroundColor: "#5FB4FC",
-                            color: "white",
-                          }}
+      <Navbar></Navbar>
+      <center>
+        <Paper
+          sx={{ width: "100%", overflow: "hidden", mt: 6 }}
+          style={{
+            width: 800,
+          }}
+        >
+          {/* จัดให้ไปอยู่ทางขวา */}
+          {/* <Box margin={2} border={2} >  */}
+          <Paper
+            component="form"
+            sx={{
+              p: "2px 4px",
+              width: "auto",
+              border: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "right",
+              marginBottom: 1,
+            }}
+          >
+            <InputBase
+              value={searched}
+              onChange={requestSearch}
+              // onChange={ (e) => {
+              //     e.target.value ? requestSearch(e.target.value) : cancelSearch()
+              // }}
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Search"
+              // inputProps={{ 'aria-label': 'search google maps' }}
+            />
+            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          {/* </Box> */}
+
+          <TableContainer sx={{ maxHeight: 650 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows ? (
+                  rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.course_id}
                         >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row) => {
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            tabIndex={-1}
-                            key={row.code}
-                          >
-                            {columns.map((column) => {
-                              const value = row[column.id];
-                              return (
-                                <TableCell
-                                  key={column.id}
-                                  align={column.align}
-                                  style={{
-                                    backgroundColor: "#ADD3F3",
-                                  }}
-                                >
-                                  {column.format && typeof value === "number"
-                                    ? column.format(value)
-                                    : value}
-                                </TableCell>
-                              );
-                            })}
-                          </TableRow>
-                        );
-                      })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-              <AddCircleIcon sx={{ fontSize: "40px", color: "#1de9b6" }} />
-            </Paper>
-          </Typography>
-        </Box>
-      </Card>
+                          <TableCell>{row.course_id}</TableCell>
+                          <TableCell>{row.name_th}</TableCell>
+                          <TableCell>{row.name_en}</TableCell>
+                          <TableCell>
+                            {row.description === ""
+                              ? "ไม่มีข้อมูล"
+                              : row.description}
+                          </TableCell>
+                          <TableCell>
+                            {row.description === "" ? (
+                              <AddIcon
+                                onClick={() => {
+                                  handleClickOpenDis(row.course_id);
+                                }}
+                              />
+                            ) : (
+                              <EditIcon
+                                onClick={() => {
+                                  handleClickOpenUpdateDescription(
+                                    row.course_id,row.description
+                                  );
+                                }}
+                              />
+                            )}
+
+                            <div>
+                              <Dialog
+                                open={openUpdateDescription}
+                                onClose={handleCloseUpdateDescription}
+                                align="center"
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                                sx={{
+                                  "& .MuiDialog-container": {
+                                    "& .MuiPaper-root": {
+                                      width: "100%",
+                                      maxWidth: "700px", // Set your width here
+                                    },
+                                  },
+                                }}
+                              >
+                                <DialogTitle id="alert-dialog-title"></DialogTitle>
+                                <DialogContent key={row.course_id}>
+                                  <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                      <h1>Update Discription</h1>
+                                      {courseIdFromTable}
+                                      
+                                      <form noValidate autoComplete="off">
+                                        <TextField
+                                          id="Course_id"
+                                          label="รหัสวิชา"
+                                          value={courseIdFromTable}
+                                          onChange={handleChange_add_c_id}
+                                          disabled
+                                          sx={{
+                                            p: 1,
+                                            width: "80%",
+                                            mt: 2,
+                                          }}
+                                        />
+                                      </form>
+                                     
+                                        <Textarea
+                                          id="update_c_des"                               
+                                          value={up_c_des}
+                                          defaultValue={courseDesFromTable}
+                                          onChange={handleChange_up_c_des}
+                                          minRows={3}
+                                          fullwidth
+                                          sx={{
+                                            backgroundColor: "#F5F5F5",
+                                            borderColor: "#EBEBEB",
+                                            p: 1,
+                                            mt: 4,
+                                            height: 150,
+                                            width: "78%",
+                                          }}
+                                        > </Textarea>
+                                      
+                                      <Button
+                                        onClick={call_api_update_des}
+                                        variant="contained"
+                                        sx={{ width: 300, mt: 3, mb: 2 }}
+                                      >
+                                        Update description
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={handleCloseUpdateDescription}>
+                                    cancle
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                            </div>
+
+                            <div>
+                              <Dialog
+                                open={openDis}
+                                onClose={handleCloseDis}
+                                align="center"
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                                sx={{
+                                  "& .MuiDialog-container": {
+                                    "& .MuiPaper-root": {
+                                      width: "100%",
+                                      maxWidth: "700px", // Set your width here
+                                    },
+                                  },
+                                }}
+                              >
+                                <DialogTitle id="alert-dialog-title"></DialogTitle>
+                                <DialogContent key={row.course_id}>
+                                  <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                      <h1>Add Discription</h1>
+                                      {courseIdFromTable}
+                                      <form noValidate autoComplete="off">
+                                        <TextField
+                                          id="Course_id"
+                                          label="รหัสวิชา"
+                                          value={courseIdFromTable}
+                                          onChange={handleChange_add_c_id}
+                                          disabled
+                                          sx={{
+                                            p: 1,
+                                            width: "80%",
+                                            mt: 2,
+                                          }}
+                                        />
+                                      </form>
+                                      <form noValidate autoComplete="off">
+                                        <Textarea
+                                          id="add_c_des"
+                                          placeholder="รายละเอียดเกี่ยวกับวิชา"
+                                          value={add_c_des}
+                                          onChange={handleChange_add_c_des}
+                                          minRows={3}
+                                          fullwidth
+                                          sx={{
+                                            backgroundColor: "#F5F5F5",
+                                            borderColor: "#EBEBEB",
+                                            p: 1,
+                                            mt: 4,
+                                            height: 150,
+                                            width: "80%",
+                                          }}
+                                        />
+                                      </form>
+                                      <Button
+                                        onClick={call_api_add}
+                                        variant="contained"
+                                        sx={{ width: 300, mt: 3, mb: 2 }}
+                                      >
+                                        Add description
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={handleCloseDis}>
+                                    cancle
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                ) : (
+                  // 'Error'
+                  <TableRow sx={{ align: "center" }}>
+                    <TableCell align="center" colSpan={5}>
+                      <Box>
+                        <CircularProgress size={100} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {typeof data_api !== "undefined" && (
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={data_api.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
+          <AddCircleIcon
+            sx={{ fontSize: "40px", color: "#1de9b6" }}
+            onClick={handleClickOpen}
+          />
+        </Paper>
+      </center>
+
+      {/* onClick={add_course} */}
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          align="center"
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          sx={{
+            "& .MuiDialog-container": {
+              "& .MuiPaper-root": {
+                width: "100%",
+                maxWidth: "700px", // Set your width here
+              },
+            },
+          }}
+        >
+          <DialogTitle id="alert-dialog-title"></DialogTitle>
+          <DialogContent>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <h1>Add Course</h1>
+
+                <form noValidate autoComplete="off">
+                  <TextField
+                    id="c_id"
+                    label="รหัสวิชา"
+                    value={c_id}
+                    onChange={handleChange_c_id}
+                    sx={{
+                      p: 1,
+                      width: "80%",
+                      mt: 2,
+                    }}
+                  />
+                </form>
+                <form noValidate autoComplete="off">
+                  <TextField
+                    id="c_name_th"
+                    label="ชื่อวิชา"
+                    value={c_name_th}
+                    onChange={handleChange_c_name_th}
+                    sx={{
+                      p: 1,
+                      width: "80%",
+                      mt: 2,
+                    }}
+                  />
+                </form>
+                <form noValidate autoComplete="on">
+                  <TextField
+                    id="c_name_en"
+                    label="Course name"
+                    value={c_name_en}
+                    onChange={handleChange_c_name_en}
+                    sx={{
+                      p: 1,
+                      width: "80%",
+                      mt: 2,
+                    }}
+                  />
+                </form>
+                <form noValidate autoComplete="off">
+                  <Textarea
+                    id="c_des"
+                    placeholder="รายละเอียดเกี่ยวกับวิชา"
+                    value={c_des}
+                    onChange={handleChange_c_des}
+                    minRows={3}
+                    fullwidth
+                    sx={{
+                      backgroundColor: "#F5F5F5",
+                      borderColor: "#EBEBEB",
+                      p: 1,
+                      mt: 4,
+                      height: 150,
+                    }}
+                  />
+                </form>
+                <Button
+                  onClick={call_api}
+                  variant="contained"
+                  sx={{ width: 300, mt: 3, mb: 2 }}
+                >
+                  Add Course
+                </Button>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} autoFocus>
+              cancle
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* Dialog Add course */}
     </>
   );
 }

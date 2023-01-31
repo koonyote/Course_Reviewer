@@ -23,8 +23,10 @@ import Admin_Table from "./admin/Table";
 import Favorite_page from "./components/Favorite";
 import Histrory_Page from "./components/History";
 import Lecturer_Add from "./lecturer/Lecturer_Add";
-// import Lecturer_List from "./lecturer/Lecturer_List";
 import Course_detail   from "./components/Course_Detail";
+import Lecturer_List from "./lecturer/Lecturer_List";
+import Demo from "./components/demo";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter >
@@ -44,8 +46,8 @@ root.render(
       <Route path="favorite" element={<Favorite_page />} />
       {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
-
-      
+      <Route path="demo" element={<Demo />} />
+    
       <Route path="l_list" element={<Lecturer_List />} />
       <Route path="add-course" element={<Lecturer_Add />} />
       <Route path="admin/dashboard/table/*" element={<Admin_Table />} />
