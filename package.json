@@ -25,6 +25,7 @@
     "recharts": "^2.3.2",
     "rsuite": "^5.23.3",
     "semantic-ui-react": "^2.1.4",
+    "sweetalert2": "^11.7.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
