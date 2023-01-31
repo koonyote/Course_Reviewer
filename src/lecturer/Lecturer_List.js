@@ -355,7 +355,7 @@ export default function LT_List_Page() {
       <Navbar></Navbar>
       <center>
         <Paper
-          sx={{ width: "100%", overflow: "hidden", mt: 4 }}
+          sx={{ width: "100%", overflow: "hidden", mt: 10 }}
           style={{
             width: '80%',
             
@@ -393,7 +393,7 @@ export default function LT_List_Page() {
           </Paper>
           {/* </Box> */}
 
-          <TableContainer sx={{ maxHeight: 650 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow> 
@@ -401,7 +401,7 @@ export default function LT_List_Page() {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth,backgroundColor:"#E0E0E0" }}
+                      style={{ minWidth: column.minWidth,backgroundColor:"#39998E",color:"white" }}
                       sx={{ fontWeight: 'bold' }}
                     >
                       {column.label}
@@ -709,6 +709,7 @@ export default function LT_List_Page() {
                       p: 1,
                       mt: 4,
                       height: 150,
+                      width: "80%",
                     }}
                   />
                 </form>

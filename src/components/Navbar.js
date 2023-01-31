@@ -142,8 +142,8 @@ export default function PersistentDrawerLeft() {
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{background:"#2B4D59"}}>
+      <Box sx={{ flexGrow: 1, my:6 }}>
+        <AppBar position="fixed" sx={{background:"#2B4D59"}}>
           <Toolbar>
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
@@ -181,15 +181,6 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                    <ListItem>
-                      <ListItemButton to="/favorite">
-                        <BookmarkBorderRoundedIcon />
-                        <ListItemText sx={{ ml: 2 }}>
-                          <label className="primary-button">Favorite</label>
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-
                     {data_api ? (
                       <ListItem>
                         <ListItemButton to="/l_list">
@@ -202,6 +193,16 @@ export default function PersistentDrawerLeft() {
                     ) : (
                       ""
                     )}
+                    <ListItem>
+                      <ListItemButton to="/favorite">
+                        <BookmarkBorderRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Favorite</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+
+                 
 
                     <ListItem>
                       <ListItemButton to="/" onClick={Logout}>

@@ -93,6 +93,7 @@ export default function FavoriteList() {
                                 display: "flex",
                                 flexDirection: "column",
                                 shadows: 1,
+                                borderRadius: 6,
                             }}
                         >
                             <CardContent sx={{ flexGrow: 1 }}>
