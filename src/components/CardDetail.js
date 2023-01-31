@@ -12,7 +12,7 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function MediaCourseDetail(props) {
-  console.log(props)
+  // console.log(props)
   // console.log(props.data.length);
   // const CODE = props.data.CODE
   // const NAME_TH = props.data.NAME_TH

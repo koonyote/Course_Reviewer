@@ -99,8 +99,6 @@ export default function Comment_page() {
   }, [effect]); // call api | useEffect will trigger whenever variable is different.
 
 
-
-
   async function Onclick_Like(event, param_comment_id, available) {
     // หาก True ให้ไป Like | หาก false ให้ไป Delete
     if (available) {
@@ -186,8 +184,8 @@ export default function Comment_page() {
     set_effect(effect + 1);
   }
 
-  async function API_Update_Comment(param_comment_id) {
-    // หาก True ให้ไป Like | หาก false ให้ไป Delete
+  const [dialogLoading, setDialogLoading] = React.useState(false)
+  async function API_Update_Comment() {
     const API = await fetch(`${config.domain}/update-comment`, {
       method: "PATCH",
       headers: {
@@ -200,15 +198,18 @@ export default function Comment_page() {
       },
       body: JSON.stringify({
         message: Edit_comment,
-        course_id: path[2],
-        comment_id: param_comment_id,
+        course_id: tempEditComment.course_id,
+        comment_id: tempEditComment.comment_id,
       }),
     });
 
     if (API.status === 200) {
-      window.location.replace(`/comment/${path[2]}`);
-      alert("อัพเดทสำเร็จ");
+    //   window.location.replace(`/comment/${path[2]}`);
+    //   alert("อัพเดทสำเร็จ");
+      setOpenDialogChangeComment(false)
+      setDialogLoading(false)
     } else {
+      setDialogLoading(false)
       alert("อัพเดทไม่สำเร็จ")
     }
     set_effect(effect + 1);
@@ -251,13 +252,16 @@ export default function Comment_page() {
     }
   }
 
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [openDialogChangeComment, setOpenDialogChangeComment] = React.useState(false);
+  const [tempEditComment, setTempEditComment] = React.useState();
+  const handleOpenDialogChengeComment = (parameter) => {
+    console.log(parameter)
+    setTempEditComment(parameter)
+    setOpenDialogChangeComment(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseDialogComment = () => {
+    setOpenDialogChangeComment(false);
   };
 
   const [courseDetail, setCourseDetail] = useState()
@@ -278,16 +282,11 @@ export default function Comment_page() {
       });
       const data = await API.json();
 
-      // if (data !== "") {
       if (data.CODE && data.NAME_TH && data.UNIT) {
         setCourseDetail(data);
-        console.log('OK')
       } else {
-        console.log('check')
         setCourseDetail({ CODE: data.CODE })
-        console.log(data);
       }
-      // }
     };
     window.setTimeout(() => {
       api()
@@ -430,10 +429,7 @@ export default function Comment_page() {
                       variant="caption"
                     >
                       {!data.update_time
-                        ? `แสดงความคิดเห็น : ${data.create_time.substring(
-                          0,
-                          10
-                        )}`
+                        ? `แสดงความคิดเห็น : ${data.create_time.substring(0,10)}`
                         : `แก้ไขเมื่อ : ${data.create_time.substring(0, 10)}`}
                     </Typography>}
                     action={
@@ -457,7 +453,13 @@ export default function Comment_page() {
                           <Button
                             size="small"
                             color={"info"}
-                            onClick={handleClickOpen}
+                            onClick={ () => { 
+                              handleOpenDialogChengeComment({
+                                course_id : data.course_code,
+                                comment_id : data.comment_id,
+                                message : data.message
+                              })
+                            }}
                           >
                             <EditIcon fontSize="small" sx={{ mb: 0.65 }} />
                           </Button>
@@ -498,37 +500,6 @@ export default function Comment_page() {
                     </Button>
                   </CardActions>
                 </Card>
-                <div>
-                  <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>แก้ไขคอมเมนท์</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText></DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id={data.message}
-                        placeholder={data.message}
-                        type="email"
-                        onChange={handleChange_edit_comment}
-                        fullWidth
-                        variant="standard"
-                      >
-                        {data.message}
-                      </TextField>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button
-                        onClick={(e) => {
-                          API_Update_Comment(data.comment_id);
-                        }}
-                        disabled={Edit_comment ? false : true}
-                      >
-                        Update
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
               </Grid>
             ))
           ) : (
@@ -579,58 +550,89 @@ export default function Comment_page() {
           )}
         </Grid>
       </Container>
-      <div>
-        <Dialog
-          open={true}
-          // onClose={handleCloseUpdateDescription}
-          align="center"
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{
-            "& .MuiDialog-container": {
-              "& .MuiPaper-root": {
-                width: "100%",
-                maxWidth: "700px", // Set your width here
-              },
+      <Dialog
+        open={openDialogChangeComment}
+        onClose={handleCloseDialogComment}
+        align="center"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          "& .MuiDialog-container": {
+            "& .MuiPaper-root": {
+              width: "100%",
+              maxWidth: "700px", // Set your width here
             },
-          }}
-        >
-          <DialogTitle id="alert-dialog-title" sx={{ textAlign: 'left'}}>แก้ไขคอมเมนท์</DialogTitle>
-          <DialogContent >
-            <Grid container spacing={1} >
-              <Grid xs={12}>
+          },
+        }}
+      >
+        <DialogTitle id="alert-dialog-title" sx={{ textAlign: 'left', mb: -1 }}>แก้ไขคอมเมนท์</DialogTitle>
+        <DialogContent >
+          <Grid container spacing={1} >
+            <Grid xs={12}>
+              {
+                tempEditComment ? 
                 <Textarea
-                  id="update_c_des"
-                  // value={up_c_des}
-                  // defaultValue={courseDesFromTable}
-                  // onChange={handleChange_up_c_des}
-                  minRows={3}
-                  fullwidth
-                  sx={{
-                    backgroundColor: "#F5F5F5",
-                    borderColor: "#EBEBEB",
-                    mt: 1,
-                  }}
-                /> 
-              </Grid>
+                autoFocus
+                defaultValue={tempEditComment.message}
+                onChange={handleChange_edit_comment}
+                minRows={3}
+                fullwidth
+                sx={{
+                  backgroundColor: "#F5F5F5",
+                  borderColor: "#EBEBEB",
+                  mt: 1,
+                }}
+              /> : ''
+              }
             </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button 
-            // onClick={handleCloseUpdateDescription}
+          </Grid>
+        </DialogContent>
+        <DialogActions sx={{ mt: -2 }}>
+          <Button
+            onClick={handleCloseDialogComment}
+            variant="outlined"
+            color="error"
+            sx={{ width: 'auto' }}
+          >
+            cancle
+          </Button>
+          <Button
+            // onClick={(e) => {
+              // API_Update_Comment(data.comment_id);
+              // tempEditComment ? API_Update_Comment(API_Update_Comment.comment_id)
+            // }}
+            // onClick={API_Update_Comment}
+            onClick={()=>{
+              setDialogLoading(true)
+              API_Update_Comment()
+            }}
+            disabled={Edit_comment ? false : true}
+            variant="contained"
+            sx={{ width: 'auto' }}
+          >
+            confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={dialogLoading}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogContent >
+          <DialogContentText>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 5,
+              }}
             >
-              cancle
-            </Button>
-            <Button
-                  // onClick={call_api_update_des}
-                  variant="contained"
-                  sx={{ width: 'auto', mb: 2 }}
-                >
-                  Update description
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+              <CircularProgress size={100} />
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }
