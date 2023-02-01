@@ -406,8 +406,6 @@ export default function TableCourse() {
         <Paper
           sx={{ width: "100%", overflow: "hidden", mt: -6 }}
           style={{
-            width: '80%',
-            
             backgroundColor:"#F9F9F9"
           }}
           
@@ -479,26 +477,15 @@ export default function TableCourse() {
                               : row.description}
                           </TableCell>
                           <TableCell>
-                            {row.description === "" ? (
-                              <DeleteOutlineRoundedIcon
-                                onClick={() => {
-                                    console.log(row.course_id)
-                                    call_api_delete(row.course_id)
-                                //   handleClickOpenDis(row.course_id);
-                                }}
+                              <Button variant={"outlined"} color="error"
+                              onClick={() => {
+                                console.log(row.course_id)
+                                call_api_delete(row.course_id)
+                            //   handleClickOpenDis(row.course_id);
+                            }}>
+                                <DeleteOutlineRoundedIcon
                               />
-                            ) : (
-                              <DeleteOutlineRoundedIcon
-                                onClick={() => {
-                                    call_api_delete(row.course_id)
-                                   
-                                //     row.course_id,row.description
-                                //   );
-                                }}
-                              />
-                            )}
-
-                           
+                              </Button>
                           </TableCell>
                         </TableRow>
                       );
