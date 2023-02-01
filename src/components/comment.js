@@ -426,6 +426,7 @@ export default function Comment_page() {
                     display: "flex",
                     flexDirection: "column",
                     borderRadius: 3,
+                    background: () => { if (data.officer_comment) return 'linear-gradient(to right bottom, #ee9342, #ff7518)'; return '' }
                   }}
                 >
                   <CardHeader avatar={
@@ -434,9 +435,16 @@ export default function Comment_page() {
                       <PersonIcon fontSize="medium" />
                     </Avatar>
                   }
-                    title={<Link href={`#`} underline="hover" sx={{ color: () => { if (data.officer_comment) return 'gold'; return '' }, fontSize: 20 }}> {data.username} </Link>}
+                    // sx={{backgroundColor: '#5F9EA0'}}
+                    title={
+                      (!data.officer_comment) ? 
+                    <Link href={`#`} underline="hover" sx={{  fontSize: 18 }}> {data.username} </Link>
+                    : 
+                    <Link href={`#`} underline="hover" sx={{  fontSize: 18 , color: '#363636', 
+                      border: 0 , borderRadius: 2 ,px: 2, backgroundColor: '#f4b781'}}> {data.username} </Link>
+                    }
                     subheader={<Typography
-                      sx={{ textAlign: "right", pr: 2 }}
+                      sx={{ textAlign: "right", pr: 2}}
                       color="text.secondary"
                       variant="caption"
                     >
@@ -482,7 +490,7 @@ export default function Comment_page() {
                     }
                   />
 
-                  <CardContent sx={{ borderRadius: 3, boxShadow: 1, pl: 4, my: -2, py: 1 }}> {data.message} </CardContent>
+                  <CardContent sx={{ borderRadius: 3, boxShadow: 1, pl: 4, my: -2, py: 1, background: () => { if (data.officer_comment) return 'linear-gradient(to right , #f09f56, #ed872d)'; return '' } }}> {data.message} </CardContent>
                   <CardActions disableSpacing sx={{ justifyContent: "left", pl: 3, border: 0, pt: 2, mb: -1 }} >
                     <Button
                       size="small"

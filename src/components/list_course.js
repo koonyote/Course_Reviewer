@@ -453,7 +453,7 @@ export default function List_Course() {
                       href="#"
                     >
                       <Link
-                        href={`/course-detail/${data.course_id}`}
+                        href={`/comment/${data.course_id}`}
                         underline="hover"
                       >
                         {data.course_id}
