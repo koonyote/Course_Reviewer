@@ -48,13 +48,6 @@ function add_course() {
   window.location.replace(`/add-course`);
 }
 
-const columns = [
-  { id: "course_id", label: "Course\u00a0Code", minWidth: 60, align: "center" },
-  { id: "name_th", label: "Name\u00a0TH", minWidth: 100, align: "left" },
-  { id: "name_en", label: "Name\u00a0EN", minWidth: 100, align: "left" },
-  { id: "description", label: "Discription", minWidth: 150, align: "center" },
-  { id: "edit", label: "", minWidth: 30, align: "center" },
-];
 
 const bull = (
   <Box
@@ -66,6 +59,13 @@ const bull = (
 );
 
 export default function LT_List_Page() {
+  const columns = [
+    { id: "course_id", label: "Course\u00a0Code", minWidth: 60, align: "left" },
+    { id: "name_th", label: "Name\u00a0TH", minWidth: 100, align: "left" },
+    { id: "name_en", label: "Name\u00a0EN", minWidth: 100, align: "left" },
+    { id: "description", label: "Discription", minWidth: 150, align: "left" },
+    { id: "edit", label: <Button variant="outlined" sx={{backgroundColor: '#ffffff'}} onClick={()=> {handleClickOpen()}} ><AddIcon/></Button> , minWidth: 30, align: "center" },
+  ];
   let [effect, set_effect] = React.useState(0);
   const [data_api, set_data_api] = React.useState();
 
@@ -425,26 +425,31 @@ export default function LT_List_Page() {
                           <TableCell>{row.course_id}</TableCell>
                           <TableCell>{row.name_th}</TableCell>
                           <TableCell>{row.name_en}</TableCell>
-                          <TableCell>
+                          <TableCell >
                             {row.description === ""
                               ? "ไม่มีข้อมูล"
                               : row.description}
                           </TableCell>
-                          <TableCell>
+                          <TableCell align="center">
                             {row.description === "" ? (
+                              <Button variant="contained" color="success"
+                              onClick={() => {
+                                handleClickOpenDis(row.course_id);
+                              }}>
                               <AddIcon
-                                onClick={() => {
-                                  handleClickOpenDis(row.course_id);
-                                }}
                               />
+                              </Button>
+
+
                             ) : (
-                              <EditIcon
-                                onClick={() => {
-                                  handleClickOpenUpdateDescription(
-                                    row.course_id,row.description
-                                  );
-                                }}
-                              />
+                              <Button variant="outlined" color="warning" 
+                              onClick={() => {
+                                handleClickOpenUpdateDescription(
+                                  row.course_id,row.description
+                                );
+                              }}>
+                              <EditIcon/>
+                              </Button>
                             )}
 
                             <div>
