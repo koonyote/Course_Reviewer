@@ -629,10 +629,7 @@ export default function LT_List_Page() {
             />
             
           )}
-           <AddCircleIcon
-            sx={{ fontSize: "40px", color: "#1de9b6", mt:1 }}
-            onClick={handleClickOpen}
-          />
+          
           </Box>
           
           
