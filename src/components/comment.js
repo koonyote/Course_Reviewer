@@ -45,7 +45,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import MediaCourseDetail from "./CardDetail";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
-
+import Swal from 'sweetalert2';
 
 export default function Comment_page() {
   let [comment_api, set_comment_api] = React.useState();
@@ -208,9 +208,21 @@ export default function Comment_page() {
     //   alert("อัพเดทสำเร็จ");
       setOpenDialogChangeComment(false)
       setDialogLoading(false)
+
+      Swal.fire({
+        icon: 'success',
+       title: 'อัพเดทสำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
     } else {
       setDialogLoading(false)
-      alert("อัพเดทไม่สำเร็จ")
+      Swal.fire({
+        icon: 'error',
+       title: 'อัพเดทไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
     }
     set_effect(effect + 1);
   }
@@ -292,7 +304,7 @@ export default function Comment_page() {
       api()
     }, 500);
   }, []);
-
+  const Swal = require('sweetalert2')
   return (
     <React.Fragment>
       <Navbar></Navbar>
@@ -322,7 +334,7 @@ export default function Comment_page() {
           borderRadius: 3,
           boxShadow: 10,
           marginBottom: 5,
-          marginTop: 2,
+          marginTop: 12,
         }}
         style={{ backgroundColor: "rgb(241, 241, 241)" }}
         maxWidth="md"

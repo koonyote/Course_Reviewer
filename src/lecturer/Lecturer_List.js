@@ -37,7 +37,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 
@@ -66,7 +66,7 @@ const bull = (
 );
 
 export default function LT_List_Page() {
-  
+  let [effect, set_effect] = React.useState(0);
   const [data_api, set_data_api] = React.useState();
 
 
@@ -94,7 +94,7 @@ export default function LT_List_Page() {
     window.setTimeout(() => {
       api();
     }, 1000);
-  }, []);
+  }, [effect]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -276,6 +276,7 @@ export default function LT_List_Page() {
       },
       body: body3,
     });
+    
 
     if (API.status == 200) {
       Swal.fire({
@@ -284,7 +285,7 @@ export default function LT_List_Page() {
         showConfirmButton: false,
         timer: 1500,
       })    
-
+      set_effect(effect + 1);
     } else {
       Swal.fire({ 
         icon: 'error',
@@ -292,7 +293,7 @@ export default function LT_List_Page() {
        showConfirmButton: false,
        timer: 1500,
      })
-      
+    
     }
 
     console.log(API.status, body3);

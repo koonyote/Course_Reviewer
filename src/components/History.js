@@ -21,6 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import domain_server from "../config.json";
+import Navbar from "./Navbar"
 
 function Copyright(props) {
     return (
@@ -93,13 +94,13 @@ function TableHistory() {
 
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
+                                    style={{ minWidth: column.minWidth , backgroundColor:"#39998E",color:"white"}}
+                                    >
                                     {column.label}
                                 </TableCell>
                             ))}
@@ -156,6 +157,8 @@ function TableHistory() {
 
 export default function Histrory_Page() {
     return (
+        <>
+        <Navbar />
         <ThemeProvider theme={theme}>
             <CssBaseline />
             {/* Hero unit ส่วนหัวด้านบน */}
@@ -223,6 +226,7 @@ export default function Histrory_Page() {
             </Box>
             {/* End footer */}
         </ThemeProvider>
+        </>
     );
 }
 

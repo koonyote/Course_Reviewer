@@ -67,6 +67,13 @@ async function call_api_check_member(
     },
     body,
   });
+  if (API.status == 200) {
+    window.location.replace(`/home`);
+  } else {
+    alert("สมัครสมาชิกไม่สำเร็จ")
+    window.location.replace(`/register`);
+  
+  }
   console.log({ body });
   const jsonData = await API.json();
 }
