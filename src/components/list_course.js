@@ -265,7 +265,7 @@ export default function List_Course() {
       >
         <Paper
           component="form"
-          sx={{ p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
+          sx={{borderRadius:3, p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
         >
          
           <InputBase
@@ -292,6 +292,7 @@ export default function List_Course() {
                     display: "flex",
                     flexDirection: "column",
                     shadows: 1,
+                    borderRadius:6,
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1 }}>

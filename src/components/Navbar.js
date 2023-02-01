@@ -24,16 +24,18 @@ import Drawer from "@mui/material/Drawer";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect } from "react";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
   const [data_api, set_data_api] = React.useState();
-  
+
   function Logout() {
     return localStorage.clear();
   }
-
-  
 
   const [state, setState] = React.useState({
     left: false,
@@ -87,21 +89,33 @@ export default function PersistentDrawerLeft() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 270,
+        backgroundColor: "#39998E",
+        color: "white",
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List style={{ marginTop: "10%" }}>
+      <List style={{ marginTop: "5%" }}>
         <ListItem disablePadding>
           <Grid container justifyContent="center">
-            <Avatar alt="Remy Sharp" src={localStorage.getItem("profilePic")} />
+            <Avatar
+              alt="Remy Sharp"
+              src={localStorage.getItem("profilePic")}
+              sx={{ width: 56, height: 56 }}
+            />
           </Grid>
         </ListItem>
+
         <ListItemText>
-          <label>{localStorage.getItem("name")}</label>
-          <br />
-          <label>{localStorage.getItem("email")}</label>
+          <Grid container justifyContent="center">
+            {localStorage.getItem("name")}
+          </Grid>
+          <Grid container justifyContent="center">
+            {localStorage.getItem("email")}
+          </Grid>
         </ListItemText>
       </List>
 
@@ -126,75 +140,82 @@ export default function PersistentDrawerLeft() {
   }));
   const drawerWidth = 300;
 
-  
-  
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+      <Box sx={{ flexGrow: 1, my:6 }}>
+        <AppBar position="fixed" sx={{background:"#2B4D59"}}>
           <Toolbar>
-          {["lefdf"].map((anchor) => (
-          <React.Fragment key={anchor}>
-            <MenuIcon onClick={toggleDrawer(anchor, true)} />
+            {["lefdf"].map((anchor) => (
+              <React.Fragment key={anchor}>
+                <MenuIcon onClick={toggleDrawer(anchor, true)} />
 
-            <Drawer
-           
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
-            >
-              {list(anchor)}
-              <List>
-                <ListItem>
-                  <ListItemButton>
-                    <ListItemText>
-                      {" "}
-                      <Link to="/home">
-                        <label className="primary-button">home</label>
-                      </Link>{" "}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>
-                    <ListItemText>
-                      {" "}
-                      <Link to="/favorite">
-                        <label className="primary-button">favorite</label>
-                      </Link>{" "}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
+                <Drawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                >
+                  {list(anchor)}
+                  <List
+                    sx={{
+                      // selected and (selected + hover) states
+                      "&& .Mui-selected, && .Mui-selected:hover": {
+                        bgcolor: "red",
+                        "&, & .MuiListItemIcon-root": {
+                          color: "pink",
+                        },
+                      },
+                      // hover states
+                      "& .MuiListItemButton-root:hover": {
+                        bgcolor: "#FFAA67",
+                        "&, & .MuiListItemIcon-root": {
+                          color: "#FFDC7C",
+                        },
+                      },
+                    }}
+                  >
+                    <ListItem>
+                      <ListItemButton to="/home">
+                        <HomeOutlinedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Home</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+                    {data_api ? (
+                      <ListItem>
+                        <ListItemButton to="/l_list">
+                          <ListAltRoundedIcon />
+                          <ListItemText sx={{ ml: 2 }}>
+                            <label className="primary-button">Lecturer</label>
+                          </ListItemText>
+                        </ListItemButton>
+                      </ListItem>
+                    ) : (
+                      ""
+                    )}
+                    <ListItem>
+                      <ListItemButton to="/favorite">
+                        <BookmarkBorderRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Favorite</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
 
-                {data_api ? (
-                  <ListItem>
-                    <ListItemButton>
-                      <ListItemText>
-                        {" "}
-                        <Link to="/l_list">
-                          <label className="primary-button">Lecturer</label>
-                        </Link>
-                      </ListItemText>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
+                 
 
-                <ListItem>
-                  <ListItemButton>
-                    <ListItemText>
-                      {" "}
-                      <Link to="/" onClick={Logout}>
-                        <label className="primary-button">Log out</label>
-                      </Link>{" "}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Drawer>
-          </React.Fragment>
-        ))}
+                    <ListItem>
+                      <ListItemButton to="/" onClick={Logout}>
+                        <LogoutRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Log out</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
+                </Drawer>
+              </React.Fragment>
+            ))}
 
             <Typography
               variant="h6"
@@ -203,7 +224,6 @@ export default function PersistentDrawerLeft() {
             ></Typography>
           </Toolbar>
         </AppBar>
-       
       </Box>
     </div>
   );

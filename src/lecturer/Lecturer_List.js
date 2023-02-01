@@ -35,6 +35,14 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Swal from 'sweetalert2'
+
+
+
+
+
 
 function add_course() {
   window.location.replace(`/add-course`);
@@ -58,7 +66,10 @@ const bull = (
 );
 
 export default function LT_List_Page() {
+  
   const [data_api, set_data_api] = React.useState();
+
+
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
@@ -159,7 +170,7 @@ export default function LT_List_Page() {
       name_en: c_name_en,
       discription: c_des,
     };
-
+   
     const body1 = JSON.stringify(param);
     console.log(body1);
     const API = await fetch(`${config.domain}/add-course`, {
@@ -176,12 +187,23 @@ export default function LT_List_Page() {
     });
 
     if (API.status == 200) {
-      alert("สำเร็จ");
+      Swal.fire({
+        icon: 'success',
+       title: 'เพิ่มรายวิชาสำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+      
     } else {
-      alert("ไม่สำเร็จ");
-      console.log(body1);
+      Swal.fire({
+        icon: 'error',
+       title: 'เพิ่มรายวิชาไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+      
     }
-
+ 
     console.log(API.status, body1);
     const jsonData = await API.json();
   }
@@ -193,7 +215,7 @@ export default function LT_List_Page() {
       course_id: courseIdFromTable,
       discription: add_c_des,
     };
-
+    setOpenDis(false);
     const body2 = JSON.stringify(param2);
     console.log(body2);
     const API = await fetch(`${config.domain}/add-course-discription`, {
@@ -210,24 +232,36 @@ export default function LT_List_Page() {
     });
 
     if (API.status == 200) {
-      alert("เพิ่มรายระเอียดวิชาสำเร็จ");
+      Swal.fire({
+        icon: 'success',
+       title: 'เพิ่มรายละเอียดวิชาสำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+      
     } else {
-      alert("เพิ่มรายละเอียดวิชาไม่สำเร็จ");
-      console.log(body2);
+      Swal.fire({
+        icon: 'error',
+       title: 'เพิ่มรายละเอียดวิชาไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+     
     }
 
     console.log(API.status, body2);
     const jsonData = await API.json();
   }
-
+  //useEffect(() => {},[]);
   //update description
   async function call_api_update_des() {
+    
     const token = localStorage.getItem("token");
     let param3 = {
       course_id: courseIdFromTable,
       discription: up_c_des,
     };
-
+    setOpenUpdateDescription(false);
     const body3 = JSON.stringify(param3);
     console.log(body3);
     const API = await fetch(`${config.domain}/add-course-discription`, {
@@ -244,10 +278,21 @@ export default function LT_List_Page() {
     });
 
     if (API.status == 200) {
-      alert("อัพเดทรายระเอียดวิชาสำเร็จ");
+      Swal.fire({
+        icon: 'success',
+        title: 'อัพเดทละเอียดวิชาสำเร็จ',
+        showConfirmButton: false,
+        timer: 1500,
+      })    
+
     } else {
-      alert("อัพเดทละเอียดวิชาไม่สำเร็จ");
-      console.log(body3);
+      Swal.fire({ 
+        icon: 'error',
+       title: 'อัพเดทละเอียดวิชาไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+      
     }
 
     console.log(API.status, body3);
@@ -268,19 +313,19 @@ export default function LT_List_Page() {
   const [c_name_th, setCTH] = useState();
   const handleChange_c_name_th = (event) => {
     setCTH(event.target.value);
-    console.log(event.target.value);
+   
   };
 
   const [c_name_en, setCEN] = useState();
   const handleChange_c_name_en = (event) => {
     setCEN(event.target.value);
-    console.log(event.target.value);
+  
   };
 
   const [c_des, set_c_des] = React.useState();
   const handleChange_c_des = (event) => {
     set_c_des(event.target.value);
-    console.log(event.target.value);
+   
   };
   //console.log("sadsa", data_api);
 
@@ -288,31 +333,35 @@ export default function LT_List_Page() {
   const [add_c_id, setCID_ADD] = useState();
   const handleChange_add_c_id = (event) => {
     setCID_ADD(event.target.value);
-    console.log(event.target.value);
+  
   };
   const [add_c_des, set_c_des_add] = React.useState();
   const handleChange_add_c_des = (event) => {
     set_c_des_add(event.target.value);
-    console.log(event.target.value);
+  
   };
 
   //
   const [up_c_des, set_up_c_des] = React.useState();
   const handleChange_up_c_des = (event) => {
     set_up_c_des(event.target.value);
-    console.log(event.target.value);
+   
   };
 
+  const Swal = require('sweetalert2')
  
   return (
     <>
       <Navbar></Navbar>
       <center>
         <Paper
-          sx={{ width: "100%", overflow: "hidden", mt: 6 }}
+          sx={{ width: "100%", overflow: "hidden", mt: 10 }}
           style={{
-            width: 800,
+            width: '80%',
+            
+            backgroundColor:"#F9F9F9"
           }}
+          
         >
           {/* จัดให้ไปอยู่ทางขวา */}
           {/* <Box margin={2} border={2} >  */}
@@ -344,15 +393,16 @@ export default function LT_List_Page() {
           </Paper>
           {/* </Box> */}
 
-          <TableContainer sx={{ maxHeight: 650 }}>
+          <TableContainer sx={{ maxHeight: 600 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow>
+                <TableRow> 
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth }}
+                      style={{ minWidth: column.minWidth,backgroundColor:"#39998E",color:"white" }}
+                      sx={{ fontWeight: 'bold' }}
                     >
                       {column.label}
                     </TableCell>
@@ -417,7 +467,7 @@ export default function LT_List_Page() {
                                   <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                       <h1>Update Discription</h1>
-                                      {courseIdFromTable}
+                                 
                                       
                                       <form noValidate autoComplete="off">
                                         <TextField
@@ -490,7 +540,7 @@ export default function LT_List_Page() {
                                   <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                       <h1>Add Discription</h1>
-                                      {courseIdFromTable}
+                                      
                                       <form noValidate autoComplete="off">
                                         <TextField
                                           id="Course_id"
@@ -553,11 +603,14 @@ export default function LT_List_Page() {
                       </Box>
                     </TableCell>
                   </TableRow>
+                  
                 )}
               </TableBody>
             </Table>
+           
           </TableContainer>
-
+          <Box sx={{ display: 'flex' }}>
+         
           {typeof data_api !== "undefined" && (
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
@@ -568,11 +621,15 @@ export default function LT_List_Page() {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
+            
           )}
-          <AddCircleIcon
-            sx={{ fontSize: "40px", color: "#1de9b6" }}
+           <AddCircleIcon
+            sx={{ fontSize: "40px", color: "#1de9b6", mt:1 }}
             onClick={handleClickOpen}
           />
+          </Box>
+          
+          
         </Paper>
       </center>
 
@@ -652,6 +709,7 @@ export default function LT_List_Page() {
                       p: 1,
                       mt: 4,
                       height: 150,
+                      width: "80%",
                     }}
                   />
                 </form>

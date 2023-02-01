@@ -17,36 +17,39 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 import SaveIcon from "@mui/icons-material/Save";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
 import Navbar from "./Navbar";
 import domain_server from "../config.json";
 
 export default function Rating_page() {
-  const [canAddScore, setCan ] = React.useState();
+  const [canAddScore, setCan] = React.useState();
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
       const pathUrlCourseId = window.location.pathname.split("/");
-      const API = await fetch(`${domain_server.domain}/rating/${pathUrlCourseId[2]}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "*",
-          "User-Agent": "Custom",
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      });
+      const API = await fetch(
+        `${domain_server.domain}/rating/${pathUrlCourseId[2]}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "*",
+            "User-Agent": "Custom",
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
       const data = await API.json();
       if (API.status === 200) {
-        const my = data[0]
+        const my = data[0];
         setBenefit(my.benefit);
         setKnowledge(my.knowledge);
         setSatisfaction(my.satisfaction);
         setTeacher(my.teacher);
         setTeaching(my.teaching);
-        setCan(false)
-      } else setCan(true)
+        setCan(false);
+      } else setCan(true);
     };
     window.setTimeout(() => {
       api();
@@ -84,7 +87,7 @@ export default function Rating_page() {
   const location_url = window.location.pathname.split("/");
   const course_id = location_url[2];
   async function handle_bt_save() {
-    console.log('funtion')
+    console.log("funtion");
     if (
       knowledge <= 0 ||
       knowledge == null ||
@@ -99,7 +102,7 @@ export default function Rating_page() {
     ) {
       alert("กรุณากรอกข้อมูลให้ครบ");
     } else if (!course_id) return;
-    else if (!canAddScore) return; 
+    else if (!canAddScore) return;
     else {
       const token = localStorage.getItem("token");
       const API = await fetch(`${config.domain}/add-score`, {
@@ -125,7 +128,7 @@ export default function Rating_page() {
         window.location.replace(`/home`);
         alert("ให้คะแนนสำเร็จ");
       } else {
-        alert("ให้คะแนนไม่สำเร็จ")
+        alert("ให้คะแนนไม่สำเร็จ");
       }
     }
   }
@@ -159,17 +162,17 @@ export default function Rating_page() {
             <Card_teaching />
             <Card_teacher />
             <Card_satisfaction />{" "}
-              {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
-              <Button
-                variant="contained"
-                endIcon={<SaveIcon />}
-                onClick={handle_bt_save}
-                disabled={!canAddScore}
-                sx={{ width: '100%' }}
-              >
-                Save
-              </Button>
-              {/* </div> */}
+            {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
+            <Button
+              variant="contained"
+              endIcon={<SaveIcon />}
+              onClick={handle_bt_save}
+              disabled={!canAddScore}
+              sx={{ width: "100%" }}
+            >
+              Save
+            </Button>
+            {/* </div> */}
           </Grid>
         </Grid>
       </Container>
@@ -238,11 +241,8 @@ export default function Rating_page() {
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
             <Typography sx={{ pt: 2 }}>
-              A job description is a useful, plain-language tool that explains
-              the tasks, duties, function and responsibilities of a position. It
-              details who performs a specific type of work, how that work is to
-              be completed, and the frequency and the purpose of the work as it
-              relates to the organization's mission and goals.
+            นักศึกษาสามารถเสนอหัวข้อที่นักศึกษาต้องการเรียนรู้เพิ่มเติมแก่อาจารย์ผู้สอน,
+            นักศึกษามีความรู้และเข้าใจเนื้อหาตามที่อาจารย์สอน
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
@@ -312,11 +312,8 @@ export default function Rating_page() {
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
             <Typography sx={{ pt: 2 }}>
-              A job description is a useful, plain-language tool that explains
-              the tasks, duties, function and responsibilities of a position. It
-              details who performs a specific type of work, how that work is to
-              be completed, and the frequency and the purpose of the work as it
-              relates to the organization's mission and goals.
+           มีความรู้ทางทฤษฎีและมีการปฏิบัติเพื่อให้นักศึกษามีความเข้าใจในรายวิชามากขึ้น
+            ส่งเสริมให้เกิดการพัฒนาความรู้และทักษะเพื่อนำไปต่อยอด
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
@@ -386,11 +383,8 @@ export default function Rating_page() {
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
             <Typography sx={{ pt: 2 }}>
-              A job description is a useful, plain-language tool that explains
-              the tasks, duties, function and responsibilities of a position. It
-              details who performs a specific type of work, how that work is to
-              be completed, and the frequency and the purpose of the work as it
-              relates to the organization's mission and goals.
+              ชี้แจงแผนการจัดกระบวนการเรียนการสอนชัดเจน,สอนอย่างมีขั้นตอนและอธิบายชัดเจนตรงประเด็น,ความเพียงพอของอุปกรณ์การเรียนการสอน,ประสิทธิภาพของอุปกรณ์การเรียนการสอน,
+              สื่อ/เอกสารประกอบการเรียนการสอนมีความชัดเจนและเข้าใจง่าย
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
@@ -460,11 +454,10 @@ export default function Rating_page() {
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
             <Typography sx={{ pt: 2 }}>
-              A job description is a useful, plain-language tool that explains
-              the tasks, duties, function and responsibilities of a position. It
-              details who performs a specific type of work, how that work is to
-              be completed, and the frequency and the purpose of the work as it
-              relates to the organization's mission and goals.
+              แต่งกายสุภาพเรียบร้อย, เริ่มและเลิกสอนตรงเวลาสม่ำเสมอ,
+              เอาใจใส่ดูแลให้นักศึกษามีพฤติกรรมที่เหมาะสม,
+              ปฏิบัติต่อนักศึกษาโดยไม่ใช้อารมณ์,
+              เข้าสอนสม่ำเสมอ,ให้ความเสมอภาคและมีความยุติธรรมกับนักศึกษา
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
@@ -534,11 +527,7 @@ export default function Rating_page() {
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
             <Typography sx={{ pt: 2 }}>
-              A job description is a useful, plain-language tool that explains
-              the tasks, duties, function and responsibilities of a position. It
-              details who performs a specific type of work, how that work is to
-              be completed, and the frequency and the purpose of the work as it
-              relates to the organization's mission and goals.
+              โดยรวมแล้วนักศึกษามีความพึงพอใจต่ออาจารย์ในรายวิชานี้มากน้อยเพียงใด
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
