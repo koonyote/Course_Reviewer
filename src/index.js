@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import Login from "./components/Login";
 import Register from "./components/Register";
 import Admin_List from "./admin/Admin_List";
 import Admin_Add from "./admin/Admin_Add"
@@ -31,7 +30,6 @@ root.render(
   <BrowserRouter >
 <Routes>
       <Route path="/" element={<App />} />
-      <Route path="login" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="register" element={<Register />} />
       <Route path="admin_list" element={<Admin_List />} />

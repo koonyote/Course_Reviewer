@@ -9,12 +9,26 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
-let token = "";
-export const signInWithGoogle = () => {
-  if (localStorage.getItem("email") !== null) {
-    window.location.href = "/home";
-  }
+export const GetCurrentUeser = () => {
+  getAuth().currentUser.getIdToken(true)
+  .then(function(idToken) {
+    console.log("Get Current User: getIdToken OK!")
+  // console.log(idToken)
+  localStorage.setItem("token",idToken)
+  }).catch(function(error) {
+    console.log(error)
+    alert('Error, refresh token.')
+  });
+}
 
+export const signInWithGoogle = () => {
+  if (localStorage.getItem("email") !== null && localStorage.getItem("isMember") == true  ) {
+    console.log('check')
+    window.location.href = "/home";
+  } else if (localStorage.getItem("isMember") == false ) {
+    window.location.href = "/register"
+  } 
+  
   async function call_api_check_member(token) {
     const API = await fetch(`${config.domain}/login`, {
       method: "POST",
@@ -32,7 +46,12 @@ export const signInWithGoogle = () => {
 
     if (jsonData.isMember) {
       window.location.href = "/home";
+      // console.log(jsonData)
+      localStorage.setItem("isMember",true)
+      localStorage.setItem("api_expire",jsonData.expire_th)
+      console.log('isMember')
     } else {
+      localStorage.setItem("isMember",false)
       window.location.href = "/register";
     }
   }
@@ -42,8 +61,11 @@ export const signInWithGoogle = () => {
       const name = result.user.displayName;
       const email = result.user.email;
       const profilePic = result.user.photoURL;
-      token = result.user.accessToken;
-      //console.log(token);
+      const token = result.user.accessToken;
+      const expTimestamp = result.user.stsTokenManager.expirationTime;
+      // console.log(token);
+      localStorage.setItem("expTimestamp", expTimestamp);
+      localStorage.setItem("expDateTime", new Date(expTimestamp).toLocaleString());
       localStorage.setItem("name", name);
       localStorage.setItem("email", email);
       localStorage.setItem("profilePic", profilePic);
