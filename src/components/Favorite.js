@@ -71,6 +71,7 @@ export default function Favorite_page() {
                     borderRadius: 3,
                     boxShadow: 10,
                     marginBottom: 10,
+
                 }}
                 maxWidth="md"
                 style={{ backgroundColor: "#F1F1F1" }}

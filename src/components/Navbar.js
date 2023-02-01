@@ -28,6 +28,8 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
@@ -174,6 +176,15 @@ export default function PersistentDrawerLeft() {
                     }}
                   >
                     <ListItem>
+                      <ListItemButton to="/profile">
+                        <PermIdentityRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Profile</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+                    
+                    <ListItem>
                       <ListItemButton to="/home">
                         <HomeOutlinedIcon />
                         <ListItemText sx={{ ml: 2 }}>
@@ -201,7 +212,14 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-
+                    <ListItem>
+                      <ListItemButton to="/history">
+                        <HistoryRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">History</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
                  
 
                     <ListItem>

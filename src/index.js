@@ -43,7 +43,7 @@ root.render(
       <Route path="add_com" element={<Add_com />} />
       <Route path="history" element={<Histrory_Page />} />
       <Route path="favorite" element={<Favorite_page />} />
-      {/* <Route path="admin/add-course" element={<Admin_Add/>} />   */}
+      {/*   <Route path="admin/add-course" element={<Admin_Add/>} />   */}
       <Route path="admin" element={<Admin_Home />} />
       <Route path="demo" element={<Demo />} />
     
