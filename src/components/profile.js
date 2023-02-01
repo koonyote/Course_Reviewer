@@ -20,6 +20,8 @@ import Navbar from "../components/Navbar";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import config from "../config.json";
 import CircularProgress from "@mui/material/CircularProgress";
+import Stack from "@mui/material/Stack";
+import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 
 function Copyright(props) {
   return (
@@ -39,19 +41,19 @@ const theme = createTheme();
 
 export default function Profile() {
   const token = localStorage.getItem("token");
-  const [dataApi, setDataApi] = useState()
+  const [dataApi, setDataApi] = useState();
   const [username, setUsername] = useState();
-  const [effect, setEffect] = useState(0)
+  const [effect, setEffect] = useState(0);
   useEffect(() => {
     const api = async () => {
       const API = await fetch(`${config.domain}/my-profile`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -64,15 +66,14 @@ export default function Profile() {
           lastname: data.lastname,
           gender: data.user_sex,
           date_of_brith: data.birth_date,
-        })
-        setUsername(data.username)
+        });
+        setUsername(data.username);
       }
     };
     window.setTimeout(() => {
       api();
     }, 1000);
   }, [effect]);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -91,26 +92,44 @@ export default function Profile() {
   // Confirm สุดท้ายถึงจะทำ
   const handleClose_Confirm = async () => {
     setOpen(false);
-      await fetch(`${config.domain}/my-profile`, {
-        method: "PATCH",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "*",
-          "User-Agent": "Custom",
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          username: username,
-        }),
-      });
-      setEffect( effect+1 )
+    const API = await fetch(`${config.domain}/my-profile`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        username: username,
+      }),
+    });
+    if (API.status == 200) {
+      Swal.fire({
+        icon: 'success',
+        title: 'แก้ไข Username สำเร็จ',
+        showConfirmButton: false,
+        timer: 1500,
+      })    
+      setEffect(effect + 1);
+    } else {
+      Swal.fire({ 
+        icon: 'error',
+       title: 'แก้ไข Username สำไม่เร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     })
+    
     }
+    setEffect(effect + 1);
+  };
 
   const handleChange_username = (event) => {
     setUsername(event.target.value);
   };
+  const Swal = require('sweetalert2')
   return (
     <>
       <Navbar />
@@ -121,18 +140,20 @@ export default function Profile() {
 
           <Box
             sx={{
-              marginTop: 5,
+              marginTop:15,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              bgcolor: "background.paper",
-              boxShadow: 1,
+             
+              boxShadow: 3,
               // border: 2,
-              borderRadius: 5,
+              borderRadius: 6,
               p: 2,
+              backgroundColor: "#F0F0F0",
+
             }}
           >
-            <Avatar sx={{ m: 2, bgcolor: "secondary.main" }}>
+            <Avatar   src={localStorage.getItem("profilePic")} sx={{ m: 2, width: 150, height: 150 }}>
               {/* <LockOutlinedIcon /> */}
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -156,11 +177,14 @@ export default function Profile() {
                     >
                       <TextField
                         required
+                        error = {(username.length < 6)? true : false } 
+                        helperText={(username.length < 6)? "กรุณากรอกให้ครบหรือมากกว่า 6 ตัว" : false } 
                         // fullWidth
                         InputProps={{
+                        
                           startAdornment: (
                             <InputAdornment position="start">
-                              <ManageAccountsIcon />
+                              <DriveFileRenameOutlineRoundedIcon />
                             </InputAdornment>
                           ),
                         }}
@@ -177,7 +201,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "text.secondary",
+                          color: "#575757",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -191,11 +215,11 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "",
+                          color: "text.secondary",
                           textAlign: "center",
                           border: 0,
-                          borderRadius: 1,
-                          bgcolor: "#E0BBE4",
+                          borderRadius: 6,
+                          bgcolor: "white",
                           p: 1,
                         }}
                       >
@@ -207,7 +231,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "text.secondary",
+                          color: "#575757",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -221,11 +245,11 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "",
+                          color: "text.secondary",
                           textAlign: "center",
                           border: 0,
-                          borderRadius: 1,
-                          bgcolor: "#E0BBE4",
+                          borderRadius: 6,
+                          bgcolor: "white",
                           p: 1,
                         }}
                       >
@@ -236,7 +260,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "text.secondary",
+                          color: "#575757",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -250,11 +274,11 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "",
+                          color: "text.secondary",
                           textAlign: "center",
                           border: 0,
-                          borderRadius: 1,
-                          bgcolor: "#E0BBE4",
+                          borderRadius: 6,
+                          bgcolor: "white",
                           p: 1,
                         }}
                       >
@@ -265,7 +289,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "text.secondary",
+                          color: "#575757",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -279,11 +303,11 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "",
+                          color: "text.secondary",
                           textAlign: "center",
                           border: 0,
-                          borderRadius: 1,
-                          bgcolor: "#E0BBE4",
+                          borderRadius: 6,
+                          bgcolor: "white",
                           p: 1,
                         }}
                       >
@@ -293,16 +317,19 @@ export default function Profile() {
                   </Grid>
 
                   <Button
+                  disabled=  {(username.length < 6)? true : false } 
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    style={{maxWidth: '350px', maxHeight: '30px', minWidth: '30px', minHeight: '40px'}}
                   >
                     Comfirm
                   </Button>
                 </React.Fragment>
-              ) : <CircularProgress size={100} />
-              }
+              ) : (
+                <CircularProgress size={100} />
+              )}
               <Grid container justifyContent="flex-end"></Grid>
             </Box>
           </Box>
@@ -327,6 +354,8 @@ export default function Profile() {
           </DialogActions>
         </Dialog>
       </ThemeProvider>
+
+      
 
       <Copyright sx={{ mt: 15 }} />
     </>
