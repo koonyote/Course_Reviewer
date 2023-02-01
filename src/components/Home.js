@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import App from "../App";
-import Login from "./Login";
 import Register from "./Register";
 import Admin_List from "../admin/Admin_List";
 import Admin_Add from "../admin/Admin_Add";
