@@ -55,6 +55,15 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { blue, grey } from '@mui/material/colors';
 import { async } from "@firebase/util";
 
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+
+
 
 function Copyright(props) {
   return (
@@ -84,7 +93,7 @@ const theme_favorite = createTheme({
   },
 });
 
-const options = ['รหัสวิชา', 'ชื่อวิชาภาษาไทย', 'ชื่อวิชาภาษาอังกฤษ'];
+const options = ['เรียงลำดับปกติ','เรียงตามจำนวนคอมเมนต์', 'เรียงตามจำนวนคะแนน'];
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
 
@@ -96,7 +105,7 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-  
+
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -132,7 +141,7 @@ export default function List_Course() {
   const [dialog_loading, set_dialog] = React.useState(false);
   let [api_course_data, set_api_course_data] = React.useState();
   const token = localStorage.getItem("token");
-  const [effect, setEffect] = React.useState(0); 
+  const [effect, setEffect] = React.useState(0);
   useEffect(() => {
     const api = async () => {
       const API = await fetch(`${config.domain}/list-course-favorite`, {
@@ -162,22 +171,22 @@ export default function List_Course() {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const Swal = require('sweetalert2')
-  async function swalApiSendLoading(status){
+  async function swalApiSendLoading(status, message) {
     if (status) {
       Swal.fire({
         icon: 'success',
-       title: 'เพิ่มรายการโปรดสำเร็จ',
-       showConfirmButton: false,
-       timer: 1000,
-     })
-      
+        title: `${message}รายการโปรดสำเร็จ`,
+        showConfirmButton: false,
+        timer: 1000,
+      })
+
     } else {
       Swal.fire({
         icon: 'error',
-       title: 'เพิ่มรายการโปรดไม่สำเร็จ',
-       showConfirmButton: false,
-       timer: 1000,
-     })
+        title: `${message}รายการโปรดไม่สำเร็จ`,
+        showConfirmButton: false,
+        timer: 1000,
+      })
     }
   }
 
@@ -197,35 +206,35 @@ export default function List_Course() {
       }),
     });
     const status = send.status === 200 ? true : false;
-    swalApiSendLoading(status)
+    swalApiSendLoading(status, "เพิ่ม")
     return status
   }
 
   async function API_Delete_Favorite(code) {
     const send = await fetch(`${config.domain}/delete-favorite`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "*",
-            "User-Agent": "Custom",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-            course_id: code,
-        }),
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "*",
+        "User-Agent": "Custom",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        course_id: code,
+      }),
     });
     const status = send.status === 200 ? true : false;
-    swalApiSendLoading(status)
+    swalApiSendLoading(status, "ลบ")
     return status
-}
+  }
 
-  async function handle_bt_favorite(event, course_id , switchcheck ) {
+  async function handle_bt_favorite(event, course_id, switchcheck) {
     set_dialog(true);
-    let status 
-    if ( !switchcheck ) status = await API_Add_Favorite(course_id)
-    else status =  await API_Delete_Favorite(course_id)
+    let status
+    if (!switchcheck) status = await API_Add_Favorite(course_id)
+    else status = await API_Delete_Favorite(course_id)
     if (status) {
       setEffect(effect + 1);
       // window.setTimeout(() => {
@@ -241,10 +250,10 @@ export default function List_Course() {
 
   const requestSearch = (event) => {
     let searchedVal = event.target.value
-    console.log(searchedVal)
+    // console.log(searchedVal)
     setSearched(searchedVal)
     const filter = api_course_data.filter((row) => {
-      return(
+      return (
         row.course_id.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase())
       );
       // if (selectedValue === options[0]) return row.course_id.toLowerCase().includes(searchedVal.toLowerCase());
@@ -254,15 +263,61 @@ export default function List_Course() {
     setRows(filter)
   }
   const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
   const [selectedValue, setSelectedValue] = React.useState(options[0]);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [test, setTest] = React.useState(true);
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  const optionMethod = (index) => {
+    setTest(false)
+    const data = api_course_data
+    let results
+    if (index == 1) { 
+      results = data.sort((a,b) => {
+      if (a.comment > b.comment ){
+          return -1;
+      }})
+    } else if (index == 2) {
+      results = data.sort((a,b) => {
+        if (a.score > b.score ){
+            return -1;
+        }})
+    } else if (index == 0 ){
+      results = data
+    }
+    setRows(results)
+    // setTest(true)
+    window.setTimeout(() => {
+      setTest(true)
+    }, 500);
+    // data = jsonObject.sort((a,b) => {
+    //   if (a.comment < b.comment ){
+    //       return -1;
+    //   }
+  // })
+  }
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleMenuItemClick = (event, index) => {
+    // console.log("Your Click %s",index)
+    // console.log(options[index])
+    optionMethod(index)
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (value) => {
+    // เช็คว่า Mouse Current  ยังอยุ่ตำแหน่งเดิมอยู่รึป่าว 
+    // if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    //   return;
+    // }
     setOpen(false);
-    setSelectedValue(value);
+    // setSelectedValue(value);
   };
 
 
@@ -288,7 +343,7 @@ export default function List_Course() {
           >
             Course
           </Typography>
-          
+
           <Stack
             sx={{ pt: 4 }}
             direction="row"
@@ -315,9 +370,8 @@ export default function List_Course() {
       >
         <Paper
           component="form"
-          sx={{borderRadius:3, p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
+          sx={{ borderRadius: 3, p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
         >
-         
           <InputBase
             value={searched}
             onChange={requestSearch}
@@ -330,9 +384,54 @@ export default function List_Course() {
           <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
           </IconButton>
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleToggle} ref={anchorRef} >
+            <MenuIcon  />
+          </IconButton>
         </Paper>
+        {/*  */}
+
+        <Popper
+          sx={{
+            zIndex: 1,
+          }}
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList id="split-button-menu" autoFocusItem>
+                    {options.map((option, index) => (
+                      <MenuItem
+                        key={option}
+                        // disabled={index === 2}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                      >
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+
+
+
         {/* End hero unit */}
-        {api_course_data ? (
+        {(api_course_data && test ) ? (
           <Grid container spacing={4}>
             {rows.map((data) => (
               <Grid item key={data} xs={12} sm={6} md={4}>
@@ -342,7 +441,7 @@ export default function List_Course() {
                     display: "flex",
                     flexDirection: "column",
                     shadows: 1,
-                    borderRadius:6,
+                    borderRadius: 6,
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
@@ -379,11 +478,11 @@ export default function List_Course() {
                         },
                       }}
                         onClick={(e) => {
-                          handle_bt_favorite(e, data.course_id,data.favorite);
+                          handle_bt_favorite(e, data.course_id, data.favorite);
                         }}>
                         {/* <FavoriteBorderIcon /> */}
                         {
-                          (data.favorite) ? <FavoriteIcon sx={{color: '#FFC0CB'}} /> : <FavoriteBorderIcon />
+                          (data.favorite) ? <FavoriteIcon sx={{ color: '#FFC0CB' }} /> : <FavoriteBorderIcon />
                         }
                       </IconButton>
                     </ThemeProvider>
@@ -393,10 +492,11 @@ export default function List_Course() {
                       size="small"
                       onClick={() => window.open(`/rating/${data.course_id}`)}
                     >
-                     <Rating
+                      <Rating
                         name="half-rating-read"
                         size="small"
-                        defaultValue={data.score}
+                        // defaultValue={()=> { console.log(data.score); return(data.score)}}
+                        value={data.score}
                         precision={0.5}
                         readOnly
                         sx={{ paddingBottom: 0.5, mr: 0.5 }}
@@ -447,7 +547,7 @@ export default function List_Course() {
           </DialogContentText>
         </DialogContent>
       </Dialog>
-      
+
       {/* Dialog */}
       {/* Footer */}
       <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
