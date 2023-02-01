@@ -53,6 +53,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { blue, grey } from '@mui/material/colors';
+import { async } from "@firebase/util";
 
 
 function Copyright(props) {
@@ -131,10 +132,10 @@ export default function List_Course() {
   const [dialog_loading, set_dialog] = React.useState(false);
   let [api_course_data, set_api_course_data] = React.useState();
   const token = localStorage.getItem("token");
-
+  const [effect, setEffect] = React.useState(0); 
   useEffect(() => {
     const api = async () => {
-      const API = await fetch(`${config.domain}/list-course`, {
+      const API = await fetch(`${config.domain}/list-course-favorite`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -156,9 +157,29 @@ export default function List_Course() {
     // api()
     window.setTimeout(() => {
       api();
-    }, 1000);
-  }, []);
+    }, 500);
+  }, [effect]);
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const Swal = require('sweetalert2')
+  async function swalApiSendLoading(status){
+    if (status) {
+      Swal.fire({
+        icon: 'success',
+       title: 'เพิ่มรายการโปรดสำเร็จ',
+       showConfirmButton: false,
+       timer: 1000,
+     })
+      
+    } else {
+      Swal.fire({
+        icon: 'error',
+       title: 'เพิ่มรายการโปรดไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1000,
+     })
+    }
+  }
 
   async function API_Add_Favorite(code) {
     const send = await fetch(`${config.domain}/add-favorite`, {
@@ -176,13 +197,42 @@ export default function List_Course() {
       }),
     });
     const status = send.status === 200 ? true : false;
+    swalApiSendLoading(status)
     return status
   }
 
-  async function handle_bt_favorite(event, course_id) {
+  async function API_Delete_Favorite(code) {
+    const send = await fetch(`${config.domain}/delete-favorite`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "*",
+            "User-Agent": "Custom",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+            course_id: code,
+        }),
+    });
+    const status = send.status === 200 ? true : false;
+    swalApiSendLoading(status)
+    return status
+}
+
+  async function handle_bt_favorite(event, course_id , switchcheck ) {
     set_dialog(true);
-    const sent_to_api = await API_Add_Favorite(course_id)
-    if (sent_to_api) set_dialog(false);
+    let status 
+    if ( !switchcheck ) status = await API_Add_Favorite(course_id)
+    else status =  await API_Delete_Favorite(course_id)
+    if (status) {
+      setEffect(effect + 1);
+      // window.setTimeout(() => {
+      //   set_dialog(false);
+      // }, 500);
+      // set_dialog(false);
+    }
   }
 
   //  ---------------------------------------------- Search Section 
@@ -329,9 +379,12 @@ export default function List_Course() {
                         },
                       }}
                         onClick={(e) => {
-                          handle_bt_favorite(e, data.course_id);
+                          handle_bt_favorite(e, data.course_id,data.favorite);
                         }}>
-                        <FavoriteBorderIcon />
+                        {/* <FavoriteBorderIcon /> */}
+                        {
+                          (data.favorite) ? <FavoriteIcon sx={{color: '#FFC0CB'}} /> : <FavoriteBorderIcon />
+                        }
                       </IconButton>
                     </ThemeProvider>
                   </CardActions>
@@ -372,13 +425,13 @@ export default function List_Course() {
       {/* Dialog */}
       <Dialog
         fullScreen={fullScreen}
-        open={dialog_loading}
+        // open={dialog_loading}
         // onClose={dialog_loading}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">
+        {/* <DialogTitle id="responsive-dialog-title">
           {"Please wait ..."}
-        </DialogTitle>
+        </DialogTitle> */}
         <DialogContent>
           <DialogContentText>
             <Box

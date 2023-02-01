@@ -6,7 +6,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Admin_List from "./admin/Admin_List";
 import Admin_Add from "./admin/Admin_Add"
-import Lecturer_List from "./lecturer/Lecturer_List";
 import Student_List from "./student/Student_List";
 import Home from "./components/Home";
 import Profile from "./components/profile";
