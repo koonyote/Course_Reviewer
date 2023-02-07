@@ -130,31 +130,30 @@ export default function PersistentDrawerLeft() {
           <Toolbar>
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
-                <MenuIcon onClick={toggleDrawer(anchor, true)} />
-                <Button>
-                                  <img
-                  style={{
-                    width: 120,
-                    height: 45,
-                    marginLeft:20
-                  }}
-                  onClick={()=> {  window.location.replace(`/home`);}}
-                  src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
-                ></img>
+                <Button onClick={toggleDrawer(anchor, true)} ><MenuIcon sx={{ color: "white", fontSize: "30px" }} /></Button>
+                <Button onClick={() => { window.location.replace(`/home`); }} >
+                  <img
+                    style={{
+                      width: 120,
+                      height: 45,
+                      marginLeft: 20
+                    }}
+                    src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
+                  ></img>
                 </Button>
 
                 <Typography
-            component="h5"
-            variant="h5"
-            align="center"
-            color="white"
-            gutterBottom
-            sx={{ mt: 1 ,ml:1 ,display:'flex'}}
-            
-          >
-             
-          
-          </Typography>
+                  component="h5"
+                  variant="h5"
+                  align="center"
+                  color="white"
+                  gutterBottom
+                  sx={{ mt: 1, ml: 1, display: 'flex' }}
+
+                >
+
+
+                </Typography>
                 <Drawer
                   anchor={anchor}
                   open={state[anchor]}
@@ -197,13 +196,13 @@ export default function PersistentDrawerLeft() {
                     </ListItem>
                     <ListItem>
                       <ListItemButton to="/chart">
-                        <PieChartOutlineRoundedIcon  />
+                        <PieChartOutlineRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Chart</label>
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                    
+
                     {data_Role ? (
                       <ListItem>
                         <ListItemButton to="/l_list">
@@ -232,7 +231,7 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                    
+
 
                     <ListItem>
                       <ListItemButton to="/" onClick={Logout}>
