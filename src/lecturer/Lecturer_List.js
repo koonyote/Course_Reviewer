@@ -38,9 +38,22 @@ import AddIcon from "@mui/icons-material/Add";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Swal from 'sweetalert2';
+import Link from "@mui/material/Link";
 
-
-
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit">Course Reviewer</Link> {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 
 
@@ -170,7 +183,7 @@ export default function LT_List_Page() {
       name_en: c_name_en,
       discription: c_des,
     };
-   
+   setOpen(false);
     const body1 = JSON.stringify(param);
     console.log(body1);
     const API = await fetch(`${config.domain}/add-course`, {
@@ -193,7 +206,7 @@ export default function LT_List_Page() {
        showConfirmButton: false,
        timer: 1500,
      })
-      
+     set_effect(effect + 1);
     } else {
       Swal.fire({
         icon: 'error',
@@ -633,7 +646,7 @@ export default function LT_List_Page() {
           </Box>
           
           
-        </Paper>
+        </Paper><Copyright sx={{ mt: 3 }} />
       </center>
 
       {/* onClick={add_course} */}

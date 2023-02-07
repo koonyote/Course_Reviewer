@@ -23,6 +23,7 @@ import domain_server from "../config.json";
 
 export default function Rating_page() {
   const [canAddScore, setCan] = React.useState();
+  let [effect, set_effect] = React.useState(0);
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
@@ -124,14 +125,27 @@ export default function Rating_page() {
           satisfaction: satisfaction,
         }),
       });
-      if (API.status === 200) {
-        window.location.replace(`/home`);
-        alert("ให้คะแนนสำเร็จ");
+      if (API.status === 200) {       
+        Swal.fire({
+          icon: 'success',
+         title: 'ให้คะแนนสำเร็จ',
+         showConfirmButton: false,
+         timer: 2000,
+       }).then(function() {
+        window.location.href = "/home";
+    })
+       set_effect(effect + 1);
       } else {
-        alert("ให้คะแนนไม่สำเร็จ");
+        Swal.fire({
+        icon: 'error',
+         title: 'ให้คะแนนไม่สำเร็จ',
+         showConfirmButton: false,
+         timer: 1500,
+       })
       }
     }
   }
+  const Swal = require('sweetalert2')
   return (
     <>
       <Navbar></Navbar>
@@ -148,10 +162,12 @@ export default function Rating_page() {
       >
         <Typography
           gutterBottom
-          variant="h5"
-          component="h2"
-          textAlign={"center"}
-          href="#"
+           component="h1"
+            variant="h2"
+            align="center"
+            color="#173F5F"
+           
+            sx={{ mt: 0 }}
         >
           Rating Score
         </Typography>

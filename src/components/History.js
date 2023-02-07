@@ -99,7 +99,7 @@ function TableHistory() {
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
-                                    style={{ minWidth: column.minWidth , backgroundColor:"#39998E",color:"white"}}
+                                    style={{ minWidth: column.minWidth , backgroundColor:"#39998E",color:"white",fontWeight:'bold'}}
                                     >
                                     {column.label}
                                 </TableCell>
@@ -115,17 +115,17 @@ function TableHistory() {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">
-                                        <Link href={`comment/${row.course_id}`} underline="hover"> {row.course_id} </Link>
+                                        <Link href={`comment/${row.course_id}`} underline="hover" color="#174468"> {row.course_id} </Link>
                                         </TableCell>
                                         <TableCell align="justify">
-                                        <Link href={`comment/${row.course_id}`} underline="hover"> {row.course_name_th} </Link> 
+                                        <Link href={`comment/${row.course_id}`} underline="hover" color="#174468"> {row.course_name_th} </Link> 
                                         </TableCell>
-                                        <TableCell align="justify">{row.message}</TableCell>
+                                        <TableCell align="justify" sx={{ color: "#174468"}}>{row.message}</TableCell>
                                         <TableCell align="center">
                                             { (typeof row.identify === 'boolean' )  ? '✅' : '❌' }
                                         
                                         </TableCell>
-                                        <TableCell align="center">{row.create_at}</TableCell>
+                                        <TableCell align="center" sx={{ color: "#174468"}}>{row.create_at}</TableCell>
                                     </TableRow>
                                 );
                             }) :
@@ -174,7 +174,7 @@ export default function Histrory_Page() {
                         component="h1"
                         variant="h2"
                         align="center"
-                        color="text.primary"
+                        color="#173F5F"
                         gutterBottom
                     // sx={{ fontWeight: 'medium'  }}
                     >
