@@ -31,6 +31,8 @@ import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
 import { SignOut } from "../services/firebase";
+import PieChartOutlineRoundedIcon from '@mui/icons-material/PieChartOutlineRounded';
+
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
@@ -129,7 +131,15 @@ export default function PersistentDrawerLeft() {
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <MenuIcon onClick={toggleDrawer(anchor, true)} />
-               
+                <img
+                  style={{
+                    width: 120,
+                    height: 45,
+                    marginLeft:20
+                  }}
+                  
+                  src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
+                ></img>
                 <Typography
             component="h5"
             variant="h5"
@@ -139,16 +149,8 @@ export default function PersistentDrawerLeft() {
             sx={{ mt: 1 ,ml:1 ,display:'flex'}}
             
           >
-             <img
-                  style={{
-                    width: 35,
-                    height: 35,
-                    marginLeft:15
-                  }}
-                  sx={{ justifyContent: "flex-end" }}
-                  src="https://media.discordapp.net/attachments/1069520916326907934/1072537539103162368/logo512_1.png"
-                ></img>
-            Course
+             
+          
           </Typography>
                 <Drawer
                   anchor={anchor}
@@ -175,15 +177,6 @@ export default function PersistentDrawerLeft() {
                     }}
                   >
                     <ListItem>
-                      <ListItemButton to="/profile">
-                        <PermIdentityRoundedIcon />
-                        <ListItemText sx={{ ml: 2 }}>
-                          <label className="primary-button">Profile</label>
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-
-                    <ListItem>
                       <ListItemButton to="/home">
                         <HomeOutlinedIcon />
                         <ListItemText sx={{ ml: 2 }}>
@@ -191,6 +184,23 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
+                    <ListItem>
+                      <ListItemButton to="/profile">
+                        <PermIdentityRoundedIcon />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Profile</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemButton to="/chart">
+                        <PieChartOutlineRoundedIcon  />
+                        <ListItemText sx={{ ml: 2 }}>
+                          <label className="primary-button">Chart</label>
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
+                    
                     {data_Role ? (
                       <ListItem>
                         <ListItemButton to="/l_list">
@@ -219,6 +229,7 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
+                    
 
                     <ListItem>
                       <ListItemButton to="/" onClick={Logout}>
