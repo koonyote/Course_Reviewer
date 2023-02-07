@@ -177,10 +177,8 @@ export default function List_Course() {
         },
       });
       const data = await API.json();
-      //console.log(data);
       if (API.status === 200) {
         set_api_course_data(data);
-
         setRows(data);
       }
     };
@@ -286,15 +284,14 @@ export default function List_Course() {
   };
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedValue, setSelectedValue] = React.useState(options[0]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [test, setTest] = React.useState(true);
+  const [refash, setRefash] = React.useState(true);
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
-  const optionMethod = (index) => {
-    setTest(false);
-    const data = api_course_data;
+  const optionMethod = (index, source) => {
+    setRefash(false);
+    const data = source;
     let results;
     if (index == 1) {
       results = data.sort((a, b) => {
@@ -309,24 +306,23 @@ export default function List_Course() {
         }
       });
     } else if (index == 0) {
-      results = data;
+      results = data.sort((a, b) => {
+        if (a.course_id < b.course_id) {
+          return -1;
+        }
+      });
     }
+    // console.log(source)
     setRows(results);
-    // setTest(true)
     window.setTimeout(() => {
-      setTest(true);
+      setRefash(true);
     }, 500);
-    // data = jsonObject.sort((a,b) => {
-    //   if (a.comment < b.comment ){
-    //       return -1;
-    //   }
-    // })
   };
 
   const handleMenuItemClick = (event, index) => {
     // console.log("Your Click %s",index)
     // console.log(options[index])
-    optionMethod(index);
+    optionMethod(index,api_course_data);
     setSelectedIndex(index);
     setOpen(false);
   };
@@ -336,12 +332,7 @@ export default function List_Course() {
   };
 
   const handleClose = (value) => {
-    // เช็คว่า Mouse Current  ยังอยุ่ตำแหน่งเดิมอยู่รึป่าว
-    // if (anchorRef.current && anchorRef.current.contains(event.target)) {
-    //   return;
-    // }
     setOpen(false);
-    // setSelectedValue(value);
   };
 
   return (
@@ -469,7 +460,7 @@ export default function List_Course() {
         </Popper>
 
         {/* End hero unit */}
-        {api_course_data && test ? (
+        {api_course_data && refash ? (
           <Grid container spacing={2} sx={{ mt: 2 }}>
             {rows.map((data, index) => (
               <Grid item key={data} xs={12} sm={6} md={3}>
