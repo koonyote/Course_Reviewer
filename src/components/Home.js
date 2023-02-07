@@ -8,7 +8,6 @@ import Admin_Add from "../admin/Admin_Add";
 import Lecturer_List from "../lecturer/Lecturer_List";
 import comment from "./comment.js";
 import List_Course from "./list_course";
-import Student_List from "../student/Student_List";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";

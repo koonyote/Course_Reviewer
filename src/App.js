@@ -40,7 +40,6 @@ export default function SignInSide() {
   const [click, setClick] = useState(true);
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     signInWithGoogle();
     setClick(false);
   };
