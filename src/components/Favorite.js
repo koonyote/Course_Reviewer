@@ -11,6 +11,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "@mui/material";
 import FavoriteList from "./FavoriteListCourse";
 import Navbar from "./Navbar";
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 function Copyright(props) {
     return (
         <Typography
@@ -31,6 +36,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Favorite_page() {
+    const [value, setValue] = React.useState(0);
     return (
         <ThemeProvider theme={theme}>
             <Navbar> </Navbar>
@@ -49,7 +55,7 @@ export default function Favorite_page() {
                         component="h1"
                         variant="h2"
                         align="center"
-                        color="text.primary"
+                        color="#173F5F"
                         gutterBottom
                     >
                         Favorite
@@ -88,11 +94,12 @@ export default function Favorite_page() {
                     color="text.secondary"
                     component="p"
                 >
-                    Course Reviewer
+                  
                 </Typography>
                 <Copyright />
             </Box>
             {/* End footer */}
         </ThemeProvider>
+        
     );
 }

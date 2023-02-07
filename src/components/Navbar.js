@@ -28,12 +28,14 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
-import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
-import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
   const [data_api, set_data_api] = React.useState();
+  const [data_Role, set_data_role] = React.useState();
+  const Role = localStorage.getItem("Role");
 
   function Logout() {
     return localStorage.clear();
@@ -55,45 +57,20 @@ export default function PersistentDrawerLeft() {
   };
 
   useEffect(() => {
-    const api = async () => {
-      const token = localStorage.getItem("token");
-      const API = await fetch(`${config.domain}/login`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "*",
-          "User-Agent": "Custom",
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST",
-        },
-      });
-      const data = await API.json();
-
-      if (data !== "") {
-        if (data.permission == "officer") {
-          set_data_api(data.permission);
-        } else {
-          set_data_api("");
-        }
-      }
-
-      //set_data_api(data.permission);
-
-      //console.log(data);
-    };
-
-    window.setTimeout(() => {
-      api();
-    }, 1000);
-  }, []);
+    if (Role === "officer") {
+      set_data_role(Role);
+      console.log(data_Role);
+    } else {
+      set_data_role("");
+      console.log(data_Role);
+    }
+  });
 
   const list = (anchor) => (
     <Box
       sx={{
         width: anchor === "top" || anchor === "bottom" ? "auto" : 270,
-        backgroundColor: "#39998E",
+        backgroundColor: "#779ECC",
         color: "white",
       }}
       role="presentation"
@@ -144,13 +121,33 @@ export default function PersistentDrawerLeft() {
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1, my:6 }}>
-        <AppBar position="fixed" sx={{background:"#2B4D59"}}>
+      <Box sx={{ flexGrow: 1, my: 6 }}>
+        <AppBar position="fixed" sx={{ background: "#779ECC" }}>
           <Toolbar>
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <MenuIcon onClick={toggleDrawer(anchor, true)} />
-
+               
+                <Typography
+            component="h5"
+            variant="h5"
+            align="center"
+            color="white"
+            gutterBottom
+            sx={{ mt: 1 ,ml:1 ,display:'flex'}}
+            
+          >
+             <img
+                  style={{
+                    width: 35,
+                    height: 35,
+                    marginLeft:15
+                  }}
+                  sx={{ justifyContent: "flex-end" }}
+                  src="https://media.discordapp.net/attachments/1069520916326907934/1072537539103162368/logo512_1.png"
+                ></img>
+            Course
+          </Typography>
                 <Drawer
                   anchor={anchor}
                   open={state[anchor]}
@@ -168,9 +165,9 @@ export default function PersistentDrawerLeft() {
                       },
                       // hover states
                       "& .MuiListItemButton-root:hover": {
-                        bgcolor: "#FFAA67",
+                        bgcolor: "#FFB347",
                         "&, & .MuiListItemIcon-root": {
-                          color: "#FFDC7C",
+                          color: "white",
                         },
                       },
                     }}
@@ -183,7 +180,7 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                    
+
                     <ListItem>
                       <ListItemButton to="/home">
                         <HomeOutlinedIcon />
@@ -192,7 +189,7 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                    {data_api ? (
+                    {data_Role ? (
                       <ListItem>
                         <ListItemButton to="/l_list">
                           <ListAltRoundedIcon />
@@ -220,7 +217,6 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-                 
 
                     <ListItem>
                       <ListItemButton to="/" onClick={Logout}>

@@ -85,7 +85,7 @@ export default function FavoriteList() {
             <Grid container spacing={4}>
                 {/* { (apiData == []) :'asds' }  */}
                 {
-                (apiData !== []) ? ( apiData.map((data) => (
+                (apiData.length != 0) ? ( apiData.map((data) => (
                     <Grid item key={data} xs={12} sm={6} md={4}>
                         <Card
                             sx={{
@@ -94,6 +94,7 @@ export default function FavoriteList() {
                                 flexDirection: "column",
                                 shadows: 1,
                                 borderRadius: 6,
+                                
                             }}
                         >
                             <CardContent sx={{ flexGrow: 1 }}>
@@ -161,7 +162,7 @@ export default function FavoriteList() {
                             </CardActions>
                         </Card>
                     </Grid>
-                ))) : ( <Grid item  xs={12} sm={12} md={12} sx={{textAlign: 'center'}}> รายการโปรดของคุณว่างอยู่ </Grid> )
+                ))) : ( <Grid item  xs={12} sm={12} md={12} sx={{justifyContent:'center' , alignItems: 'center',display: 'flex', minHeight:300 ,fontSize:20 ,color:"#FF985A" , fontWeight:'bold'}}> รายการโปรดของคุณว่างอยู่ </Grid> )
                 } 
                 
             </Grid>

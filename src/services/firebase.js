@@ -49,6 +49,7 @@ export const signInWithGoogle = () => {
       // console.log(jsonData)
       localStorage.setItem("isMember",true)
       localStorage.setItem("api_expire",jsonData.expire_th)
+      localStorage.setItem("Role",jsonData.permission)
       console.log('isMember')
     } else {
       localStorage.setItem("isMember",false)

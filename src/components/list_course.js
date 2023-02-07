@@ -32,38 +32,37 @@ import useMediaQuery from "@mui/material/useMediaQuery"; // ตัวจัด F
 import Navbar from "../components/Navbar";
 import TextField from "@mui/material/TextField";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import Paper from '@mui/material/Paper';
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import DirectionsIcon from "@mui/icons-material/Directions";
+import Paper from "@mui/material/Paper";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 // Dialog
-import PropTypes from 'prop-types';
-import Avatar from '@mui/material/Avatar';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { blue, grey } from '@mui/material/colors';
+import PropTypes from "prop-types";
+import Avatar from "@mui/material/Avatar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { blue, grey } from "@mui/material/colors";
 import { async } from "@firebase/util";
 
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-
-
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 
 function Copyright(props) {
   return (
@@ -93,7 +92,11 @@ const theme_favorite = createTheme({
   },
 });
 
-const options = ['เรียงลำดับปกติ','เรียงตามจำนวนคอมเมนต์', 'เรียงตามจำนวนคะแนน'];
+const options = [
+  "เรียงลำดับปกติ",
+  "เรียงตามจำนวนคอมเมนต์",
+  "เรียงตามจำนวนคะแนน",
+];
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
 
@@ -105,15 +108,16 @@ function SimpleDialog(props) {
     onClose(value);
   };
 
-
-
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Select Options</DialogTitle>
       <List sx={{ pt: 0 }}>
         {options.map((email) => (
           <ListItem disableGutters>
-            <ListItemButton onClick={() => handleListItemClick(email)} key={email}>
+            <ListItemButton
+              onClick={() => handleListItemClick(email)}
+              key={email}
+            >
               <ListItemAvatar>
                 {/* Example Icon Style */}
                 {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
@@ -137,6 +141,22 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
+var images = [
+  'https://img.freepik.com/free-photo/abstract-studio-background-texture-light-blue-gray-gradient-wall-flat-floor-product_1258-88339.jpg?w=1060&t=st=1675763801~exp=1675764401~hmac=e98c16a4855dcb8d6ed6796e1d75df08f2f01947d1d4f2f428b0566a542af8c3',
+  'https://img.freepik.com/free-photo/abstract-blur-empty-green-gradient-studio-well-use-as-background-website-template-frame-business-report_1258-52616.jpg?w=740&t=st=1675763824~exp=1675764424~hmac=137ff51d8a0b65c286dc8f97b28b955b6fa5bd5b2b9c88e29a1a5696c139fa59',
+  'https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-88586.jpg?w=1060&t=st=1675763843~exp=1675764443~hmac=4a01818b1c03c57344bdebac58661b523b85f3dd4e25393039928a248b4b7431',
+  'https://img.freepik.com/free-photo/studio-background-concept-abstract-empty-light-gradient-purple-studio-room-background-product_1258-56060.jpg?w=1060&t=st=1675763865~exp=1675764465~hmac=65ac4d22112f0c1c69171a26301f0a87daf3f589d1d02fc08354b2111bd9a793',
+  'https://img.freepik.com/free-photo/gold-shiny-background-with-variating-hues_1258-85534.jpg?w=740&t=st=1675763886~exp=1675764486~hmac=c3b35322167e50e8f265fdb368e12fe57d2ec51390a6a08ec9c80ffe047a17e5',
+  'https://img.freepik.com/free-photo/abstract-empty-smooth-light-pink-studio-room-background-use-as-montage-product-displaybannertemp_1258-107802.jpg?w=1060&t=st=1675763910~exp=1675764510~hmac=2e91a3456f5492ee886b066cc3383e780fec6732927105e046c90b4ca5373829',
+  'https://img.freepik.com/free-photo/green-light-green-blur-gradient-background_1258-85446.jpg?w=740&t=st=1675764112~exp=1675764712~hmac=11f634f30594497b240087e85875305699bd9b4a240460b986ead2e64a04ae8f',
+  'https://img.freepik.com/free-photo/abstract-luxury-gold-yellow-gradient-studio-wall-well-use-as-background-layout-banner-product-presentation_1258-56105.jpg?w=1060&t=st=1675764144~exp=1675764744~hmac=b1f59aa2fbc79e5ba3b1bb6fcc8206c53a138627496ee18ebb14f12b796da3a5',
+  'https://img.freepik.com/free-photo/empty-green-studio-well-use-as-background-website-template-frame-business-report_1258-71742.jpg?w=1380&t=st=1675764312~exp=1675764912~hmac=934de7c8de60e48c31dc52a47b24e84310d35f6e7ae53e8f542e6cebf72d78e3',
+  'https://img.freepik.com/free-photo/abstract-textured-backgound_1258-30621.jpg?w=1060&t=st=1675764775~exp=1675765375~hmac=93eef79ca4f57486717560c517eee4442e0de064cc7da4fe9ef4c7d06bc112ef',
+'https://img.freepik.com/free-photo/studio-background-concept-abstract-empty-light-gradient-purple-studio-room-background-product_1258-67806.jpg?w=996&t=st=1675764402~exp=1675765002~hmac=699c820d078f500e1095e2a806713caaf5cac23e0e7fcf69cfc14f4c765d83cd',
+];
+
+// imges[0]
+
 export default function List_Course() {
   const [dialog_loading, set_dialog] = React.useState(false);
   let [api_course_data, set_api_course_data] = React.useState();
@@ -147,11 +167,11 @@ export default function List_Course() {
       const API = await fetch(`${config.domain}/list-course-favorite`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "ngrok-skip-browser-warning": "*",
           "User-Agent": "Custom",
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST",
         },
@@ -160,7 +180,8 @@ export default function List_Course() {
       //console.log(data);
       if (API.status === 200) {
         set_api_course_data(data);
-        setRows(data)
+
+        setRows(data);
       }
     };
     // api()
@@ -170,23 +191,22 @@ export default function List_Course() {
   }, [effect]);
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const Swal = require('sweetalert2')
+  const Swal = require("sweetalert2");
   async function swalApiSendLoading(status, message) {
     if (status) {
       Swal.fire({
-        icon: 'success',
+        icon: "success",
         title: `${message}รายการโปรดสำเร็จ`,
         showConfirmButton: false,
         timer: 1000,
-      })
-
+      });
     } else {
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: `${message}รายการโปรดไม่สำเร็จ`,
         showConfirmButton: false,
         timer: 1000,
-      })
+      });
     }
   }
 
@@ -194,11 +214,11 @@ export default function List_Course() {
     const send = await fetch(`${config.domain}/add-favorite`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "ngrok-skip-browser-warning": "*",
         "User-Agent": "Custom",
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
@@ -206,19 +226,19 @@ export default function List_Course() {
       }),
     });
     const status = send.status === 200 ? true : false;
-    swalApiSendLoading(status, "เพิ่ม")
-    return status
+    swalApiSendLoading(status, "เพิ่ม");
+    return status;
   }
 
   async function API_Delete_Favorite(code) {
     const send = await fetch(`${config.domain}/delete-favorite`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "ngrok-skip-browser-warning": "*",
         "User-Agent": "Custom",
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
@@ -226,15 +246,15 @@ export default function List_Course() {
       }),
     });
     const status = send.status === 200 ? true : false;
-    swalApiSendLoading(status, "ลบ")
-    return status
+    swalApiSendLoading(status, "ลบ");
+    return status;
   }
 
   async function handle_bt_favorite(event, course_id, switchcheck) {
     set_dialog(true);
-    let status
-    if (!switchcheck) status = await API_Add_Favorite(course_id)
-    else status = await API_Delete_Favorite(course_id)
+    let status;
+    if (!switchcheck) status = await API_Add_Favorite(course_id);
+    else status = await API_Delete_Favorite(course_id);
     if (status) {
       setEffect(effect + 1);
       // window.setTimeout(() => {
@@ -244,24 +264,26 @@ export default function List_Course() {
     }
   }
 
-  //  ---------------------------------------------- Search Section 
+  //  ---------------------------------------------- Search Section
   const [rows, setRows] = React.useState();
   const [searched, setSearched] = React.useState("");
 
   const requestSearch = (event) => {
-    let searchedVal = event.target.value
+    let searchedVal = event.target.value;
     // console.log(searchedVal)
-    setSearched(searchedVal)
+    setSearched(searchedVal);
     const filter = api_course_data.filter((row) => {
       return (
-        row.course_id.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase()) || row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase())
+        row.course_id.toLowerCase().includes(searchedVal.toLowerCase()) ||
+        row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase()) ||
+        row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase())
       );
       // if (selectedValue === options[0]) return row.course_id.toLowerCase().includes(searchedVal.toLowerCase());
       // else if (selectedValue === options[1]) return row.course_name_th.toLowerCase().includes(searchedVal.toLowerCase());
       // else if (selectedValue === options[2]) return row.course_name_en.toLowerCase().includes(searchedVal.toLowerCase());
-    });;
-    setRows(filter)
-  }
+    });
+    setRows(filter);
+  };
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedValue, setSelectedValue] = React.useState(options[0]);
@@ -271,38 +293,40 @@ export default function List_Course() {
   //   setOpen(true);
   // };
   const optionMethod = (index) => {
-    setTest(false)
-    const data = api_course_data
-    let results
-    if (index == 1) { 
-      results = data.sort((a,b) => {
-      if (a.comment > b.comment ){
+    setTest(false);
+    const data = api_course_data;
+    let results;
+    if (index == 1) {
+      results = data.sort((a, b) => {
+        if (a.comment > b.comment) {
           return -1;
-      }})
+        }
+      });
     } else if (index == 2) {
-      results = data.sort((a,b) => {
-        if (a.score > b.score ){
-            return -1;
-        }})
-    } else if (index == 0 ){
-      results = data
+      results = data.sort((a, b) => {
+        if (a.score > b.score) {
+          return -1;
+        }
+      });
+    } else if (index == 0) {
+      results = data;
     }
-    setRows(results)
+    setRows(results);
     // setTest(true)
     window.setTimeout(() => {
-      setTest(true)
+      setTest(true);
     }, 500);
     // data = jsonObject.sort((a,b) => {
     //   if (a.comment < b.comment ){
     //       return -1;
     //   }
-  // })
-  }
+    // })
+  };
 
   const handleMenuItemClick = (event, index) => {
     // console.log("Your Click %s",index)
     // console.log(options[index])
-    optionMethod(index)
+    optionMethod(index);
     setSelectedIndex(index);
     setOpen(false);
   };
@@ -312,14 +336,13 @@ export default function List_Course() {
   };
 
   const handleClose = (value) => {
-    // เช็คว่า Mouse Current  ยังอยุ่ตำแหน่งเดิมอยู่รึป่าว 
+    // เช็คว่า Mouse Current  ยังอยุ่ตำแหน่งเดิมอยู่รึป่าว
     // if (anchorRef.current && anchorRef.current.contains(event.target)) {
     //   return;
     // }
     setOpen(false);
     // setSelectedValue(value);
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -338,8 +361,9 @@ export default function List_Course() {
             component="h1"
             variant="h2"
             align="center"
-            color="text.primary"
+            color="#173F5F"
             gutterBottom
+            sx={{ mt: 2 }}
           >
             Course
           </Typography>
@@ -364,13 +388,23 @@ export default function List_Course() {
           borderRadius: 3,
           boxShadow: 10,
           marginBottom: 10,
+          width: "80%",
         }}
-        maxWidth="md"
+        // maxWidth="md"
         style={{ backgroundColor: "#F1F1F1" }}
       >
         <Paper
           component="form"
-          sx={{ borderRadius: 3, p: '2px 4px', width: 'auto', border: 0, display: 'flex', alignItems: 'center', justifyContent: 'right', marginBottom: 1 }}
+          sx={{
+            borderRadius: 3,
+            p: "2px 4px",
+            width: "auto",
+            border: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+            marginBottom: 1,
+          }}
         >
           <InputBase
             value={searched}
@@ -381,11 +415,17 @@ export default function List_Course() {
             sx={{ ml: 1, flex: 1 }}
             placeholder={`ค้นหาด้วย รหัสวิชาหรือชื่อวิชา`}
           />
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
             <SearchIcon />
           </IconButton>
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleToggle} ref={anchorRef} >
-            <MenuIcon  />
+          <IconButton
+            type="button"
+            sx={{ p: "10px" }}
+            aria-label="search"
+            onClick={handleToggle}
+            ref={anchorRef}
+          >
+            <FilterAltRoundedIcon sx={{ color: "#647C90" }} />
           </IconButton>
         </Paper>
         {/*  */}
@@ -405,7 +445,7 @@ export default function List_Course() {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === 'bottom' ? 'center top' : 'center bottom',
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -428,13 +468,11 @@ export default function List_Course() {
           )}
         </Popper>
 
-
-
         {/* End hero unit */}
-        {(api_course_data && test ) ? (
-          <Grid container spacing={4}>
-            {rows.map((data) => (
-              <Grid item key={data} xs={12} sm={6} md={4}>
+        {api_course_data && test ? (
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            {rows.map((data, index) => (
+              <Grid item key={data} xs={12} sm={6} md={3}>
                 <Card
                   sx={{
                     height: "100%",
@@ -442,8 +480,20 @@ export default function List_Course() {
                     flexDirection: "column",
                     shadows: 1,
                     borderRadius: 6,
+                    maxWidth: 300,
                   }}
                 >
+                 
+                    <img
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        maxHeight:20,
+                        opacity:0.4
+                      }}
+                      src={images[index % 10]}
+                    ></img>
+                
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography
                       gutterBottom
@@ -455,15 +505,16 @@ export default function List_Course() {
                       <Link
                         href={`/comment/${data.course_id}`}
                         underline="hover"
+                        color="#174468"
                       >
                         {data.course_id}
                       </Link>
                     </Typography>
-                    <Typography textAlign={"center"}>
+                    <Typography textAlign={"center"} color={"#174468"}>
                       {" "}
                       {data.course_name_th}{" "}
                     </Typography>
-                    <Typography textAlign={"center"}>
+                    <Typography textAlign={"center"} color={"#174468"}>
                       {" "}
                       {data.course_name_en}{" "}
                     </Typography>
@@ -471,26 +522,32 @@ export default function List_Course() {
                   <CardActions sx={{ justifyContent: "center" }}>
                     <ThemeProvider theme={theme_favorite}>
                       {/* <Button>font-size: 1rem</Button> */}
-                      <IconButton sx={{
-                        color: "action",
-                        ":hover": {
-                          backgroundColor: "#FFC0CB",
-                        },
-                      }}
+                      <IconButton
+                        sx={{
+                          color: "action",
+                          ":hover": {
+                            backgroundColor: "#FFC0CB",
+                          },
+                          mt: -3,
+                        }}
                         onClick={(e) => {
                           handle_bt_favorite(e, data.course_id, data.favorite);
-                        }}>
+                        }}
+                      >
                         {/* <FavoriteBorderIcon /> */}
-                        {
-                          (data.favorite) ? <FavoriteIcon sx={{ color: '#FFC0CB' }} /> : <FavoriteBorderIcon />
-                        }
+                        {data.favorite ? (
+                          <FavoriteIcon sx={{ color: "#FFC0CB" }} />
+                        ) : (
+                          <FavoriteBorderIcon />
+                        )}
                       </IconButton>
                     </ThemeProvider>
                   </CardActions>
                   <CardActions sx={{ justifyContent: "center" }}>
                     <Button
                       size="small"
-                      onClick={() => window.open(`/rating/${data.course_id}`)}
+                      href={`/rating/${data.course_id}`}
+                     
                     >
                       <Rating
                         name="half-rating-read"
@@ -506,7 +563,8 @@ export default function List_Course() {
                     <Button
                       size="small"
                       sx={{ alignContent: "center" }}
-                      onClick={() => window.open(`/comment/${data.course_id}`)}
+                      href={`/comment/${data.course_id}`}
+                      
                     >
                       <CommentIcon fontSize="small"></CommentIcon> &nbsp; (
                       {data.comment})

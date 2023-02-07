@@ -140,7 +140,7 @@ export default function Profile() {
 
           <Box
             sx={{
-              marginTop:15,
+              marginTop:10,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -156,7 +156,11 @@ export default function Profile() {
             <Avatar   src={localStorage.getItem("profilePic")} sx={{ m: 2, width: 150, height: 150 }}>
               {/* <LockOutlinedIcon /> */}
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography  component="h1"
+            variant="h5"
+            align="center"
+            color="#173F5F"
+            gutterBottom>
               My Profile
             </Typography>
             <Box
@@ -201,7 +205,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "#575757",
+                          color:"#174468",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -231,7 +235,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "#575757",
+                          color:"#174468",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -260,7 +264,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "#575757",
+                          ccolor:"#174468",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -289,7 +293,7 @@ export default function Profile() {
                       <Box
                         maxHeight
                         sx={{
-                          color: "#575757",
+                          color:"#174468",
                           textAlign: "left",
                           border: 0,
                           p: 1,
@@ -357,7 +361,7 @@ export default function Profile() {
 
       
 
-      <Copyright sx={{ mt: 15 }} />
+      <Copyright sx={{ mt: 3 }} />
     </>
   );
 }
