@@ -32,7 +32,7 @@ import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
 import { SignOut } from "../services/firebase";
 import PieChartOutlineRoundedIcon from '@mui/icons-material/PieChartOutlineRounded';
-
+import Button from "@mui/material/Button";
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
@@ -131,7 +131,8 @@ export default function PersistentDrawerLeft() {
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <MenuIcon onClick={toggleDrawer(anchor, true)} />
-                <img
+                <Button>
+                                  <img
                   style={{
                     width: 120,
                     height: 45,
@@ -140,6 +141,8 @@ export default function PersistentDrawerLeft() {
                   onClick={()=> {  window.location.replace(`/home`);}}
                   src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
                 ></img>
+                </Button>
+
                 <Typography
             component="h5"
             variant="h5"
