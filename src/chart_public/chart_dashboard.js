@@ -16,6 +16,7 @@ import ChartRadial from "./chart_radialbar";
 import ChartBarFavourite from "./chart_barchatFavourite";
 import domain_server from "../config.json";
 import Chart from "../admin/dashbard_coponents/Chart";
+import Navbar from "../components/Navbar";
 
 
 function Copyright(props) {
@@ -62,6 +63,8 @@ export default function ChartDashboardPublic() {
     }, []);
     console.log(data_api)
     return (
+        <>
+        <Navbar />
         <ThemeProvider theme={theme}>
             <CssBaseline />
             {/* Hero unit ส่วนหัวด้านบน */}
@@ -94,8 +97,8 @@ export default function ChartDashboardPublic() {
             {/* Content */}
             <Container
                 sx={{
-                    mt: 2,
-                    py: 8,
+                    mt: 12,
+                    py: 3,
                     border: 0,
                     borderRadius: 3,
                     boxShadow: 10,
@@ -184,5 +187,6 @@ export default function ChartDashboardPublic() {
             </Box>
             {/* End footer */}
         </ThemeProvider>
+        </>
     );
 }

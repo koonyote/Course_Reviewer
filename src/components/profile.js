@@ -21,7 +21,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import config from "../config.json";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
+import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+import { Hidden } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -108,20 +109,19 @@ export default function Profile() {
     });
     if (API.status == 200) {
       Swal.fire({
-        icon: 'success',
-        title: 'แก้ไข Username สำเร็จ',
+        icon: "success",
+        title: "แก้ไข Username สำเร็จ",
         showConfirmButton: false,
         timer: 1500,
-      })    
+      });
       setEffect(effect + 1);
     } else {
-      Swal.fire({ 
-        icon: 'error',
-       title: 'แก้ไข Username สำไม่เร็จ',
-       showConfirmButton: false,
-       timer: 1500,
-     })
-    
+      Swal.fire({
+        icon: "error",
+        title: "แก้ไข Username สำไม่เร็จ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
     setEffect(effect + 1);
   };
@@ -129,7 +129,7 @@ export default function Profile() {
   const handleChange_username = (event) => {
     setUsername(event.target.value);
   };
-  const Swal = require('sweetalert2')
+  const Swal = require("sweetalert2");
   return (
     <>
       <Navbar />
@@ -137,206 +137,425 @@ export default function Profile() {
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-
-          <Box
-            sx={{
-              marginTop:10,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-             
-              boxShadow: 3,
-              // border: 2,
-              borderRadius: 6,
-              p: 2,
-              backgroundColor: "#F0F0F0",
-
-            }}
-          >
-            <Avatar   src={localStorage.getItem("profilePic")} sx={{ m: 2, width: 150, height: 150 }}>
-              {/* <LockOutlinedIcon /> */}
-            </Avatar>
-            <Typography  component="h1"
-            variant="h5"
-            align="center"
-            color="#173F5F"
-            gutterBottom>
-              My Profile
-            </Typography>
+          <Hidden only={["xl", "lg"]}>
             <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
-            >
-              {dataApi ? (
-                <React.Fragment>
-                  <Grid container spacing={2}>
-                    {/* ส่่วนของ Username */}
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <TextField
-                        required
-                        error = {(username.length < 6)? true : false } 
-                        helperText={(username.length < 6)? "กรุณากรอกให้ครบหรือมากกว่า 6 ตัว" : false } 
-                        // fullWidth
-                        InputProps={{
-                        
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <DriveFileRenameOutlineRoundedIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        variant="standard"
-                        color="secondary" // success warning secondary
-                        label="username"
-                        name="username"
-                        autoComplete="username"
-                        value={username}
-                        onChange={handleChange_username}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color:"#174468",
-                          textAlign: "left",
-                          border: 0,
-                          p: 1,
-                          paddingLeft: 3,
-                        }}
-                      >
-                        First Name
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color: "text.secondary",
-                          textAlign: "center",
-                          border: 0,
-                          borderRadius: 6,
-                          bgcolor: "white",
-                          p: 1,
-                        }}
-                      >
-                        {" "}
-                        {dataApi.firstname}{" "}
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color:"#174468",
-                          textAlign: "left",
-                          border: 0,
-                          p: 1,
-                          paddingLeft: 3,
-                        }}
-                      >
-                        Last Name
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color: "text.secondary",
-                          textAlign: "center",
-                          border: 0,
-                          borderRadius: 6,
-                          bgcolor: "white",
-                          p: 1,
-                        }}
-                      >
-                        {dataApi.lastname}
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          ccolor:"#174468",
-                          textAlign: "left",
-                          border: 0,
-                          p: 1,
-                          paddingLeft: 3,
-                        }}
-                      >
-                        Gender
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color: "text.secondary",
-                          textAlign: "center",
-                          border: 0,
-                          borderRadius: 6,
-                          bgcolor: "white",
-                          p: 1,
-                        }}
-                      >
-                        {dataApi.gender}
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color:"#174468",
-                          textAlign: "left",
-                          border: 0,
-                          p: 1,
-                          paddingLeft: 3,
-                        }}
-                      >
-                        Date of birth
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box
-                        maxHeight
-                        sx={{
-                          color: "text.secondary",
-                          textAlign: "center",
-                          border: 0,
-                          borderRadius: 6,
-                          bgcolor: "white",
-                          p: 1,
-                        }}
-                      >
-                        {dataApi.date_of_brith}
-                      </Box>
-                    </Grid>
-                  </Grid>
+              sx={{
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
 
-                  <Button
-                  disabled=  {(username.length < 6)? true : false } 
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    style={{maxWidth: '350px', maxHeight: '30px', minWidth: '30px', minHeight: '40px'}}
-                  >
-                    Comfirm
-                  </Button>
-                </React.Fragment>
-              ) : (
-                <CircularProgress size={100} />
-              )}
-              <Grid container justifyContent="flex-end"></Grid>
+                boxShadow: 3,
+                // border: 2,
+                borderRadius: 6,
+                p: 2,
+                backgroundColor: "#F0F0F0",
+              }}
+            >
+              <Avatar
+                src={localStorage.getItem("profilePic")}
+                sx={{ m: 2, width: 150, height: 150 }}
+              >
+                {/* <LockOutlinedIcon /> */}
+              </Avatar>
+              <Typography
+                component="h1"
+                variant="h5"
+                align="center"
+                color="#173F5F"
+                gutterBottom
+              >
+                My Profile
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 3 }}
+              >
+                {dataApi ? (
+                  <React.Fragment>
+                    <Grid container spacing={2}>
+                      {/* ส่่วนของ Username */}
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <TextField
+                          required
+                          error={username.length < 6 ? true : false}
+                          helperText={
+                            username.length < 6
+                              ? "กรุณากรอกให้ครบหรือมากกว่า 6 ตัว"
+                              : false
+                          }
+                          // fullWidth
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <DriveFileRenameOutlineRoundedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          variant="standard"
+                          color="secondary" // success warning secondary
+                          label="username"
+                          name="username"
+                          autoComplete="username"
+                          value={username}
+                          onChange={handleChange_username}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "#174468",
+                            textAlign: "left",
+                            border: 0,
+                            p: 1,
+                            paddingLeft: 3,
+                          }}
+                        >
+                          First Name
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "text.secondary",
+                            textAlign: "center",
+                            border: 0,
+                            borderRadius: 6,
+                            bgcolor: "white",
+                            p: 1,
+                          }}
+                        >
+                          {" "}
+                          {dataApi.firstname}{" "}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "#174468",
+                            textAlign: "left",
+                            border: 0,
+                            p: 1,
+                            paddingLeft: 3,
+                          }}
+                        >
+                          Last Name
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "text.secondary",
+                            textAlign: "center",
+                            border: 0,
+                            borderRadius: 6,
+                            bgcolor: "white",
+                            p: 1,
+                          }}
+                        >
+                          {dataApi.lastname}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "#174468",
+                            textAlign: "left",
+                            border: 0,
+                            p: 1,
+                            paddingLeft: 3,
+                          }}
+                        >
+                          Gender
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "text.secondary",
+                            textAlign: "center",
+                            border: 0,
+                            borderRadius: 6,
+                            bgcolor: "white",
+                            p: 1,
+                          }}
+                        >
+                          {dataApi.gender}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "#174468",
+                            textAlign: "left",
+                            border: 0,
+                            p: 1,
+                            paddingLeft: 3,
+                          }}
+                        >
+                          Date of birth
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box
+                          maxHeight
+                          sx={{
+                            color: "text.secondary",
+                            textAlign: "center",
+                            border: 0,
+                            borderRadius: 6,
+                            bgcolor: "white",
+                            p: 1,
+                          }}
+                        >
+                          {dataApi.date_of_brith}
+                        </Box>
+                      </Grid>
+                    </Grid>
+
+                    <Button
+                      disabled={username.length < 6 ? true : false}
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      style={{
+                        maxWidth: "350px",
+                        maxHeight: "30px",
+                        minWidth: "30px",
+                        minHeight: "40px",
+                      }}
+                    >
+                      Comfirm
+                    </Button>
+                  </React.Fragment>
+                ) : (
+                  <CircularProgress size={100} />
+                )}
+                <Grid container justifyContent="flex-end"></Grid>
+              </Box>
             </Box>
-          </Box>
+          </Hidden>
+
+          <Hidden only={["xs", "sm", "md"]}>
+            
+            <Box
+              sx={{
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                boxShadow: 3,
+                borderRadius: 6,
+                p: 2,
+                backgroundColor: "#F1F1F1",
+                width: 800,
+                ml:-25
+              }}
+            >
+              <Avatar
+                src={localStorage.getItem("profilePic")}
+                sx={{ m: 2, width: 150, height: 150 }}
+              >
+                {/* <LockOutlinedIcon /> */}
+              </Avatar>
+              <Typography
+                component="h1"
+                variant="h4"
+                align="center"
+                color="#173F5F"
+                gutterBottom
+              >
+                My Profile
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 , width:400 }}
+              >
+                {dataApi ? (
+                  <React.Fragment>
+                    <TextField
+                      required
+                      error={username.length < 6 ? true : false}
+                      helperText={
+                        username.length < 6
+                          ? "กรุณากรอกให้ครบหรือมากกว่า 6 ตัว"
+                          : false
+                      }
+                      // fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <DriveFileRenameOutlineRoundedIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      variant="standard"
+                      color="secondary" // success warning secondary
+                      label="username"
+                      name="username"
+                      autoComplete="username"
+                      value={username}
+                      onChange={handleChange_username}
+                      sx={{ml:5,width:330}}
+                    />
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "#174468",
+                        textAlign: "left",
+                        border: 0,
+                        p: 1,
+                        paddingLeft: 3,
+                        fontSize:16,
+                        mt:2
+                      }}
+                    >
+                      First Name
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "text.secondary",
+                        textAlign: "center",
+                        border: 0,
+                        borderRadius: 6,
+                        bgcolor: "white",
+                        fontSize:14,
+                        p: 1,
+                      }}
+                    >
+                      {" "}
+                      {dataApi.firstname}{" "}
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "#174468",
+                        textAlign: "left",
+                        border: 0,
+                        p: 1,
+                        paddingLeft: 3,
+                        fontSize:16
+                      }}
+                    >
+                      Last Name
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "text.secondary",
+                        textAlign: "center",
+                        border: 0,
+                        borderRadius: 6,
+                        bgcolor: "white",
+                        fontSize:14,
+                        p: 1,
+                      }}
+                    >
+                      {dataApi.lastname}
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "#174468",
+                        textAlign: "left",
+                        border: 0,
+                        p: 1,
+                        paddingLeft: 3,
+                        fontSize:16
+                      }}
+                    >
+                      Gender
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "text.secondary",
+                        textAlign: "center",
+                        border: 0,
+                        borderRadius: 6,
+                        bgcolor: "white",
+                        fontSize:14,
+                        p: 1,
+                      }}
+                    >
+                      {dataApi.gender}
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "#174468",
+                        textAlign: "left",
+                        border: 0,
+                        p: 1,
+                        paddingLeft: 3,
+                        fontSize:16
+                      }}
+                    >
+                      Date of birth
+                    </Box>
+
+                    <Box
+                      maxHeight
+                      sx={{
+                        color: "text.secondary",
+                        textAlign: "center",
+                        border: 0,
+                        borderRadius: 6,
+                        bgcolor: "white",
+                        p: 1,
+                        fontSize:14
+                      }}
+                    >
+                      {dataApi.date_of_brith}
+                    </Box>
+
+                    <Button
+                      disabled={username.length < 6 ? true : false}
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2,ml:3 }}
+                      style={{
+                        maxWidth: "350px",
+                        maxHeight: "30px",
+                        minWidth: "30px",
+                        minHeight: "40px",
+                      }}
+                    >
+                      Comfirm
+                    </Button>
+                  </React.Fragment>
+                ) : (
+                  <CircularProgress size={100} sx={{ml:18}}/>
+                )}
+              </Box>
+            </Box>
+          </Hidden>
         </Container>
         <Dialog
           open={open}
@@ -358,8 +577,6 @@ export default function Profile() {
           </DialogActions>
         </Dialog>
       </ThemeProvider>
-
-      
 
       <Copyright sx={{ mt: 3 }} />
     </>
