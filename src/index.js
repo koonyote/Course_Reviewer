@@ -22,8 +22,8 @@ import ChartDashboardPublic from "./chart_public/chart_dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter basename="/prj65_03">
-    {/* <BrowserRouter > */}
+  // <BrowserRouter basename="/prj65_03">
+   <BrowserRouter > 
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/home" element={<Home />} />

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, getRedirectResult, signInWithRedirect } from "firebase/auth";
+import { getAuth, signOut, GoogleAuthProvider, signInWithPopup, getRedirectResult, signInWithRedirect } from "firebase/auth";
 import config from "../config.json";
 
 const firebaseSDK = {
@@ -85,7 +85,6 @@ export const signInWithGoogle = () => {
 export const SignOut = () => {
   signOut(auth).then(() => {
     // Sign-out successful.
-    console.log("Sign-out successful")
   }).catch((error) => {
     // An error happened.
     console.log(error)
