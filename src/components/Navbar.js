@@ -30,12 +30,14 @@ import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import { SignOut } from "../services/firebase";
 
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
   const [data_api, set_data_api] = React.useState();
 
   function Logout() {
+    SignOut()
     return localStorage.clear();
   }
 

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signOut, GoogleAuthProvider, signInWithPopup, getRedirectResult, signInWithRedirect } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, getRedirectResult, signInWithRedirect, signOut} from "firebase/auth";
 import config from "../config.json";
 
 const firebaseSDK = {
