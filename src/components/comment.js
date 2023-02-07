@@ -47,8 +47,21 @@ import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Swal from 'sweetalert2';
 
+//Dialog Sort Option
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import Paper from "@mui/material/Paper";
+
+const options = ["เรียงลำดับปกติ", "เรียงตามจำนวนถูกใจ", "เรียงตามจำนวนการสนับสนุน"];
+
+
 export default function Comment_page() {
   let [comment_api, set_comment_api] = React.useState();
+  
   let [effect, set_effect] = React.useState(0);
   let [frist_time, set_first_time] = React.useState(true);
   const token = localStorage.getItem("token");
@@ -92,7 +105,9 @@ export default function Comment_page() {
             set_first_time(false);
             set_comment_api(data);
           }, 1000);
-        } else set_comment_api(data);
+        } else {
+          set_comment_api(data);
+        }
       }
     };
     api();
@@ -204,25 +219,25 @@ export default function Comment_page() {
     });
 
     if (API.status === 200) {
-    //   window.location.replace(`/comment/${path[2]}`);
-    //   alert("อัพเดทสำเร็จ");
+      //   window.location.replace(`/comment/${path[2]}`);
+      //   alert("อัพเดทสำเร็จ");
       setOpenDialogChangeComment(false)
       setDialogLoading(false)
 
       Swal.fire({
         icon: 'success',
-       title: 'อัพเดทสำเร็จ',
-       showConfirmButton: false,
-       timer: 1500,
-     })
+        title: 'อัพเดทสำเร็จ',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     } else {
       setDialogLoading(false)
       Swal.fire({
         icon: 'error',
-       title: 'อัพเดทไม่สำเร็จ',
-       showConfirmButton: false,
-       timer: 1500,
-     })
+        title: 'อัพเดทไม่สำเร็จ',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     }
     set_effect(effect + 1);
   }
@@ -305,6 +320,60 @@ export default function Comment_page() {
     }, 500);
   }, []);
   const Swal = require('sweetalert2')
+
+  const anchorRef = React.useRef(null);
+  const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  // const [test, setTest] = React.useState(true);
+  
+  const optionMethod = (index) => {
+    // setTest(false);
+    const data = comment_api;
+    let results;
+    if (index == 1) {
+      results = data.sort((a, b) => {
+        if (a.like > b.like) {
+          return -1;
+        }
+      });
+    } else if (index == 2) {
+      results = data.sort((a, b) => {
+        if (a.approve > b.approve) {
+          return -1;
+        }
+      });
+    } else if (index == 0) {
+      // results = comment_api_temp;
+      // comment_id
+      results = data.sort((a, b) => {
+        if (a.comment_id < b.comment_id) {
+          return -1;
+        }
+      });
+      // set_effect(effect + 1);
+      // console.log("index 0")
+    }
+    set_comment_api(results);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    // console.log("Your Click %s",index)
+    // console.log(options[index])
+    optionMethod(index);
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleOpenMenuSort = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseMenuSort = (value) => {
+    // if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    //   return; } 
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <Navbar></Navbar>
@@ -414,6 +483,65 @@ export default function Comment_page() {
                   </Button>
                 </Box>
               </Card>
+            </Grid>
+            : ''
+          }
+          {comment_api ?
+            <Grid item xs={12} sm={12} md={12} >
+              {/* <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  shadows: 0,
+                  border: 0,
+                  borderRadius: 3,
+                  padding: 0,
+                  pl: 4
+                }}
+              > */}
+              <Container sx={{ display: 'flex', flexDirection: "row", justifyContent:'flex-end'}}>
+                <Typography  >การเรียงลำดับความคิดเห็น</Typography>
+                <Link underline="hover" sx={{ pl: 1 }} onClick={handleOpenMenuSort} ref={anchorRef} > {options[selectedIndex]} </Link>
+              </Container>
+              <Popper
+                sx={{
+                  zIndex: 1,
+                }}
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleCloseMenuSort}>
+                        <MenuList id="split-button-menu" autoFocusItem>
+                          {options.map((option, index) => (
+                            <MenuItem
+                              key={option}
+                              // disabled={index === 2}
+                              selected={index === selectedIndex}
+                              onClick={(event) => handleMenuItemClick(event, index)}
+                            >
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+              {/* </Card> */}
             </Grid> : ''
           }
           {/* Grid ในส่วนของ list Comment  */}
@@ -437,19 +565,21 @@ export default function Comment_page() {
                   }
                     // sx={{backgroundColor: '#5F9EA0'}}
                     title={
-                      (!data.officer_comment) ? 
-                    <Link href={`#`} underline="hover" sx={{  fontSize: 18 }}> {data.username} </Link>
-                    : 
-                    <Link href={`#`} underline="hover" sx={{  fontSize: 18 , color: '#363636', 
-                      border: 0 , borderRadius: 2 ,px: 2, backgroundColor: '#f4b781'}}> {data.username} </Link>
+                      (!data.officer_comment) ?
+                        <Link href={`#`} underline="hover" sx={{ fontSize: 18 }}> {data.username} </Link>
+                        :
+                        <Link href={`#`} underline="hover" sx={{
+                          fontSize: 18, color: '#363636',
+                          border: 0, borderRadius: 2, px: 2, backgroundColor: '#f4b781'
+                        }}> {data.username} </Link>
                     }
                     subheader={<Typography
-                      sx={{ textAlign: "right", pr: 2}}
+                      sx={{ textAlign: "right", pr: 2 }}
                       color="text.secondary"
                       variant="caption"
                     >
                       {!data.update_time
-                        ? `แสดงความคิดเห็น : ${data.create_time.substring(0,10)}`
+                        ? `แสดงความคิดเห็น : ${data.create_time.substring(0, 10)}`
                         : `แก้ไขเมื่อ : ${data.create_time.substring(0, 10)}`}
                     </Typography>}
                     action={
@@ -473,11 +603,11 @@ export default function Comment_page() {
                           <Button
                             size="small"
                             color={"info"}
-                            onClick={ () => { 
+                            onClick={() => {
                               handleOpenDialogChengeComment({
-                                course_id : data.course_code,
-                                comment_id : data.comment_id,
-                                message : data.message
+                                course_id: data.course_code,
+                                comment_id: data.comment_id,
+                                message: data.message
                               })
                             }}
                           >
@@ -590,19 +720,19 @@ export default function Comment_page() {
           <Grid container spacing={1} >
             <Grid xs={12}>
               {
-                tempEditComment ? 
-                <Textarea
-                autoFocus
-                defaultValue={tempEditComment.message}
-                onChange={handleChange_edit_comment}
-                minRows={3}
-                fullwidth
-                sx={{
-                  backgroundColor: "#F5F5F5",
-                  borderColor: "#EBEBEB",
-                  mt: 1,
-                }}
-              /> : ''
+                tempEditComment ?
+                  <Textarea
+                    autoFocus
+                    defaultValue={tempEditComment.message}
+                    onChange={handleChange_edit_comment}
+                    minRows={3}
+                    fullwidth
+                    sx={{
+                      backgroundColor: "#F5F5F5",
+                      borderColor: "#EBEBEB",
+                      mt: 1,
+                    }}
+                  /> : ''
               }
             </Grid>
           </Grid>
@@ -618,11 +748,11 @@ export default function Comment_page() {
           </Button>
           <Button
             // onClick={(e) => {
-              // API_Update_Comment(data.comment_id);
-              // tempEditComment ? API_Update_Comment(API_Update_Comment.comment_id)
+            // API_Update_Comment(data.comment_id);
+            // tempEditComment ? API_Update_Comment(API_Update_Comment.comment_id)
             // }}
             // onClick={API_Update_Comment}
-            onClick={()=>{
+            onClick={() => {
               setDialogLoading(true)
               API_Update_Comment()
             }}
