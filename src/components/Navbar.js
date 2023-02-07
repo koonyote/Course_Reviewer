@@ -137,7 +137,7 @@ export default function PersistentDrawerLeft() {
                     height: 45,
                     marginLeft:20
                   }}
-                  
+                  onClick={()=> {  window.location.replace(`/home`);}}
                   src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
                 ></img>
                 <Typography
