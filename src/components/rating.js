@@ -22,7 +22,26 @@ import Navbar from "./Navbar";
 import domain_server from "../config.json";
 import { ProductLink } from "..";
 
+function Copyright(props) {
+  return (
+      <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          {...props}
+      >
+          {"Copyright © "}
+          <Link color="inherit" href={ProductLink.credit}>
+              Course Reviewer
+          </Link>{" "}
+          {new Date().getFullYear()}
+          {"."}
+      </Typography>
+  );
+}
+
 export default function Rating_page() {
+  
   const [canAddScore, setCan] = React.useState();
   let [effect, set_effect] = React.useState(0);
   useEffect(() => {
@@ -113,7 +132,13 @@ export default function Rating_page() {
       satisfaction <= 0 ||
       satisfaction == null
     ) {
-      alert("กรุณากรอกข้อมูลให้ครบ");
+      Swal.fire({
+        icon: 'warning',
+       title: 'กรุณากรอกข้อมูลให้ครบ',
+       showConfirmButton: false,
+       timer: 2000,
+     })
+      
     } else if (!course_id) return;
     else if (!canAddScore) return;
     else {
@@ -196,14 +221,17 @@ export default function Rating_page() {
               endIcon={<SaveIcon />}
               onClick={handle_bt_save}
               disabled={!canAddScore}
-              sx={{ width: "100%" }}
+    
+              sx={{ width: "100%" ,bgcolor:"#779ECC"}}
             >
               Save
             </Button>
+            
             {/* </div> */}
           </Grid>
         </Grid>
       </Container>
+      <Copyright sx={{mt:-3}}/>
     </>
   );
 
@@ -225,9 +253,9 @@ export default function Rating_page() {
               alignItems: "center",
               paddingTop: 0.5,
             }}
-            style={{ backgroundColor: "#DCDCDC" }}
+            style={{  backgroundColor:"#DCDCDC",color:"#173F5F" }}
           >
-            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 }} />
+            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2,color:"#ffbe0a" }} />
             <Typography
               gutterBottom
               variant="h5"
@@ -267,7 +295,7 @@ export default function Rating_page() {
           </Card>
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
-            <Typography sx={{ pt: 2 }}>
+            <Typography sx={{ pt: 2 ,color:"#173F5F"}}>
             นักศึกษาสามารถเสนอหัวข้อที่นักศึกษาต้องการเรียนรู้เพิ่มเติมแก่อาจารย์ผู้สอน,
             นักศึกษามีความรู้และเข้าใจเนื้อหาตามที่อาจารย์สอน
             </Typography>
@@ -295,9 +323,9 @@ export default function Rating_page() {
               alignItems: "center",
               paddingTop: 0.5,
             }}
-            style={{ backgroundColor: "#DCDCDC" }}
+            style={{  backgroundColor:"#DCDCDC",color:"#173F5F" }}
           >
-            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 }} />
+            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 ,color:"#ffbe0a"}} />
             <Typography
               gutterBottom
               variant="h5"
@@ -337,7 +365,7 @@ export default function Rating_page() {
           </Card>
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
-            <Typography sx={{ pt: 2 }}>
+            <Typography sx={{ pt: 2 ,color:"#173F5F"}}>
            มีความรู้ทางทฤษฎีและมีการปฏิบัติเพื่อให้นักศึกษามีความเข้าใจในรายวิชามากขึ้น
             ส่งเสริมให้เกิดการพัฒนาความรู้และทักษะเพื่อนำไปต่อยอด
             </Typography>
@@ -359,7 +387,7 @@ export default function Rating_page() {
           }}
         >
           <Card
-            style={{ backgroundColor: "#DCDCDC" }}
+           style={{  backgroundColor:"#DCDCDC",color:"#173F5F" }}
             sx={{
               height: "100%",
               display: "flex",
@@ -367,7 +395,7 @@ export default function Rating_page() {
               paddingTop: 0.5,
             }}
           >
-            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 }} />
+            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2,color:"#ffbe0a" }} />
             <Typography
               gutterBottom
               variant="h5"
@@ -407,7 +435,7 @@ export default function Rating_page() {
           </Card>
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
-            <Typography sx={{ pt: 2 }}>
+            <Typography sx={{ pt: 2,color:"#173F5F" }}>
               ชี้แจงแผนการจัดกระบวนการเรียนการสอนชัดเจน,สอนอย่างมีขั้นตอนและอธิบายชัดเจนตรงประเด็น,ความเพียงพอของอุปกรณ์การเรียนการสอน,ประสิทธิภาพของอุปกรณ์การเรียนการสอน,
               สื่อ/เอกสารประกอบการเรียนการสอนมีความชัดเจนและเข้าใจง่าย
             </Typography>
@@ -429,7 +457,7 @@ export default function Rating_page() {
           }}
         >
           <Card
-            style={{ backgroundColor: "#DCDCDC" }}
+          style={{  backgroundColor:"#DCDCDC",color:"#173F5F" }}
             sx={{
               height: "100%",
               display: "flex",
@@ -437,7 +465,7 @@ export default function Rating_page() {
               paddingTop: 0.5,
             }}
           >
-            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 }} />
+            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2,color:"#ffbe0a" }} />
             <Typography
               gutterBottom
               variant="h5"
@@ -477,7 +505,7 @@ export default function Rating_page() {
           </Card>
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
-            <Typography sx={{ pt: 2 }}>
+            <Typography sx={{ pt: 2,color:"#173F5F" }}>
               แต่งกายสุภาพเรียบร้อย, เริ่มและเลิกสอนตรงเวลาสม่ำเสมอ,
               เอาใจใส่ดูแลให้นักศึกษามีพฤติกรรมที่เหมาะสม,
               ปฏิบัติต่อนักศึกษาโดยไม่ใช้อารมณ์,
@@ -501,7 +529,7 @@ export default function Rating_page() {
           }}
         >
           <Card
-            style={{ backgroundColor: "#DCDCDC" }}
+            style={{  backgroundColor:"#DCDCDC",color:"#173F5F" }}
             sx={{
               height: "100%",
               display: "flex",
@@ -509,7 +537,7 @@ export default function Rating_page() {
               paddingTop: 0.5,
             }}
           >
-            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2 }} />
+            <StarsIcon size="large" sx={{ pb: 1, paddingLeft: 2,color:"#ffbe0a" }} />
             <Typography
               gutterBottom
               variant="h5"
@@ -549,13 +577,16 @@ export default function Rating_page() {
           </Card>
 
           <CardContent style={{ backgroundColor: "#F2F2F2" }}>
-            <Typography sx={{ pt: 2 }}>
+            <Typography sx={{ pt: 2 ,color:"#173F5F"}}>
               โดยรวมแล้วนักศึกษามีความพึงพอใจต่ออาจารย์ในรายวิชานี้มากน้อยเพียงใด
             </Typography>
           </CardContent>
           {/* <CircularProgress size={100} sx={{ margin: 2 }} /> */}
         </Card>
       </Box>
+      
     );
+   
   }
+  
 }
