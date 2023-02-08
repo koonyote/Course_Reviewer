@@ -31,7 +31,21 @@ const localPath = {
   chart: "/chart",
   admin : "/admin",
   admin_table : "/admin/dashboard/table/*",
-
+}
+const hostFoder = "/prj65_03"
+export const productLink = { 
+  default : hostFoder+localPath.default,
+  home : hostFoder+localPath.home,
+  register : hostFoder+localPath.register,
+  comment : hostFoder+localPath.comment,
+  rating : hostFoder+localPath.rating,
+  profile : hostFoder+localPath.profile,
+  history : hostFoder+localPath.history,
+  favorite : hostFoder+localPath.favorite,
+  lecturer: hostFoder+localPath.lecturer,
+  chart: hostFoder+localPath.chart,
+  admin : hostFoder+localPath.admin,
+  admin_table : hostFoder+localPath.admin_table,
 }
 
 root.render(
