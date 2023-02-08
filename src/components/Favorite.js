@@ -16,6 +16,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { ProductLink } from "..";
 function Copyright(props) {
     return (
         <Typography
@@ -25,7 +26,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="#">
+            <Link color="inherit" href={ProductLink.credit}>
                 Course Reviewer
             </Link>{" "}
             {new Date().getFullYear()}

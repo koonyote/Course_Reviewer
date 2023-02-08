@@ -22,6 +22,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import domain_server from "../config.json";
 import Navbar from "./Navbar"
+import { ProductLink } from "..";
 
 function Copyright(props) {
     return (
@@ -32,7 +33,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="#">
+            <Link color="inherit" href={ProductLink.credit}>
                 Course Reviewer
             </Link>{" "}
             {new Date().getFullYear()}
@@ -115,10 +116,10 @@ function TableHistory() {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">
-                                        <Link href={`comment/${row.course_id}`} underline="hover" color="#174468"> {row.course_id} </Link>
+                                        <Link href={`${ProductLink.comment}/${row.course_id}`} underline="hover" color="#174468"> {row.course_id} </Link>
                                         </TableCell>
                                         <TableCell align="justify">
-                                        <Link href={`comment/${row.course_id}`} underline="hover" color="#174468"> {row.course_name_th} </Link> 
+                                        <Link href={`${ProductLink.comment}/${row.course_id}`} underline="hover" color="#174468"> {row.course_name_th} </Link> 
                                         </TableCell>
                                         <TableCell align="justify" sx={{ color: "#174468"}}>{row.message}</TableCell>
                                         <TableCell align="center">

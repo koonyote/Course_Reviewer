@@ -38,14 +38,6 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Swal from 'sweetalert2';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 
-
-
-
-
-function add_course() {
-  window.location.replace(`/add-course`);
-}
-
 const columns = [
   { id: "course_id", label: "Course\u00a0Code", minWidth: 60, align: "center" },
   { id: "name_th", label: "Name\u00a0TH", minWidth: 100, align: "left" },
@@ -53,15 +45,6 @@ const columns = [
   { id: "description", label: "Discription", minWidth: 150, align: "center" },
   { id: "edit", label: "", minWidth: 30, align: "center" },
 ];
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
 
 export default function TableCourse() {
   let [effect, set_effect] = React.useState(0);

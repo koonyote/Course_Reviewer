@@ -39,6 +39,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Swal from 'sweetalert2';
 import Link from "@mui/material/Link";
+import { ProductLink } from "..";
 
 function Copyright(props) {
   return (
@@ -48,28 +49,15 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit">Course Reviewer</Link> {new Date().getFullYear()}
-      {"."}
+{"Copyright © "}
+            <Link color="inherit" href={ProductLink.credit}>
+                Course Reviewer
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
     </Typography>
   );
 }
-
-
-
-function add_course() {
-  window.location.replace(`/add-course`);
-}
-
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
 
 export default function LT_List_Page() {
   const columns = [
@@ -648,8 +636,6 @@ export default function LT_List_Page() {
           
         </Paper><Copyright sx={{ mt: 3 }} />
       </center>
-
-      {/* onClick={add_course} */}
       <div>
         <Dialog
           open={open}

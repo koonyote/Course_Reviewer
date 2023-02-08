@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, getRedirectResult, signInWithRedirect, signOut} from "firebase/auth";
+import { ProductLink } from "..";
 import config from "../config.json";
 
 const firebaseSDK = {
@@ -28,11 +29,9 @@ export const GetCurrentUeser = () => {
 
 export const signInWithGoogle = () => {
   if (localStorage.getItem("email") !== null && localStorage.getItem("isMember") == true) {
-    // window.location.href = `${config.prefix_server}/home`;
-    window.location.href = "/home";
+    window.location.href = ProductLink.home ;
   } else if (localStorage.getItem("isMember") == false) {
-    window.location.href = "/register";
-    // window.location.href = `${config.prefix_server}/register`
+    window.location.href = ProductLink.register ;
   }
 
   async function call_api_check_member(token) {
@@ -50,16 +49,14 @@ export const signInWithGoogle = () => {
     const jsonData = await API.json();
 
     if (jsonData.isMember) {
-      // window.location.href = `${config.prefix_server}/home`;
-      window.location.href = "/home";
+      window.location.href = ProductLink.home ;
       localStorage.setItem("isMember", true)
       localStorage.setItem("api_expire", jsonData.expire_th)
       localStorage.setItem("Role", jsonData.permission)
       console.log('isMember')
     } else {
       localStorage.setItem("isMember", false)
-      // window.location.href = `${config.prefix_server}/register`
-      window.location.href = "/register";
+      window.location.href = ProductLink.register ;
     }
   }
 

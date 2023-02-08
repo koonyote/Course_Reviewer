@@ -16,6 +16,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { LinearProgress } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
+import { ProductLink } from "..";
 
 const theme = createTheme();
 const theme_favorite = createTheme({
@@ -103,11 +104,11 @@ export default function FavoriteList() {
                                     variant="h5"
                                     component="h2"
                                     textAlign={"center"}
-                                    href="#"
                                 >
-                                    <Link
-                                        href={`/course-detail/${data.course_id}`}
-                                        underline="hover"
+                            <Link
+                                href={`${ProductLink.comment}/${data.course_id}`}
+                                underline="hover"
+                                color="#174468"
                                     >
                                         {data.course_id}
                                     </Link>
@@ -140,7 +141,7 @@ export default function FavoriteList() {
                             <CardActions sx={{ justifyContent: "center" }}>
                                 <Button
                                     size="small"
-                                    onClick={() => window.open(`/rating/${data.course_id}`)}
+                                    onClick={() => window.open(`${ProductLink.rating}/${data.course_id}`)}
                                 >
                                     <Rating
                                         name="half-rating-read"
@@ -154,7 +155,7 @@ export default function FavoriteList() {
                                 <Button
                                     size="small"
                                     sx={{ alignContent: "center" }}
-                                    onClick={() => window.open(`/comment/${data.course_id}`)}
+                                    onClick={() => window.open(ProductLink.comment + "/" + data.course_id)}
                                 >
                                     <CommentIcon fontSize="small"></CommentIcon> &nbsp; (
                                     {data.comment})

@@ -32,7 +32,7 @@ import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
 import { SignOut } from "../services/firebase";
 import PieChartOutlineRoundedIcon from '@mui/icons-material/PieChartOutlineRounded';
 import Button from "@mui/material/Button";
-
+import { ProductLink } from "..";
 import config from "../config.json";
 export default function PersistentDrawerLeft() {
   const [data_api, set_data_api] = React.useState();
@@ -130,7 +130,7 @@ export default function PersistentDrawerLeft() {
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button onClick={toggleDrawer(anchor, true)} ><MenuIcon sx={{ color: "white", fontSize: "30px" }} /></Button>
-                <Button onClick={() => { window.location.replace(`/home`); }} >
+                <Button onClick={() => { window.location.replace(ProductLink.home); }} >
                   <img
                     style={{
                       width: 120,
@@ -178,7 +178,7 @@ export default function PersistentDrawerLeft() {
                     }}
                   >
                     <ListItem>
-                      <ListItemButton to="/home">
+                      <ListItemButton to={ProductLink.home}>
                         <HomeOutlinedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Home</label>
@@ -186,7 +186,7 @@ export default function PersistentDrawerLeft() {
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
-                      <ListItemButton to="/profile">
+                      <ListItemButton to={ProductLink.profile}>
                         <PermIdentityRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Profile</label>
@@ -194,7 +194,7 @@ export default function PersistentDrawerLeft() {
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
-                      <ListItemButton to="/chart">
+                      <ListItemButton to={ProductLink.chart}>
                         <PieChartOutlineRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Chart</label>
@@ -204,7 +204,7 @@ export default function PersistentDrawerLeft() {
 
                     {data_Role ? (
                       <ListItem>
-                        <ListItemButton to="/l_list">
+                        <ListItemButton to={ProductLink.lecturer}>
                           <ListAltRoundedIcon />
                           <ListItemText sx={{ ml: 2 }}>
                             <label className="primary-button">Lecturer</label>
@@ -215,7 +215,7 @@ export default function PersistentDrawerLeft() {
                       ""
                     )}
                     <ListItem>
-                      <ListItemButton to="/favorite">
+                      <ListItemButton to={ProductLink.favorite}>
                         <BookmarkBorderRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Favorite</label>
@@ -223,7 +223,7 @@ export default function PersistentDrawerLeft() {
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
-                      <ListItemButton to="/history">
+                      <ListItemButton to={ProductLink.history}>
                         <HistoryRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">History</label>
@@ -233,7 +233,7 @@ export default function PersistentDrawerLeft() {
 
 
                     <ListItem>
-                      <ListItemButton to="/" onClick={Logout}>
+                      <ListItemButton to={ProductLink.default} onClick={Logout}>
                         <LogoutRoundedIcon />
                         <ListItemText sx={{ ml: 2 }}>
                           <label className="primary-button">Log out</label>

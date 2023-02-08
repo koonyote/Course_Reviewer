@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 import { signInWithGoogle } from "./services/firebase";
+import { ProductLink } from ".";
 
 function Copyright(props) {
   return (
@@ -25,7 +26,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="/">
+      <Link color="inherit" href={ProductLink.credit}>
         Course Reviewer
       </Link>{" "}
       {new Date().getFullYear()}

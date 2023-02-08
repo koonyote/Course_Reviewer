@@ -26,7 +26,7 @@ export default function BarchartCourseComment(props) {
     return (
         <React.Fragment>
             {/* { props ? props : 'NO '} */}
-            <Title>Course Comment</Title>
+            <Title>จำนวนคอมคิดเห็น - รายวิชา</Title>
             <ResponsiveContainer>
 
                 <BarChart argin={{

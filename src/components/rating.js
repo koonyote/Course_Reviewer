@@ -20,6 +20,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LinearProgress from "@mui/material/LinearProgress";
 import Navbar from "./Navbar";
 import domain_server from "../config.json";
+import { ProductLink } from "..";
 
 export default function Rating_page() {
   const [canAddScore, setCan] = React.useState();
@@ -27,9 +28,15 @@ export default function Rating_page() {
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
-      const pathUrlCourseId = window.location.pathname.split("/");
+      function get_path_from_url() {
+        let course_code = window.location.pathname.split("/");
+        // return course_code[2]
+        return course_code[3] // production
+        // Production return because it has prefix
+      }
+      const pathUrlCourseId = get_path_from_url()
       const API = await fetch(
-        `${domain_server.domain}/rating/${pathUrlCourseId[2]}`,
+        `${domain_server.domain}/rating/${pathUrlCourseId}`,
         {
           method: "GET",
           headers: {
@@ -85,8 +92,13 @@ export default function Rating_page() {
   const [hover4, setHover4] = React.useState(-1);
   const [hover5, setHover5] = React.useState(-1);
 
-  const location_url = window.location.pathname.split("/");
-  const course_id = location_url[2];
+  function get_path_from_url() {
+    let course_code = window.location.pathname.split("/");
+    // return course_code[2]
+    return course_code[3] // production
+    // Production return because it has prefix
+  }
+  const course_id = get_path_from_url()
   async function handle_bt_save() {
     console.log("funtion");
     if (
@@ -132,7 +144,7 @@ export default function Rating_page() {
          showConfirmButton: false,
          timer: 2000,
        }).then(function() {
-        window.location.href = "/home";
+        window.location.href = ProductLink.home ;
     })
        set_effect(effect + 1);
       } else {
@@ -220,7 +232,6 @@ export default function Rating_page() {
               gutterBottom
               variant="h5"
               component="h2"
-              href="#"
               sx={{ paddingLeft: 1 }}
             >
               ด้านความรู้
@@ -291,7 +302,6 @@ export default function Rating_page() {
               gutterBottom
               variant="h5"
               component="h2"
-              href="#"
               sx={{ paddingLeft: 1 }}
             >
               ด้านต่อยอดความรู้
@@ -362,7 +372,6 @@ export default function Rating_page() {
               gutterBottom
               variant="h5"
               component="h2"
-              href="#"
               sx={{ paddingLeft: 1 }}
             >
               ด้านการสอน
@@ -433,7 +442,6 @@ export default function Rating_page() {
               gutterBottom
               variant="h5"
               component="h2"
-              href="#"
               sx={{ paddingLeft: 1 }}
             >
               ด้านอาจารย์
@@ -506,7 +514,6 @@ export default function Rating_page() {
               gutterBottom
               variant="h5"
               component="h2"
-              href="#"
               sx={{ paddingLeft: 1 }}
             >
               ด้านความพึงพอใจ
