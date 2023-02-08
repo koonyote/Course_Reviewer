@@ -187,7 +187,7 @@ export default function Comment_page() {
   }
 
   async function API_Delect_Comment(param_comment_id) {
-    await fetch(`${config.domain}/delete-comment`, {
+    const API = await fetch(`${config.domain}/delete-comment`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -202,6 +202,21 @@ export default function Comment_page() {
         comment_id: param_comment_id,
       }),
     });
+    if (API.status === 200) {
+      Swal.fire({
+        icon: "success",
+        title: "ลบ Comment สำเร็จ",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "ลบ Comment ไม่สำเร็จ",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
     set_effect(effect + 1);
   }
 
