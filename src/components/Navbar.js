@@ -19,7 +19,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
-import "rsuite/dist/rsuite.css";
 import Drawer from "@mui/material/Drawer";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import MenuIcon from "@mui/icons-material/Menu";
