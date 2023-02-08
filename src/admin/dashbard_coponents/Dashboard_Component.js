@@ -181,6 +181,11 @@ function comment_count(comment) {
                 <Typography component="p" variant="h4" sx={{ fontWeight: 'bold' }}>
                     {comment}
                 </Typography>
+                <div>
+                    <Link color="text.secondary"  >
+                        " "
+                    </Link>
+                </div>
             </React.Fragment>
         </Item>
     )

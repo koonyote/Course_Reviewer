@@ -636,8 +636,6 @@ export default function LT_List_Page() {
           
         </Paper><Copyright sx={{ mt: 3 }} />
       </center>
-
-      {/* onClick={add_course} */}
       <div>
         <Dialog
           open={open}

@@ -51,8 +51,8 @@ export const ProductLink = {
 }
 
 root.render(
-  // <BrowserRouter basename="/prj65_03">
-   <BrowserRouter > 
+  <BrowserRouter basename="/prj65_03">
+    {/* <BrowserRouter >  */} 
     <Routes>
       <Route path={localPath.default} element={<App />} />
       <Route path={localPath.home} element={<Home />} />
