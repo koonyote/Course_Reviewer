@@ -54,18 +54,18 @@ root.render(
   // <BrowserRouter basename="/prj65_03">
    <BrowserRouter > 
     <Routes>
-      <Route path={ProductLink.default} element={<App />} />
-      <Route path={ProductLink.home} element={<Home />} />
-      <Route path={ProductLink.register} element={<Register />} />
-      <Route path={ProductLink.comment + "/*"} element={<Comment_page />} />
-      <Route path={ProductLink.rating + "/*"} element={<Rating_page />} />
-      <Route path={ProductLink.profile} element={<Profile />} />
-      <Route path={ProductLink.history} element={<Histrory_Page />} />
-      <Route path={ProductLink.favorite} element={<Favorite_page />} />
-      <Route path={ProductLink.chart} element={<ChartDashboardPublic />} />
-      <Route path={ProductLink.lecturer} element={<Lecturer_List />} />
-      <Route path={ProductLink.admin} element={<Admin_Home />} />
-      <Route path={ProductLink.admin_table + "/*"} element={<Admin_Table />} />
+      <Route path={localPath.default} element={<App />} />
+      <Route path={localPath.home} element={<Home />} />
+      <Route path={localPath.register} element={<Register />} />
+      <Route path={localPath.comment + "/*"} element={<Comment_page />} />
+      <Route path={localPath.rating + "/*"} element={<Rating_page />} />
+      <Route path={localPath.profile} element={<Profile />} />
+      <Route path={localPath.history} element={<Histrory_Page />} />
+      <Route path={localPath.favorite} element={<Favorite_page />} />
+      <Route path={localPath.chart} element={<ChartDashboardPublic />} />
+      <Route path={localPath.lecturer} element={<Lecturer_List />} />
+      <Route path={localPath.admin} element={<Admin_Home />} />
+      <Route path={localPath.admin_table + "/*"} element={<Admin_Table />} />
       {/* debug */}
       {/* <Route path="/list" element={<List_Course />} /> */}
       {/* <Route path="/course-detail/*" element={<Course_detail />} /> */}
