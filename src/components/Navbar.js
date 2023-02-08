@@ -204,7 +204,7 @@ export default function PersistentDrawerLeft() {
 
                     {data_Role ? (
                       <ListItem>
-                        <ListItemButton to="/l_list">
+                        <ListItemButton to="/lecturer">
                           <ListAltRoundedIcon />
                           <ListItemText sx={{ ml: 2 }}>
                             <label className="primary-button">Lecturer</label>

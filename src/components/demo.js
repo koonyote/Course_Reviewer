@@ -29,8 +29,6 @@ export default function TemporaryDrawer() {
     return localStorage.clear();
   }
 
-  
-
   const [state, setState] = React.useState({
     left: false,
   });
@@ -164,7 +162,7 @@ export default function TemporaryDrawer() {
                     <ListItemButton>
                       <ListItemText>
                         {" "}
-                        <Link to="/l_list">
+                        <Link to="/lecturer">
                           <label className="primary-button">Lecturer</label>
                         </Link>
                       </ListItemText>
