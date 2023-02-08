@@ -65,7 +65,13 @@ export default function Comment_page() {
   let [effect, set_effect] = React.useState(0);
   let [frist_time, set_first_time] = React.useState(true);
   const token = localStorage.getItem("token");
-  const path = window.location.pathname.split("/");
+  function get_path_from_url() {
+    let course_code = window.location.pathname.split("/");
+    // return course_code[2]
+    return course_code[3] // production
+    // Production return because it has prefix
+  }
+  const path = get_path_from_url()
   const [add_comment, set_add_Comment] = React.useState();
   const [checkDisplayName, setChecked] = React.useState(true);
 
@@ -86,7 +92,7 @@ export default function Comment_page() {
 
   useEffect(() => {
     const api = async () => {
-      const API = await fetch(`${config.domain}/list-comment/${path[2]}`, {
+      const API = await fetch(`${config.domain}/list-comment/${path}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -164,7 +170,7 @@ export default function Comment_page() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        course_id: path[2],
+        course_id: path,
         message: add_comment,
         identify: checkDisplayName,
       }),
@@ -192,7 +198,7 @@ export default function Comment_page() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        course_id: path[2],
+        course_id: path,
         comment_id: param_comment_id,
       }),
     });
@@ -219,11 +225,8 @@ export default function Comment_page() {
     });
 
     if (API.status === 200) {
-      //   window.location.replace(`/comment/${path[2]}`);
-      //   alert("อัพเดทสำเร็จ");
       setOpenDialogChangeComment(false)
       setDialogLoading(false)
-
       Swal.fire({
         icon: 'success',
         title: 'อัพเดทสำเร็จ',
@@ -295,7 +298,7 @@ export default function Comment_page() {
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
-      const API = await fetch(`${config.domain}/course-detail/${path[2]}`, {
+      const API = await fetch(`${config.domain}/course-detail/${path}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -393,7 +396,7 @@ export default function Comment_page() {
             color="text.primary"
             gutterBottom
           >
-            รหัสวิชา : {path[2]}
+            รหัสวิชา : {path}
           </Typography>
         </Container>
       </Box> */}
@@ -678,7 +681,6 @@ export default function Comment_page() {
                       variant="h5"
                       component="h2"
                       textAlign={"left"}
-                      href="#"
                       style={{ color: "grey" }}
                     >
                       <AccountCircleIcon sx={{ mt: 1, ml: 1 }} />

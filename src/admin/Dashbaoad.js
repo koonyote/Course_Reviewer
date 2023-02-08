@@ -33,6 +33,7 @@ import Navbar from "../components/Navbar";
 import TextField from "@mui/material/TextField";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import Admin_Dashboard from "./dashbard_coponents/Dashboard_Component";
+import { ProductLink } from "..";
 function Copyright(props) {
     return (
         <Typography
@@ -42,7 +43,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="#">
+            <Link color="inherit" href={ProductLink.credit}>
                 Course Reviewer
             </Link>{" "}
             {new Date().getFullYear()}

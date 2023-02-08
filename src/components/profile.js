@@ -23,6 +23,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 import { Hidden } from "@mui/material";
+import { ProductLink } from "..";
 
 function Copyright(props) {
   return (
@@ -33,7 +34,10 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit">Course Reviewer</Link> {new Date().getFullYear()}
+      <Link color="inherit" href={ProductLink.credit}>
+        Course Reviewer
+      </Link>{" "}
+      {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -352,7 +356,7 @@ export default function Profile() {
           </Hidden>
 
           <Hidden only={["xs", "sm", "md"]}>
-            
+
             <Box
               sx={{
                 marginTop: 10,
@@ -364,7 +368,7 @@ export default function Profile() {
                 p: 2,
                 backgroundColor: "#F1F1F1",
                 width: 800,
-                ml:-25
+                ml: -25
               }}
             >
               <Avatar
@@ -386,7 +390,7 @@ export default function Profile() {
                 component="form"
                 noValidate
                 onSubmit={handleSubmit}
-                sx={{ mt: 1 , width:400 }}
+                sx={{ mt: 1, width: 400 }}
               >
                 {dataApi ? (
                   <React.Fragment>
@@ -413,7 +417,7 @@ export default function Profile() {
                       autoComplete="username"
                       value={username}
                       onChange={handleChange_username}
-                      sx={{ml:5,width:330}}
+                      sx={{ ml: 5, width: 330 }}
                     />
 
                     <Box
@@ -424,8 +428,8 @@ export default function Profile() {
                         border: 0,
                         p: 1,
                         paddingLeft: 3,
-                        fontSize:16,
-                        mt:2
+                        fontSize: 16,
+                        mt: 2
                       }}
                     >
                       First Name
@@ -439,7 +443,7 @@ export default function Profile() {
                         border: 0,
                         borderRadius: 6,
                         bgcolor: "white",
-                        fontSize:14,
+                        fontSize: 14,
                         p: 1,
                       }}
                     >
@@ -455,7 +459,7 @@ export default function Profile() {
                         border: 0,
                         p: 1,
                         paddingLeft: 3,
-                        fontSize:16
+                        fontSize: 16
                       }}
                     >
                       Last Name
@@ -469,7 +473,7 @@ export default function Profile() {
                         border: 0,
                         borderRadius: 6,
                         bgcolor: "white",
-                        fontSize:14,
+                        fontSize: 14,
                         p: 1,
                       }}
                     >
@@ -484,7 +488,7 @@ export default function Profile() {
                         border: 0,
                         p: 1,
                         paddingLeft: 3,
-                        fontSize:16
+                        fontSize: 16
                       }}
                     >
                       Gender
@@ -498,7 +502,7 @@ export default function Profile() {
                         border: 0,
                         borderRadius: 6,
                         bgcolor: "white",
-                        fontSize:14,
+                        fontSize: 14,
                         p: 1,
                       }}
                     >
@@ -513,7 +517,7 @@ export default function Profile() {
                         border: 0,
                         p: 1,
                         paddingLeft: 3,
-                        fontSize:16
+                        fontSize: 16
                       }}
                     >
                       Date of birth
@@ -528,7 +532,7 @@ export default function Profile() {
                         borderRadius: 6,
                         bgcolor: "white",
                         p: 1,
-                        fontSize:14
+                        fontSize: 14
                       }}
                     >
                       {dataApi.date_of_brith}
@@ -539,7 +543,7 @@ export default function Profile() {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      sx={{ mt: 3, mb: 2,ml:3 }}
+                      sx={{ mt: 3, mb: 2, ml: 3 }}
                       style={{
                         maxWidth: "350px",
                         maxHeight: "30px",
@@ -551,7 +555,7 @@ export default function Profile() {
                     </Button>
                   </React.Fragment>
                 ) : (
-                  <CircularProgress size={100} sx={{ml:18}}/>
+                  <CircularProgress size={100} sx={{ ml: 18 }} />
                 )}
               </Box>
             </Box>

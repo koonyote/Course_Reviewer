@@ -12,6 +12,7 @@ import Chart from './Chart';
 import FunnelChart_Component from './FunnelChart';
 import Stack from '@mui/material/Stack';
 import BarchartCourseComment from './BarchartCourseComment';
+import { ProductLink } from '../..';
 
 function Title(props) {
     return (
@@ -34,9 +35,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const cfg_link = { 
-    course : 'admin/dashboard/table/course', 
-    people : 'admin/dashboard/table/member',
-    comment: 'admin/dashboard/table/comment'
+    course : '/course', 
+    people : '/member',
+    comment: '/comment'
 }
 
 function Admin_Dashboard() {
@@ -133,7 +134,7 @@ function people_count(member) {
                     {member}
                 </Typography>
                 <div>
-                    <Link color="text.secondary" href={cfg_link.people} >
+                    <Link color="text.secondary" href={ProductLink.admin_table + cfg_link.people} >
                         รายละเอียด
                     </Link>
                 </div>
@@ -157,7 +158,7 @@ function subject_count(subject) {
                     {subject}
                 </Typography>
                 <div>
-                    <Link color="text.secondary" href={cfg_link.course} >
+                    <Link color="text.secondary" href={ProductLink.admin_table + cfg_link.course} >
                         รายละเอียด
                     </Link>
                 </div>
@@ -180,11 +181,6 @@ function comment_count(comment) {
                 <Typography component="p" variant="h4" sx={{ fontWeight: 'bold' }}>
                     {comment}
                 </Typography>
-                <div>
-                    {/* <Link color="text.secondary" href={cfg_link.comment} > */}
-                    &nbsp;
-                    {/* </Link> */}
-                </div>
             </React.Fragment>
         </Item>
     )

@@ -17,6 +17,7 @@ import ChartBarFavourite from "./chart_barchatFavourite";
 import domain_server from "../config.json";
 import Chart from "../admin/dashbard_coponents/Chart";
 import Navbar from "../components/Navbar";
+import { ProductLink } from "..";
 
 
 function Copyright(props) {
@@ -28,7 +29,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="#">
+            <Link color="inherit" href={ProductLink.credit}>
                 Course Reviewer
             </Link>{" "}
             {new Date().getFullYear()}

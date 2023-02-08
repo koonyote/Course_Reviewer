@@ -19,6 +19,7 @@ import Checkbox from "@mui/material/Checkbox";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import config from "../config.json";
+import { ProductLink } from "..";
 
 function Copyright(props) {
   return (
@@ -28,9 +29,12 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit">Course Reviewer</Link> {new Date().getFullYear()}
-      {"."}
+{"Copyright © "}
+            <Link color="inherit" href={ProductLink.credit}>
+                Course Reviewer
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
     </Typography>
   );
 }
@@ -68,10 +72,10 @@ async function call_api_check_member(
     body,
   });
   if (API.status == 200) {
-    window.location.replace(`/home`);
+    window.location.replace(ProductLink.home);
   } else {
     alert("สมัครสมาชิกไม่สำเร็จ")
-    window.location.replace(`/register`);
+    window.location.replace(ProductLink.register);
   
   }
   console.log({ body });

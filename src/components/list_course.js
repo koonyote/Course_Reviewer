@@ -63,6 +63,7 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import { ProductLink } from "..";
 
 function Copyright(props) {
   return (
@@ -73,7 +74,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="#">
+      <Link color="inherit" href={ProductLink.credit}>
         Course Reviewer
       </Link>{" "}
       {new Date().getFullYear()}
@@ -491,10 +492,9 @@ export default function List_Course() {
                       variant="h5"
                       component="h2"
                       textAlign={"center"}
-                      href="#"
                     >
                       <Link
-                        href={`/comment/${data.course_id}`}
+                        href={`${ProductLink.comment}/${data.course_id}`}
                         underline="hover"
                         color="#174468"
                       >
@@ -537,7 +537,7 @@ export default function List_Course() {
                   <CardActions sx={{ justifyContent: "center" }}>
                     <Button
                       size="small"
-                      href={`/rating/${data.course_id}`}
+                      href={`${ProductLink.rating}/${data.course_id}`}
                      
                     >
                       <Rating
@@ -554,8 +554,7 @@ export default function List_Course() {
                     <Button
                       size="small"
                       sx={{ alignContent: "center" }}
-                      href={`/comment/${data.course_id}`}
-                      
+                      href={`${ProductLink.comment}/${data.course_id}`} 
                     >
                       <CommentIcon fontSize="small"></CommentIcon> &nbsp; (
                       {data.comment})

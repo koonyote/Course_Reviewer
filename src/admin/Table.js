@@ -36,6 +36,7 @@ import Admin_Dashboard from "./dashbard_coponents/Dashboard_Component";
 // Table Import
 import TableCourse from "./table_components/table_course";
 import TableMember from "./table_components/table_user";
+import { ProductLink } from "..";
 
 function Copyright(props) {
     return (
@@ -46,7 +47,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="#">
+            <Link color="inherit" href={ProductLink.credit}>
                 Course Reviewer
             </Link>{" "}
             {new Date().getFullYear()}
@@ -57,10 +58,13 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Admin_Table( ) {
-    // const path = window.location.pathname.split("/");
     function get_path_from_url() {
         let path = window.location.pathname.split("/");
-        return path[4]
+        // return path[4]
+        
+        return path[5] // production
+        // Production return because it has prefix
+         
     }
     const path_url = get_path_from_url()
     return (

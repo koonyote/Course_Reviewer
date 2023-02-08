@@ -17,6 +17,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { ProductLink } from "..";
 
 const classes = {
   root: {
@@ -34,7 +35,13 @@ const classes = {
 
 export default function Course_detail() {
   const token = localStorage.getItem("token");
-  const path = window.location.pathname.split("/");
+  function get_path_from_url() {
+    let course_code = window.location.pathname.split("/");
+    // return course_code[2]
+    return course_code[3] // production
+    // Production return because it has prefix
+  }
+  const path = get_path_from_url()
   let [data_api, set_data_api] = React.useState();
   const [loading, set_loading] = React.useState(true);
 
@@ -69,7 +76,7 @@ export default function Course_detail() {
   useEffect(() => {
     const api = async () => {
       const token = localStorage.getItem("token");
-      const API = await fetch(`${config.domain}/course-detail/${path[2]}`, {
+      const API = await fetch(`${config.domain}/course-detail/${path}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -107,10 +114,9 @@ export default function Course_detail() {
   };
 
   const handleCloseD = () => {
-    window.location.replace(`/home`);
+    window.location.replace(ProductLink.home);
     setOpenD(false);
   };
-  //
 
   return (
     <>
