@@ -27,10 +27,10 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
-import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
-import PermIdentityRoundedIcon from '@mui/icons-material/PermIdentityRounded';
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 import { SignOut } from "../services/firebase";
-import PieChartOutlineRoundedIcon from '@mui/icons-material/PieChartOutlineRounded';
+import PieChartOutlineRoundedIcon from "@mui/icons-material/PieChartOutlineRounded";
 import Button from "@mui/material/Button";
 import { ProductLink } from "..";
 import config from "../config.json";
@@ -40,7 +40,7 @@ export default function PersistentDrawerLeft() {
   const Role = localStorage.getItem("Role");
 
   function Logout() {
-    SignOut()
+    SignOut();
     return localStorage.clear();
   }
 
@@ -129,17 +129,28 @@ export default function PersistentDrawerLeft() {
           <Toolbar>
             {["lefdf"].map((anchor) => (
               <React.Fragment key={anchor}>
-                <Button onClick={toggleDrawer(anchor, true)} ><MenuIcon sx={{ color: "white", fontSize: "30px" }} /></Button>
-                <Button onClick={() => { window.location.replace(ProductLink.home); }} >
-                  <img
-                    style={{
-                      width: 120,
-                      height: 45,
-                      marginLeft: 20
-                    }}
-                    src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
-                  ></img>
+                <Button onClick={toggleDrawer(anchor, true)}>
+                  <MenuIcon sx={{ color: "white", fontSize: "30px" }} />
                 </Button>
+                <Box
+                  component="span"
+                  sx={{ display: { xs: "none", lg: "block", xl: "block" } }}
+                >
+                  <Button
+                    onClick={() => {
+                      window.location.replace(ProductLink.home);
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: 120,
+                        height: 45,
+                        marginLeft: 20,
+                      }}
+                      src="https://media.discordapp.net/attachments/1069520916326907934/1072556710314659911/1.png?width=1440&height=583"
+                    ></img>
+                  </Button>
+                </Box>
 
                 <Typography
                   component="h5"
@@ -147,12 +158,8 @@ export default function PersistentDrawerLeft() {
                   align="center"
                   color="white"
                   gutterBottom
-                  sx={{ mt: 1, ml: 1, display: 'flex' }}
-
-                >
-
-
-                </Typography>
+                  sx={{ mt: 1, ml: 1, display: "flex" }}
+                ></Typography>
                 <Drawer
                   anchor={anchor}
                   open={state[anchor]}
@@ -230,7 +237,6 @@ export default function PersistentDrawerLeft() {
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>
-
 
                     <ListItem>
                       <ListItemButton to={ProductLink.default} onClick={Logout}>
