@@ -20,7 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import config from "../config.json";
 import { ProductLink } from "..";
-
+const Swal = require('sweetalert2')
 function Copyright(props) {
   return (
     <Typography
@@ -72,10 +72,24 @@ async function call_api_check_member(
     body,
   });
   if (API.status == 200) {
+    
+    Swal.fire({
+      icon: 'success',
+     title: 'สมัครสมาชิกสำเร็จ',
+     showConfirmButton: false,
+     timer: 2000,
+   }).then(function() {
     window.location.replace(ProductLink.home);
+})
   } else {
-    alert("สมัครสมาชิกไม่สำเร็จ")
-    window.location.replace(ProductLink.register);
+    Swal.fire({
+      icon: 'error',
+       title: 'สมัครสมาชิกไม่สำเร็จ',
+       showConfirmButton: false,
+       timer: 1500,
+     }).then(function() {
+      window.location.replace(ProductLink.register);
+  })
   
   }
   console.log({ body });
@@ -118,7 +132,7 @@ export default function Register() {
   const handleChange_Checkbox = (event) => {
     setChecked(event.target.checked);
   };
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
