@@ -433,7 +433,7 @@ export default function LT_List_Page() {
                           </TableCell>
                           <TableCell align="center">
                             {row.description === "" ? (
-                              <Button variant="contained" color="success"
+                              <Button variant="outlined" color="success"
                               onClick={() => {
                                 handleClickOpenDis(row.course_id);
                               }}>

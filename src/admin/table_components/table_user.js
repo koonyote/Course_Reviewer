@@ -73,7 +73,14 @@ export default function TableMember() {
         console.log(searchedVal)
         setSearched(searchedVal)
         const filter = data_api.filter((row) => {
-            return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+            // return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+            return (
+                row.email.toLowerCase().includes(searchedVal.toLowerCase()) || 
+                row.username.toLowerCase().includes(searchedVal.toLowerCase()) || 
+                row.name.toLowerCase().includes(searchedVal.toLowerCase()) || 
+                row.gender.toLowerCase().includes(searchedVal.toLowerCase()) || 
+                row.role.toLowerCase().includes(searchedVal.toLowerCase()) 
+            )
         });;
         setRows(filter)
     }
@@ -95,7 +102,7 @@ export default function TableMember() {
                     //     e.target.value ? requestSearch(e.target.value) : cancelSearch()
                     // }}
                     sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search Username"
+                    placeholder="Search"
                     // inputProps={{ 'aria-label': 'search google maps' }}
                 />
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="search">

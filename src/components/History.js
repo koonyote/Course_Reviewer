@@ -123,7 +123,7 @@ function TableHistory() {
                                         </TableCell>
                                         <TableCell align="justify" sx={{ color: "#174468"}}>{row.message}</TableCell>
                                         <TableCell align="center">
-                                            { (typeof row.identify === 'boolean' )  ? '✅' : '❌' }
+                                            { (typeof row.identify == 'boolean' && row.identify == true)  ? '✅' : '❌' }
                                         
                                         </TableCell>
                                         <TableCell align="center" sx={{ color: "#174468"}}>{row.create_at}</TableCell>
